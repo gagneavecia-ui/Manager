@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Mon Entreprise • Tableau de bord</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icon.png">
+  
+  <style>
+    /* ===== VARIABLES DE THÈME ===== */
+    :root {
+      /* Thème sombre ultra-profond (par défaut) */
+      --bg-primary: #030303;
+      --bg-secondary: #0a0a0a;
+      --bg-card: #111111;
+      --text-primary: #ffffff;
+      --text-secondary: #9ca3af;
+      --border: #1f1f1f;
+      --accent: #2c3e50;
+      --accent-hover: #34495e;
+      --success: #10b981;
+      --danger: #ef4444;
+      --shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Thème clair */
+    [data-theme="light"] {
+      --bg-primary: #f8fafc;
+      --bg-secondary: #ffffff;
+      --bg-card: #ffffff;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --border: #e2e8f0;
+      --accent: #2c3e50;
+      --accent-hover: #34495e;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    /* ===== STYLES GÉNÉRAUX ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      padding: 20px;
+      min-height: 100vh;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* ===== COMPOSANTS ===== */
+    .card {
+      background-color: var(--bg-card);
+      border-radius: 24px;
+      padding: 24px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .card-header i {
+      color: var(--text-secondary);
+      font-size: 20px;
+    }
+
+    .card-header h2 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    /* ===== HEADER ===== */
+    .main-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.3px;
+    }
+
+    .theme-toggle {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 40px;
+      padding: 4px;
+      display: flex;
+      gap: 4px;
+    }
+
+    .theme-btn {
+      padding: 8px 20px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      border-radius: 40px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .theme-btn.active {
+      background: var(--accent);
+      color: white;
+    }
+
+    /* ===== SALUTATION ===== */
+    .greeting {
+      margin-bottom: 24px;
+    }
+
+    .greeting h1 {
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .greeting p {
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    /* ===== CARTE CHIFFRE D'AFFAIRES ===== */
+    .revenue-card {
+      border-radius: 28px;
+      padding: 32px;
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
+    }
+
+    /* Thème sombre : carte blanche */
+    [data-theme="dark"] .revenue-card {
+      background: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    [data-theme="dark"] .revenue-label {
+      color: #4b5563;
+    }
+
+    [data-theme="dark"] .revenue-amount {
+      color: #111827;
+    }
+
+    [data-theme="dark"] .revenue-stats {
+      color: #6b7280;
+    }
+
+    /* Thème clair : carte noire */
+    [data-theme="light"] .revenue-card {
+      background: #111827;
+      border: 1px solid #1f2937;
+    }
+
+    [data-theme="light"] .revenue-label {
+      color: #9ca3af;
+    }
+
+    [data-theme="light"] .revenue-amount {
+      color: #ffffff;
+    }
+
+    [data-theme="light"] .revenue-stats {
+      color: #9ca3af;
+    }
+
+    .revenue-label {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .revenue-amount {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: -1px;
+    }
+
+    .revenue-stats {
+      font-size: 14px;
+    }
+
+    /* ===== CARTE IA ===== */
+    .ia-card {
+      background-color: var(--bg-card);
+      border-radius: 24px;
+      padding: 24px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+    }
+
+    .ia-header {
+      display: flex
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .ia-header i {
+      color: var(--accent);
+      font-size: 18px;
+    }
+
+    .ia-header span {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .ia-message {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+
+    .ia-recommendation {
+      background-color: var(--bg-primary);
+      border-radius: 16px;
+      padding: 16px;
+      font-size: 14px;
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .ia-recommendation i {
+      color: var(--accent);
+      font-size: 16px;
+    }
+
+    .ia-objective {
+      margin-top: 16px;
+      padding: 12px;
+      background: rgba(44, 62, 80, 0.1);
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--accent);
+      text-align: center;
+    }
+
+    /* ===== BARRE DE NAVIGATION ===== */
+    .nav-bar {
+      display: flex;
+      gap: 10px;
+      margin: 24px 0;
+    }
+
+    .nav-btn {
+      flex: 1;
+      padding: 16px;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .nav-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .nav-btn.active {
+      background-color: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    /* ===== STATISTIQUES ===== */
+    .stats-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background-color: var(--bg-card);
+      border-radius: 20px;
+      padding: 20px;
+      border: 1px solid var(--border);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .stat-number {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .stat-trend {
+      font-size: 13px;
+      color: var(--success);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .stat-trend.down {
+      color: var(--danger);
+    }
+
+    /* ===== FORMULAIRE ===== */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 16px;
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      font-size: 15px;
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
+    }
+
+    .plan-selector {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .plan-option {
+      flex: 1;
+      padding: 18px;
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .plan-option.active {
+      background-color: var(--accent);
+      color: white;
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .plan-price {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .plan-name {
+      font-size: 12px;
+      opacity: 0.8;
+    }
+
+    .profit-display {
+      background-color: var(--bg-primary);
+      border-radius: 16px;
+      padding: 20px;
+      margin: 24px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid var(--border);
+    }
+
+    .profit-label {
+      font-weight: 500;
+      color: var(--text-secondary);
+      font-size: 15px;
+    }
+
+    .profit-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 18px;
+      background-color: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 16px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn:hover {
+      background-color: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(44, 62, 80, 0.3);
+    }
+
+    /* ===== FICHE DE TRANSACTION ===== */
+    .transaction-sheet {
+      background-color: var(--bg-card);
+      border-radius: 20px;
+      padding: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .transaction-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px;
+      border-bottom: 1px solid var(--border);
+      transition: background-color 0.2s;
+    }
+
+    .transaction-item:hover {
+      background-color: var(--bg-primary);
+      border-radius: 12px;
+    }
+
+    .transaction-item:last-child {
+      border-bottom: none;
+    }
+
+    .client-info {
+      flex: 1;
+    }
+
+    .client-name {
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 16px;
+    }
+
+    .client-badge {
+      display: inline-block;
+      font-size: 11px;
+      padding: 4px 12px;
+      background-color: var(--bg-primary);
+      border-radius: 30px;
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+      font-weight: 500;
+    }
+
+    .transaction-date {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .transaction-amounts {
+      text-align: right;
+      margin-right: 16px;
+    }
+
+    .amount-gross {
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .amount-net {
+      font-size: 12px;
+      color: var(--success);
+    }
+
+    .delete-btn {
+      width: 36px;
+      height: 36px;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--danger);
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .delete-btn:hover {
+      background-color: var(--danger);
+      color: white;
+      border-color: var(--danger);
+      transform: scale(1.1);
+    }
+
+    .table-footer {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      font-weight: 600;
+      font-size: 16px;
+      color: var(--text-primary);
+    }
+
+    .table-footer span:last-child {
+      color: var(--accent);
+      font-size: 20px;
+    }
+
+    /* ===== ÉTAT VIDE ===== */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-secondary);
+    }
+
+    .empty-state i {
+      font-size: 56px;
+      color: var(--border);
+      margin-bottom: 20px;
+      opacity: 0.5;
+    }
+
+    .empty-state p {
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ===== BOUTON GESTION ===== */
+    .finance-button {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, var(--accent), #1a2632);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      transition: all 0.3s ease;
+      z-index: 1000;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .finance-button:hover {
+      transform: scale(1.1) rotate(5deg);
+      background: linear-gradient(135deg, #34495e, #2c3e50);
+      box-shadow: 0 12px 32px rgba(44, 62, 80, 0.4);
+    }
+
+    .finance-tooltip {
+      position: absolute;
+      right: 80px;
+      background-color: var(--accent);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 40px;
+      font-size: 14px;
+      font-weight: 500;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .finance-button:hover .finance-tooltip {
+      opacity: 1;
+      visibility: visible;
+      right: 90px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 600px) {
+      body {
+        padding: 16px;
+      }
+
+      .revenue-amount {
+        font-size: 36px;
+      }
+
+      .plan-selector {
+        flex-direction: column;
+      }
+
+      .transaction-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .transaction-amounts {
+        text-align: left;
+        margin-right: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .finance-button {
+        width: 56px;
+        height: 56px;
+        font-size: 24px;
+        bottom: 20px;
+        right: 20px;
+      }
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .card {
+      animation: slideIn 0.3s ease-out;
+    }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="container">
+    <!-- HEADER AVEC BOUTON THEME -->
+    <div class="main-header">
+      <div class="logo">MON ENTREPRISE</div>
+      <div class="theme-toggle">
+        <button class="theme-btn" onclick="setTheme('dark')" id="themeDark">Sombre</button>
+        <button class="theme-btn" onclick="setTheme('light')" id="themeLight">Clair</button>
+      </div>
+    </div>
+
+    <!-- SALUTATION -->
+    <div class="greeting">
+      <h1 id="greetingMessage">Bonjour, Abdoulaye</h1>
+      <p id="greetingTime">Chargement...</p>
+    </div>
+
+    <!-- CARTE CHIFFRE D'AFFAIRES -->
+    <div class="revenue-card">
+      <div class="revenue-label">Chiffre d'affaires total</div>
+      <div class="revenue-amount" id="totalRevenue">0 FCFA</div>
+      <div class="revenue-stats" id="revenueStats">Aucune transaction</div>
+    </div>
+
+    <!-- CARTE IA -->
+    <div class="ia-card">
+      <div class="ia-header">
+        <i class="fas fa-chart-line"></i>
+        <span>ANALYSE BUSINESS</span>
+      </div>
+      <div class="ia-message" id="iaMessage">
+        Ajoutez vos premières transactions pour obtenir une analyse.
+      </div>
+      <div class="ia-recommendation" id="iaRecommendation">
+        <i class="fas fa-lightbulb"></i>
+        Commencez par enregistrer vos ventes.
+      </div>
+      <div class="ia-objective" id="iaObjective">
+        Objectif : 5 transactions cette semaine
+      </div>
+    </div>
+
+    <!-- BARRE DE NAVIGATION -->
+    <div class="nav-bar">
+      <button class="nav-btn active" onclick="showSection('add')" id="btnAdd">
+        <i class="fas fa-plus"></i>
+        Ajouter
+      </button>
+      <button class="nav-btn" onclick="showSection('list')" id="btnList">
+        <i class="fas fa-list"></i>
+        Liste
+      </button>
+      <button class="nav-btn" onclick="exportData()">
+        <i class="fas fa-download"></i>
+        Export
+      </button>
+    </div>
+
+    <!-- STATISTIQUES -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-label">Aujourd'hui</div>
+        <div class="stat-number" id="todayCount">0</div>
+        <div class="stat-trend" id="todayTrend">-</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Cette semaine</div>
+        <div class="stat-number" id="weekCount">0</div>
+        <div class="stat-trend" id="weekTrend">-</div>
+      </div>
+    </div>
+
+    <!-- SECTION AJOUT -->
+    <div id="addSection">
+      <div class="card">
+        <div class="card-header">
+          <i class="fas fa-plus-circle"></i>
+          <h2>Nouvelle transaction</h2>
+        </div>
+
+        <div class="plan-selector">
+          <div class="plan-option active" onclick="setType('standard')" id="typeStandard">
+            <div class="plan-price">2 500</div>
+            <div class="plan-name">Standard</div>
+          </div>
+          <div class="plan-option" onclick="setType('promo')" id="typePromo">
+            <div class="plan-price">1 500</div>
+            <div class="plan-name">Promo</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Client</label>
+          <input type="text" class="form-control" id="clientName" placeholder="Nom du client">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Date</label>
+          <input type="date" class="form-control" id="saleDate">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Frais (FCFA)</label>
+          <input type="number" class="form-control" id="fees" value="0" min="0">
+        </div>
+
+        <div class="profit-display">
+          <span class="profit-label">Profit net</span>
+          <span class="profit-value" id="netDisplay">2 500 FCFA</span>
+        </div>
+
+        <button class="btn" onclick="addTransaction()">
+          <i class="fas fa-check"></i>
+          Enregistrer
+        </button>
+      </div>
+    </div>
+
+    <!-- SECTION LISTE -->
+    <div id="listSection" style="display: none;">
+      <div class="card">
+        <div class="card-header">
+          <i class="fas fa-history"></i>
+          <h2>Historique</h2>
+        </div>
+
+        <div id="transactionsList" class="transaction-sheet">
+          <div class="empty-state">
+            <i class="fas fa-receipt"></i>
+            <p>Aucune transaction</p>
+          </div>
+        </div>
+
+        <div class="table-footer">
+          <span>Total</span>
+          <span id="totalProfit">0 FCFA</span>
+        </div>
+      </div>
+    </div>
+
+  <script>
+    // ===== DONNÉES =====
+    let transactions = [];
+    let currentType = 'standard';
+    const PRICES = { standard: 2500, promo: 1500 };
+
+        // ===== THÈME =====
+    function setTheme(theme) {
+      document.body.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      
+      document.getElementById('themeDark').classList.toggle('active', theme === 'dark');
+      document.getElementById('themeLight').classList.toggle('active', theme === 'light');
+    }
+
+    function loadTheme() {
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      setTheme(savedTheme);
+    }
+
+    // ===== INITIALISATION =====
+    function init() {
+      loadTheme();
+      loadData();
+      setTodayDate();
+      updateClock();
+      setInterval(updateClock, 1000);
+      updateAll();
+    }
+
+    // ===== DATE =====
+    function setTodayDate() {
+      const today = new Date();
+      const y = today.getFullYear();
+      const m = String(today.getMonth() + 1).padStart(2, '0');
+      const d = String(today.getDate()).padStart(2, '0');
+      document.getElementById('saleDate').value = `${y}-${m}-${d}`;
+    }
+
+    // ===== HORLOGE =====
+    function updateClock() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const time = `${hours}:${minutes}`;
+      document.getElementById('greetingTime').textContent = `Dernière mise à jour : ${time}`;
+    }
+
+    // ===== STOCKAGE =====
+    function loadData() {
+      const saved = localStorage.getItem('mes_transactions');
+      if (saved) {
+        transactions = JSON.parse(saved);
+      }
+    }
+
+    function saveData() {
+      localStorage.setItem('mes_transactions', JSON.stringify(transactions));
+    }
+
+    // ===== FORMATAGE =====
+    function formatDate(dateStr) {
+      const [y, m, d] = dateStr.split('-');
+      return `${d}/${m}/${y}`;
+    }
+
+    function formatCurrency(amount) {
+      return amount.toLocaleString('fr-FR') + ' FCFA';
+    }
+
+    // ===== STATISTIQUES =====
+    function getTodayCount() {
+      const today = new Date().toISOString().split('T')[0];
+      return transactions.filter(t => t.date === today).length;
+    }
+
+    function getYesterdayCount() {
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      const yesterdayStr = yesterday.toISOString().split('T')[0];
+      return transactions.filter(t => t.date === yesterdayStr).length;
+    }
+
+    function getWeekCount() {
+      const weekAgo = new Date();
+      weekAgo.setDate(weekAgo.getDate() - 7);
+      return transactions.filter(t => new Date(t.date) >= weekAgo).length;
+    }
+
+    function getLastWeekCount() {
+      const now = new Date();
+      const weekAgo = new Date(now);
+      weekAgo.setDate(now.getDate() - 7);
+      const twoWeeksAgo = new Date(now);
+      twoWeeksAgo.setDate(now.getDate() - 14);
+      return transactions.filter(t => {
+        const d = new Date(t.date);
+        return d >= twoWeeksAgo && d < weekAgo;
+      }).length;
+    }
+
+    function getTotalProfit() {
+      return transactions.reduce((sum, t) => sum + (t.amount - t.fees), 0);
+    }
+
+    // ===== ANALYSE IA =====
+    function updateIA() {
+      const today = getTodayCount();
+      const yesterday = getYesterdayCount();
+      const total = transactions.length;
+      const profit = getTotalProfit();
+
+      let message = '';
+      let recommendation = '';
+      let objective = '';
+
+      if (total === 0) {
+        message = 'Aucune transaction pour le moment.';
+        recommendation = 'Ajoutez vos premières ventes pour démarrer l\'analyse.';
+        objective = 'Objectif : 5 transactions cette semaine';
+      } 
+      else if (today === 0) {
+        message = `${total} transaction${total > 1 ? 's' : ''} au total.`;
+        recommendation = 'Aucune vente aujourd\'hui. Pensez à relancer vos clients.';
+        objective = 'Objectif : 3 transactions aujourd\'hui';
+      }
+      else if (today > yesterday && yesterday > 0) {
+        const growth = Math.round((today - yesterday) / yesterday * 100);
+        message = `${today} transaction${today > 1 ? 's' : ''} aujourd'hui (+${growth}% vs hier).`;
+        recommendation = 'Bonne dynamique ! Continuez vos actions actuelles.';
+        objective = `Objectif demain : ${today + 2} transactions`;
+      }
+      else if (today < yesterday) {
+        const drop = Math.round((yesterday - today) / yesterday * 100);
+        message = `${today} transaction${today > 1 ? 's' : ''} aujourd'hui (-${drop}% vs hier).`;
+        recommendation = 'Baisse d\'activité. Publiez du contenu et contactez vos prospects.';
+        objective = `Objectif : revenir à ${yesterday} transactions`;
+      }
+      else {
+        message = `${today} transaction${today > 1 ? 's' : ''} aujourd'hui.`;
+        recommendation = 'Activité stable. Maintenez le rythme.';
+        objective = `Objectif : ${Math.round(total * 1.2)} transactions au total`;
+      }
+
+      document.getElementById('iaMessage').textContent = message;
+      document.getElementById('iaRecommendation').innerHTML = `<i class="fas fa-lightbulb"></i> ${recommendation}`;
+      document.getElementById('iaObjective').textContent = objective;
+    }
+
+    // ===== MISE À JOUR =====
+    function updateAll() {
+      // Mise à jour du chiffre d'affaires
+      document.getElementById('totalRevenue').textContent = formatCurrency(getTotalProfit());
+      
+      // Stats du jour
+      const today = getTodayCount();
+      const yesterday = getYesterdayCount();
+      document.getElementById('todayCount').textContent = today;
+
+      const todayTrend = document.getElementById('todayTrend');
+      if (today > yesterday) {
+        todayTrend.className = 'stat-trend';
+        todayTrend.innerHTML = `<i class="fas fa-arrow-up"></i> +${today - yesterday}`;
+      } else if (today < yesterday) {
+        todayTrend.className = 'stat-trend down';
+        todayTrend.innerHTML = `<i class="fas fa-arrow-down"></i> -${yesterday - today}`;
+      } else {
+        todayTrend.className = 'stat-trend';
+        todayTrend.innerHTML = '<i class="fas fa-minus"></i> Stable';
+      }
+
+      // Stats semaine
+      const week = getWeekCount();
+      const lastWeek = getLastWeekCount();
+      document.getElementById('weekCount').textContent = week;
+
+      const weekTrend = document.getElementById('weekTrend');
+      if (week > lastWeek) {
+        weekTrend.className = 'stat-trend';
+        weekTrend.innerHTML = `<i class="fas fa-arrow-up"></i> +${week - lastWeek}`;
+      } else if (week < lastWeek) {
+        weekTrend.className = 'stat-trend down';
+        weekTrend.innerHTML = `<i class="fas fa-arrow-down"></i> -${lastWeek - week}`;
+      } else {
+        weekTrend.className = 'stat-trend';
+        weekTrend.innerHTML = '<i class="fas fa-minus"></i> Stable';
+      }
+
+      // Stats générales
+      if (transactions.length > 0) {
+        document.getElementById('revenueStats').innerHTML = `${transactions.length} transaction${transactions.length > 1 ? 's' : ''} • Moyenne: ${formatCurrency(getTotalProfit() / transactions.length)}`;
+      }
+
+      // Mise à jour IA
+      updateIA();
+
+      // Mise à jour liste
+      updateTransactionsList();
+    }
+
+    // ===== LISTE =====
+    function updateTransactionsList() {
+      const container = document.getElementById('transactionsList');
+      const sorted = [...transactions].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      if (sorted.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-receipt"></i>
+            <p>Aucune transaction</p>
+          </div>
+        `;
+        document.getElementById('totalProfit').textContent = formatCurrency(0);
+        return;
+      }
+
+      let html = '';
+      sorted.slice(0, 10).forEach(t => {
+        html += `
+          <div class="transaction-item">
+            <div class="client-info">
+              <div class="client-name">
+                ${t.client}
+                <span class="client-badge">${t.type}</span>
+              </div>
+              <div class="transaction-date">${formatDate(t.date)}</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div class="transaction-amounts">
+                <div class="amount-gross">${formatCurrency(t.amount)}</div>
+                <div class="amount-net">profit: ${formatCurrency(t.amount - t.fees)}</div>
+              </div>
+              <button class="delete-btn" onclick="deleteTransaction(${t.id})">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+      document.getElementById('totalProfit').textContent = formatCurrency(getTotalProfit());
+    }
+
+    // ===== AJOUT =====
+    function setType(type) {
+      currentType = type;
+      document.getElementById('typeStandard').classList.toggle('active', type === 'standard');
+      document.getElementById('typePromo').classList.toggle('active', type === 'promo');
+      updateNetDisplay();
+    }
+
+    function updateNetDisplay() {
+      const amount = PRICES[currentType];
+      const fees = parseInt(document.getElementById('fees').value) || 0;
+      document.getElementById('netDisplay').textContent = formatCurrency(amount - fees);
+    }
+
+    function addTransaction() {
+      const client = document.getElementById('clientName').value.trim();
+      const date = document.getElementById('saleDate').value;
+      const fees = parseInt(document.getElementById('fees').value) || 0;
+      const amount = PRICES[currentType];
+
+      if (!client) {
+        alert('Veuillez entrer le nom du client');
+        return;
+      }
+
+      if (!date) {
+        alert('Veuillez sélectionner une date');
+        return;
+      }
+
+      const transaction = {
+        id: Date.now(),
+        client: client,
+        date: date,
+        type: currentType === 'standard' ? 'Std' : 'Promo',
+        amount: amount,
+        fees: fees
+      };
+
+      transactions.push(transaction);
+      saveData();
+
+      // Reset formulaire
+      document.getElementById('clientName').value = '';
+      document.getElementById('fees').value = '0';
+      setTodayDate();
+      updateNetDisplay();
+      updateAll();
+
+      // Feedback
+      const btn = event.target;
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<i class="fas fa-check"></i> Ajouté !';
+      btn.style.background = '#10b981';
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.style.background = '';
+      }, 1500);
+    }
+
+    // ===== SUPPRESSION =====
+    function deleteTransaction(id) {
+      if (confirm('Supprimer cette transaction ?')) {
+        transactions = transactions.filter(t => t.id !== id);
+        saveData();
+        updateAll();
+      }
+    }
+
+    // ===== NAVIGATION =====
+    function showSection(section) {
+      document.getElementById('addSection').style.display = section === 'add' ? 'block' : 'none';
+      document.getElementById('listSection').style.display = section === 'list' ? 'block' : 'none';
+      
+      document.getElementById('btnAdd').classList.toggle('active', section === 'add');
+      document.getElementById('btnList').classList.toggle('active', section === 'list');
+    }
+
+    // ===== EXPORT =====
+    function exportData() {
+      if (transactions.length === 0) {
+        alert('Aucune donnée à exporter');
+        return;
+      }
+
+      const data = JSON.stringify(transactions, null, 2);
+      const blob = new Blob([data], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `transactions_${new Date().toISOString().split('T')[0]}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // ===== GESTION FINANCIÈRE =====
+    function openFinance() {
+      // Pour l'instant, on affiche juste un message
+      // Plus tard, on remplacera par : window.open('gestion.html', '_blank');
+      alert('La page de gestion financière (gestion.html) sera créée prochainement !');
+    }
+
+    // ===== EVENT =====
+    document.getElementById('fees').addEventListener('input', updateNetDisplay);
+
+    // ===== DÉMARRAGE =====
+    init();
+  </script>
+</body>
+</html>
