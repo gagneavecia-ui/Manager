@@ -4,10 +4,12 @@
   <meta charset="UTF-8">
   <title>Mon Entreprise • Tableau de bord</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="manifest" href="manifest.json">
-<link rel="icon" type="image/png" href="icon.png">
   
   <style>
     /* ===== VARIABLES DE THÈME ===== */
@@ -23,6 +25,8 @@
       --accent-hover: #34495e;
       --success: #10b981;
       --danger: #ef4444;
+      --warning: #f59e0b;
+      --info: #3b82f6;
       --shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
     }
 
@@ -56,7 +60,7 @@
     }
 
     .container {
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
     }
 
@@ -209,6 +213,111 @@
       font-size: 14px;
     }
 
+    /* ===== GRILLE DE STATISTIQUES ===== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 768px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .stat-card {
+      background-color: var(--bg-card);
+      border-radius: 20px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+    }
+
+    .stat-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .stat-header i {
+      color: var(--accent);
+      font-size: 16px;
+    }
+
+    .stat-header span {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .stat-detail {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .stat-trend {
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 0;
+    }
+
+    .stat-trend.positive {
+      color: var(--success);
+    }
+
+    .stat-trend.negative {
+      color: var(--danger);
+    }
+
+    .stat-trend.warning {
+      color: var(--warning);
+    }
+
+    .stat-trend i {
+      font-size: 10px;
+    }
+
+    .stat-progress {
+      margin-top: 12px;
+      height: 4px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
     /* ===== CARTE IA ===== */
     .ia-card {
       background-color: var(--bg-card);
@@ -219,7 +328,7 @@
     }
 
     .ia-header {
-      display: flex
+      display: flex;
       align-items: center;
       gap: 10px;
       margin-bottom: 16px;
@@ -307,48 +416,6 @@
       background-color: var(--accent);
       color: white;
       border-color: var(--accent);
-    }
-
-    /* ===== STATISTIQUES ===== */
-    .stats-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .stat-card {
-      background-color: var(--bg-card);
-      border-radius: 20px;
-      padding: 20px;
-      border: 1px solid var(--border);
-    }
-
-    .stat-label {
-      font-size: 12px;
-      color: var(--text-secondary);
-      margin-bottom: 8px;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
-    }
-
-    .stat-number {
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin-bottom: 8px;
-    }
-
-    .stat-trend {
-      font-size: 13px;
-      color: var(--success);
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .stat-trend.down {
-      color: var(--danger);
     }
 
     /* ===== FORMULAIRE ===== */
@@ -697,7 +764,7 @@
   <div class="container">
     <!-- HEADER AVEC BOUTON THEME -->
     <div class="main-header">
-      <div class="logo">earnManager</div>
+      <div class="logo">MON ENTREPRISE</div>
       <div class="theme-toggle">
         <button class="theme-btn" onclick="setTheme('dark')" id="themeDark">Sombre</button>
         <button class="theme-btn" onclick="setTheme('light')" id="themeLight">Clair</button>
@@ -717,7 +784,9 @@
       <div class="revenue-stats" id="revenueStats">Aucune transaction</div>
     </div>
 
-    <!-- CARTE IA -->
+    <!-- GRILLE DE STATISTIQUES (4 CARTES) -->
+    <div class="stats-grid">
+      <!-- CARTE IA -->
     <div class="ia-card">
       <div class="ia-header">
         <i class="fas fa-chart-line"></i>
@@ -732,6 +801,70 @@
       </div>
       <div class="ia-objective" id="iaObjective">
         Objectif : 5 transactions cette semaine
+      </div>
+    </div>
+      <!-- Carte 1 : Aujourd'hui -->
+      <div class="stat-card">
+        <div class="stat-header">
+          <i class="fas fa-calendar-day"></i>
+          <span>Aujourd'hui</span>
+        </div>
+        <div class="stat-value" id="statTodayValue">0</div>
+        <div class="stat-detail" id="statTodayDetail">0 FCFA</div>
+        <div class="stat-trend" id="statTodayTrend">
+          <i class="fas fa-minus"></i> vs hier
+        </div>
+        <div class="stat-progress">
+          <div class="progress-bar" id="progressToday" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <!-- Carte 2 : Cette semaine -->
+      <div class="stat-card">
+        <div class="stat-header">
+          <i class="fas fa-calendar-week"></i>
+          <span>Cette semaine</span>
+        </div>
+        <div class="stat-value" id="statWeekValue">0</div>
+        <div class="stat-detail" id="statWeekDetail">0 FCFA</div>
+        <div class="stat-trend" id="statWeekTrend">
+          <i class="fas fa-minus"></i> vs semaine dernière
+        </div>
+        <div class="stat-progress">
+          <div class="progress-bar" id="progressWeek" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <!-- Carte 3 : Ce mois -->
+      <div class="stat-card">
+        <div class="stat-header">
+          <i class="fas fa-calendar-alt"></i>
+          <span>Ce mois</span>
+        </div>
+        <div class="stat-value" id="statMonthValue">0</div>
+        <div class="stat-detail" id="statMonthDetail">0 FCFA</div>
+        <div class="stat-trend" id="statMonthTrend">
+          <i class="fas fa-minus"></i> vs mois dernier
+        </div>
+        <div class="stat-progress">
+          <div class="progress-bar" id="progressMonth" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <!-- Carte 4 : Objectif -->
+      <div class="stat-card">
+        <div class="stat-header">
+          <i class="fas fa-bullseye"></i>
+          <span>Objectif mensuel</span>
+        </div>
+        <div class="stat-value" id="statGoalValue">0/0</div>
+        <div class="stat-detail" id="statGoalDetail">0% atteint</div>
+        <div class="stat-trend" id="statGoalTrend">
+          <i class="fas fa-clock"></i> Reste 0 FCFA
+        </div>
+        <div class="stat-progress">
+          <div class="progress-bar" id="progressGoal" style="width: 0%"></div>
+        </div>
       </div>
     </div>
 
@@ -749,20 +882,6 @@
         <i class="fas fa-download"></i>
         Export
       </button>
-    </div>
-
-    <!-- STATISTIQUES -->
-    <div class="stats-row">
-      <div class="stat-card">
-        <div class="stat-label">Aujourd'hui</div>
-        <div class="stat-number" id="todayCount">0</div>
-        <div class="stat-trend" id="todayTrend">-</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Cette semaine</div>
-        <div class="stat-number" id="weekCount">0</div>
-        <div class="stat-trend" id="weekTrend">-</div>
-      </div>
     </div>
 
     <!-- SECTION AJOUT -->
@@ -838,8 +957,9 @@
     let transactions = [];
     let currentType = 'standard';
     const PRICES = { standard: 2500, promo: 1500 };
+    const MONTHLY_GOAL = 100000; // Objectif mensuel : 100 000 FCFA
 
-        // ===== THÈME =====
+    // ===== THÈME =====
     function setTheme(theme) {
       document.body.setAttribute('data-theme', theme);
       localStorage.setItem('theme', theme);
@@ -853,32 +973,50 @@
       setTheme(savedTheme);
     }
 
+    // ===== FUSEAU HORAIRE (Afrique de l'Ouest) =====
+    function getWestAfricaTime() {
+      const now = new Date();
+      // UTC+0 pour l'Afrique de l'Ouest
+      return now;
+    }
+
+    // ===== SALUTATION ADAPTÉE =====
+    function updateGreeting() {
+      const now = getWestAfricaTime();
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const timeString = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+      
+      let greeting = '';
+      if (hours >= 0 && hours < 12) {
+        greeting = 'Bonjour';
+      } else if (hours >= 12 && hours < 23) {
+        greeting = 'Bonsoir';
+      } else {
+        greeting = 'Bonne nuit';
+      }
+      
+      document.getElementById('greetingMessage').textContent = `${greeting}, Abdoulaye`;
+      document.getElementById('greetingTime').textContent = `Dernier mise a jour : ${timeString}`;
+    }
+
     // ===== INITIALISATION =====
     function init() {
       loadTheme();
       loadData();
       setTodayDate();
-      updateClock();
-      setInterval(updateClock, 1000);
+      updateGreeting();
+      setInterval(updateGreeting, 1000);
       updateAll();
     }
 
     // ===== DATE =====
     function setTodayDate() {
-      const today = new Date();
+      const today = getWestAfricaTime();
       const y = today.getFullYear();
       const m = String(today.getMonth() + 1).padStart(2, '0');
       const d = String(today.getDate()).padStart(2, '0');
       document.getElementById('saleDate').value = `${y}-${m}-${d}`;
-    }
-
-    // ===== HORLOGE =====
-    function updateClock() {
-      const now = new Date();
-      const hours = String(now.getHours()).padStart(2, '0');
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      const time = `${hours}:${minutes}`;
-      document.getElementById('greetingTime').textContent = `Dernière mise à jour : ${time}`;
     }
 
     // ===== STOCKAGE =====
@@ -903,45 +1041,89 @@
       return amount.toLocaleString('fr-FR') + ' FCFA';
     }
 
-    // ===== STATISTIQUES =====
-    function getTodayCount() {
-      const today = new Date().toISOString().split('T')[0];
-      return transactions.filter(t => t.date === today).length;
+    // ===== STATISTIQUES AVANCÉES =====
+    function getTodayStats() {
+      const today = getWestAfricaTime().toISOString().split('T')[0];
+      const todayTransactions = transactions.filter(t => t.date === today);
+      const count = todayTransactions.length;
+      const revenue = todayTransactions.reduce((sum, t) => sum + t.amount, 0);
+      const profit = todayTransactions.reduce((sum, t) => sum + (t.amount - t.fees), 0);
+      return { count, revenue, profit };
     }
 
-    function getYesterdayCount() {
-      const yesterday = new Date();
+    function getYesterdayStats() {
+      const yesterday = new Date(getWestAfricaTime());
       yesterday.setDate(yesterday.getDate() - 1);
       const yesterdayStr = yesterday.toISOString().split('T')[0];
-      return transactions.filter(t => t.date === yesterdayStr).length;
+      const yesterdayTransactions = transactions.filter(t => t.date === yesterdayStr);
+      const count = yesterdayTransactions.length;
+      const revenue = yesterdayTransactions.reduce((sum, t) => sum + t.amount, 0);
+      return { count, revenue };
     }
 
-    function getWeekCount() {
-      const weekAgo = new Date();
-      weekAgo.setDate(weekAgo.getDate() - 7);
-      return transactions.filter(t => new Date(t.date) >= weekAgo).length;
+    function getWeekStats() {
+      const now = getWestAfricaTime();
+      const weekAgo = new Date(now);
+      weekAgo.setDate(now.getDate() - 7);
+      const weekTransactions = transactions.filter(t => new Date(t.date) >= weekAgo);
+      const count = weekTransactions.length;
+      const revenue = weekTransactions.reduce((sum, t) => sum + t.amount, 0);
+      const profit = weekTransactions.reduce((sum, t) => sum + (t.amount - t.fees), 0);
+      return { count, revenue, profit };
     }
 
-    function getLastWeekCount() {
-      const now = new Date();
+    function getLastWeekStats() {
+      const now = getWestAfricaTime();
       const weekAgo = new Date(now);
       weekAgo.setDate(now.getDate() - 7);
       const twoWeeksAgo = new Date(now);
       twoWeeksAgo.setDate(now.getDate() - 14);
-      return transactions.filter(t => {
+      const lastWeekTransactions = transactions.filter(t => {
         const d = new Date(t.date);
         return d >= twoWeeksAgo && d < weekAgo;
-      }).length;
+      });
+      const count = lastWeekTransactions.length;
+      const revenue = lastWeekTransactions.reduce((sum, t) => sum + t.amount, 0);
+      return { count, revenue };
+    }
+
+    function getMonthStats() {
+      const now = getWestAfricaTime();
+      const monthAgo = new Date(now);
+      monthAgo.setMonth(now.getMonth() - 1);
+      const monthTransactions = transactions.filter(t => new Date(t.date) >= monthAgo);
+      const count = monthTransactions.length;
+      const revenue = monthTransactions.reduce((sum, t) => sum + t.amount, 0);
+      const profit = monthTransactions.reduce((sum, t) => sum + (t.amount - t.fees), 0);
+      return { count, revenue, profit };
+    }
+
+    function getLastMonthStats() {
+      const now = getWestAfricaTime();
+      const monthAgo = new Date(now);
+      monthAgo.setMonth(now.getMonth() - 1);
+      const twoMonthsAgo = new Date(now);
+      twoMonthsAgo.setMonth(now.getMonth() - 2);
+      const lastMonthTransactions = transactions.filter(t => {
+        const d = new Date(t.date);
+        return d >= twoMonthsAgo && d < monthAgo;
+      });
+      const count = lastMonthTransactions.length;
+      const revenue = lastMonthTransactions.reduce((sum, t) => sum + t.amount, 0);
+      return { count, revenue };
     }
 
     function getTotalProfit() {
       return transactions.reduce((sum, t) => sum + (t.amount - t.fees), 0);
     }
 
-    // ===== ANALYSE IA =====
+    // ===== ANALYSE IA AMÉLIORÉE =====
     function updateIA() {
-      const today = getTodayCount();
-      const yesterday = getYesterdayCount();
+      const today = getTodayStats();
+      const yesterday = getYesterdayStats();
+      const week = getWeekStats();
+      const lastWeek = getLastWeekStats();
+      const month = getMonthStats();
       const total = transactions.length;
       const profit = getTotalProfit();
 
@@ -954,27 +1136,33 @@
         recommendation = 'Ajoutez vos premières ventes pour démarrer l\'analyse.';
         objective = 'Objectif : 5 transactions cette semaine';
       } 
-      else if (today === 0) {
+      else if (today.count === 0) {
         message = `${total} transaction${total > 1 ? 's' : ''} au total.`;
         recommendation = 'Aucune vente aujourd\'hui. Pensez à relancer vos clients.';
         objective = 'Objectif : 3 transactions aujourd\'hui';
       }
-      else if (today > yesterday && yesterday > 0) {
-        const growth = Math.round((today - yesterday) / yesterday * 100);
-        message = `${today} transaction${today > 1 ? 's' : ''} aujourd'hui (+${growth}% vs hier).`;
+      else if (today.count > yesterday.count && yesterday.count > 0) {
+        const growth = Math.round((today.count - yesterday.count) / yesterday.count * 100);
+        message = `${today.count} transaction${today.count > 1 ? 's' : ''} aujourd'hui (+${growth}% vs hier).`;
         recommendation = 'Bonne dynamique ! Continuez vos actions actuelles.';
-        objective = `Objectif demain : ${today + 2} transactions`;
+        objective = `Objectif demain : ${today.count + 2} transactions`;
       }
-      else if (today < yesterday) {
-        const drop = Math.round((yesterday - today) / yesterday * 100);
-        message = `${today} transaction${today > 1 ? 's' : ''} aujourd'hui (-${drop}% vs hier).`;
+      else if (today.count < yesterday.count) {
+        const drop = Math.round((yesterday.count - today.count) / yesterday.count * 100);
+        message = `${today.count} transaction${today.count > 1 ? 's' : ''} aujourd'hui (-${drop}% vs hier).`;
         recommendation = 'Baisse d\'activité. Publiez du contenu et contactez vos prospects.';
-        objective = `Objectif : revenir à ${yesterday} transactions`;
+        objective = `Objectif : revenir à ${yesterday.count} transactions`;
+      }
+      else if (week.count > lastWeek.count) {
+        const growth = Math.round((week.count - lastWeek.count) / lastWeek.count * 100);
+        message = `${week.count} transaction${week.count > 1 ? 's' : ''} cette semaine (+${growth}% vs semaine dernière).`;
+        recommendation = 'Bonne progression hebdomadaire ! Maintenez le rythme.';
+        objective = `Objectif semaine prochaine : ${Math.round(week.count * 1.2)} transactions`;
       }
       else {
-        message = `${today} transaction${today > 1 ? 's' : ''} aujourd'hui.`;
-        recommendation = 'Activité stable. Maintenez le rythme.';
-        objective = `Objectif : ${Math.round(total * 1.2)} transactions au total`;
+        message = `${today.count} transaction${today.count > 1 ? 's' : ''} aujourd'hui.`;
+        recommendation = 'Activité stable. Continuez vos efforts.';
+        objective = `Objectif mensuel : ${month.count + 5} transactions`;
       }
 
       document.getElementById('iaMessage').textContent = message;
@@ -982,44 +1170,89 @@
       document.getElementById('iaObjective').textContent = objective;
     }
 
-    // ===== MISE À JOUR =====
+    // ===== MISE À JOUR DES STATISTIQUES =====
     function updateAll() {
-      // Mise à jour du chiffre d'affaires
+      // Chiffre d'affaires total
       document.getElementById('totalRevenue').textContent = formatCurrency(getTotalProfit());
       
       // Stats du jour
-      const today = getTodayCount();
-      const yesterday = getYesterdayCount();
-      document.getElementById('todayCount').textContent = today;
-
-      const todayTrend = document.getElementById('todayTrend');
-      if (today > yesterday) {
-        todayTrend.className = 'stat-trend';
-        todayTrend.innerHTML = `<i class="fas fa-arrow-up"></i> +${today - yesterday}`;
-      } else if (today < yesterday) {
-        todayTrend.className = 'stat-trend down';
-        todayTrend.innerHTML = `<i class="fas fa-arrow-down"></i> -${yesterday - today}`;
+      const today = getTodayStats();
+      const yesterday = getYesterdayStats();
+      document.getElementById('statTodayValue').textContent = today.count;
+      document.getElementById('statTodayDetail').textContent = formatCurrency(today.profit);
+      
+      const todayTrend = document.getElementById('statTodayTrend');
+      if (today.count > yesterday.count && yesterday.count > 0) {
+        const percent = Math.round((today.count - yesterday.count) / yesterday.count * 100);
+        todayTrend.className = 'stat-trend positive';
+        todayTrend.innerHTML = `<i class="fas fa-arrow-up"></i> +${percent}% vs hier`;
+      } else if (today.count < yesterday.count) {
+        const percent = Math.round((yesterday.count - today.count) / yesterday.count * 100);
+        todayTrend.className = 'stat-trend negative';
+        todayTrend.innerHTML = `<i class="fas fa-arrow-down"></i> -${percent}% vs hier`;
       } else {
         todayTrend.className = 'stat-trend';
-        todayTrend.innerHTML = '<i class="fas fa-minus"></i> Stable';
+        todayTrend.innerHTML = `<i class="fas fa-minus"></i> Stable vs hier`;
       }
+      
+      const progressToday = yesterday.count > 0 ? Math.min(100, (today.count / yesterday.count) * 100) : 0;
+      document.getElementById('progressToday').style.width = `${progressToday}%`;
 
       // Stats semaine
-      const week = getWeekCount();
-      const lastWeek = getLastWeekCount();
-      document.getElementById('weekCount').textContent = week;
-
-      const weekTrend = document.getElementById('weekTrend');
-      if (week > lastWeek) {
-        weekTrend.className = 'stat-trend';
-        weekTrend.innerHTML = `<i class="fas fa-arrow-up"></i> +${week - lastWeek}`;
-      } else if (week < lastWeek) {
-        weekTrend.className = 'stat-trend down';
-        weekTrend.innerHTML = `<i class="fas fa-arrow-down"></i> -${lastWeek - week}`;
+      const week = getWeekStats();
+      const lastWeek = getLastWeekStats();
+      document.getElementById('statWeekValue').textContent = week.count;
+      document.getElementById('statWeekDetail').textContent = formatCurrency(week.profit);
+      
+      const weekTrend = document.getElementById('statWeekTrend');
+      if (week.count > lastWeek.count && lastWeek.count > 0) {
+        const percent = Math.round((week.count - lastWeek.count) / lastWeek.count * 100);
+        weekTrend.className = 'stat-trend positive';
+        weekTrend.innerHTML = `<i class="fas fa-arrow-up"></i> +${percent}% vs semaine dernière`;
+      } else if (week.count < lastWeek.count) {
+        const percent = Math.round((lastWeek.count - week.count) / lastWeek.count * 100);
+        weekTrend.className = 'stat-trend negative';
+        weekTrend.innerHTML = `<i class="fas fa-arrow-down"></i> -${percent}% vs semaine dernière`;
       } else {
         weekTrend.className = 'stat-trend';
-        weekTrend.innerHTML = '<i class="fas fa-minus"></i> Stable';
+        weekTrend.innerHTML = `<i class="fas fa-minus"></i> Stable vs semaine dernière`;
       }
+      
+      const progressWeek = lastWeek.count > 0 ? Math.min(100, (week.count / lastWeek.count) * 100) : 0;
+      document.getElementById('progressWeek').style.width = `${progressWeek}%`;
+
+      // Stats mois
+      const month = getMonthStats();
+      const lastMonth = getLastMonthStats();
+      document.getElementById('statMonthValue').textContent = month.count;
+      document.getElementById('statMonthDetail').textContent = formatCurrency(month.profit);
+      
+      const monthTrend = document.getElementById('statMonthTrend');
+      if (month.count > lastMonth.count && lastMonth.count > 0) {
+        const percent = Math.round((month.count - lastMonth.count) / lastMonth.count * 100);
+        monthTrend.className = 'stat-trend positive';
+        monthTrend.innerHTML = `<i class="fas fa-arrow-up"></i> +${percent}% vs mois dernier`;
+      } else if (month.count < lastMonth.count) {
+        const percent = Math.round((lastMonth.count - month.count) / lastMonth.count * 100);
+        monthTrend.className = 'stat-trend negative';
+        monthTrend.innerHTML = `<i class="fas fa-arrow-down"></i> -${percent}% vs mois dernier`;
+      } else {
+        monthTrend.className = 'stat-trend';
+        monthTrend.innerHTML = `<i class="fas fa-minus"></i> Stable vs mois dernier`;
+      }
+      
+      const progressMonth = lastMonth.count > 0 ? Math.min(100, (month.count / lastMonth.count) * 100) : 0;
+      document.getElementById('progressMonth').style.width = `${progressMonth}%`;
+
+      // Objectif mensuel
+      const monthProfit = month.profit;
+      const goalProgress = Math.min(100, (monthProfit / MONTHLY_GOAL) * 100);
+      const remaining = Math.max(0, MONTHLY_GOAL - monthProfit);
+      
+      document.getElementById('statGoalValue').textContent = `${Math.round(monthProfit / 1000)}k/${Math.round(MONTHLY_GOAL / 1000)}k`;
+      document.getElementById('statGoalDetail').textContent = `${Math.round(goalProgress)}% atteint`;
+      document.getElementById('statGoalTrend').innerHTML = `<i class="fas fa-clock"></i> Reste ${formatCurrency(remaining)}`;
+      document.getElementById('progressGoal').style.width = `${goalProgress}%`;
 
       // Stats générales
       if (transactions.length > 0) {
@@ -1174,8 +1407,6 @@
 
     // ===== GESTION FINANCIÈRE =====
     function openFinance() {
-      // Pour l'instant, on affiche juste un message
-      // Plus tard, on remplacera par : window.open('gestion.html', '_blank');
       alert('La page de gestion financière (gestion.html) sera créée prochainement !');
     }
 
