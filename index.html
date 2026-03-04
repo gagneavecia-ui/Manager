@@ -239,11 +239,32 @@
       padding: 20px;
       border: 1px solid var(--border);
       transition: all 0.2s;
+      cursor: pointer;
+      position: relative;
     }
 
     .stat-card:hover {
       transform: translateY(-4px);
       border-color: var(--accent);
+      box-shadow: var(--shadow);
+    }
+
+    .stat-card.clickable {
+      cursor: pointer;
+    }
+
+    .stat-card.clickable:after {
+      content: '🔍';
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 12px;
+      opacity: 0.5;
+      transition: opacity 0.2s;
+    }
+
+    .stat-card.clickable:hover:after {
+      opacity: 1;
     }
 
     .stat-header {
@@ -316,6 +337,144 @@
       background: var(--accent);
       border-radius: 4px;
       transition: width 0.3s ease;
+    }
+
+    /* ===== VUE DÉTAILLÉE ===== */
+    .detail-view {
+      background-color: var(--bg-card);
+      border-radius: 20px;
+      padding: 20px;
+      margin-top: 16px;
+      border: 1px solid var(--border);
+    }
+
+    .detail-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .detail-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .detail-title i {
+      color: var(--accent);
+    }
+
+    .back-btn {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      padding: 10px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .back-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .selector {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 14px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .selector:hover {
+      border-color: var(--accent);
+    }
+
+    .detail-list {
+      max-height: 300px;
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+
+    .detail-list::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .detail-list::-webkit-scrollbar-track {
+      background: var(--border);
+      border-radius: 10px;
+    }
+
+    .detail-list::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 10px;
+    }
+
+    .detail-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+
+    .detail-item:hover {
+      background: var(--bg-primary);
+      border-radius: 12px;
+    }
+
+    .detail-item:last-child {
+      border-bottom: none;
+    }
+
+    .detail-item-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .detail-item-name {
+      font-weight: 500;
+    }
+
+    .detail-item-name.clickable {
+      cursor: pointer;
+      color: var(--accent);
+    }
+
+    .detail-item-name.clickable:hover {
+      text-decoration: underline;
+    }
+
+    .detail-item-amount {
+      font-weight: 600;
+      color: var(--success);
+    }
+
+    .detail-total {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .detail-total span:last-child {
+      color: var(--accent);
     }
 
     /* ===== CARTE IA ===== */
@@ -655,54 +814,24 @@
       line-height: 1.6;
     }
 
-    /* ===== BOUTON GESTION ===== */
-    .finance-button {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      width: 64px;
-      height: 64px;
-      background: linear-gradient(135deg, var(--accent), #1a2632);
-      color: white;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-      transition: all 0.3s ease;
-      z-index: 1000;
-      border: 2px solid rgba(255, 255, 255, 0.1);
+    /* ===== ANIMATIONS ===== */
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
-    .finance-button:hover {
-      transform: scale(1.1) rotate(5deg);
-      background: linear-gradient(135deg, #34495e, #2c3e50);
-      box-shadow: 0 12px 32px rgba(44, 62, 80, 0.4);
+    .card {
+      animation: slideIn 0.3s ease-out;
     }
 
-    .finance-tooltip {
-      position: absolute;
-      right: 80px;
-      background-color: var(--accent);
-      color: white;
-      padding: 10px 20px;
-      border-radius: 40px;
-      font-size: 14px;
-      font-weight: 500;
-      white-space: nowrap;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
-
-    .finance-button:hover .finance-tooltip {
-      opacity: 1;
-      visibility: visible;
-      right: 90px;
+    .detail-view {
+      animation: slideIn 0.2s ease-out;
     }
 
     /* ===== RESPONSIVE ===== */
@@ -734,29 +863,15 @@
         align-items: center;
       }
 
-      .finance-button {
-        width: 56px;
-        height: 56px;
-        font-size: 24px;
-        bottom: 20px;
-        right: 20px;
+      .detail-header {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
       }
-    }
 
-    /* ===== ANIMATIONS ===== */
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
+      .stats-grid {
+        gap: 12px;
       }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .card {
-      animation: slideIn 0.3s ease-out;
     }
   </style>
 </head>
@@ -784,9 +899,7 @@
       <div class="revenue-stats" id="revenueStats">Aucune transaction</div>
     </div>
 
-    <!-- GRILLE DE STATISTIQUES (4 CARTES) -->
-    <div class="stats-grid">
-      <!-- CARTE IA -->
+    <!-- CARTE IA -->
     <div class="ia-card">
       <div class="ia-header">
         <i class="fas fa-chart-line"></i>
@@ -803,8 +916,11 @@
         Objectif : 5 transactions cette semaine
       </div>
     </div>
+    
+    <!-- GRILLE DE STATISTIQUES (4 CARTES CLIQUABLES) -->
+    <div class="stats-grid">
       <!-- Carte 1 : Aujourd'hui -->
-      <div class="stat-card">
+      <div class="stat-card clickable" onclick="showCardDetail('today')" id="cardToday">
         <div class="stat-header">
           <i class="fas fa-calendar-day"></i>
           <span>Aujourd'hui</span>
@@ -820,7 +936,7 @@
       </div>
 
       <!-- Carte 2 : Cette semaine -->
-      <div class="stat-card">
+      <div class="stat-card clickable" onclick="showCardDetail('week')" id="cardWeek">
         <div class="stat-header">
           <i class="fas fa-calendar-week"></i>
           <span>Cette semaine</span>
@@ -836,7 +952,7 @@
       </div>
 
       <!-- Carte 3 : Ce mois -->
-      <div class="stat-card">
+      <div class="stat-card clickable" onclick="showCardDetail('month')" id="cardMonth">
         <div class="stat-header">
           <i class="fas fa-calendar-alt"></i>
           <span>Ce mois</span>
@@ -851,22 +967,25 @@
         </div>
       </div>
 
-      <!-- Carte 4 : Objectif -->
-      <div class="stat-card">
+      <!-- Carte 4 : Objectif annuel -->
+      <div class="stat-card clickable" onclick="showCardDetail('year')" id="cardYear">
         <div class="stat-header">
           <i class="fas fa-bullseye"></i>
-          <span>Objectif mensuel</span>
+          <span>Objectif annuel</span>
         </div>
-        <div class="stat-value" id="statGoalValue">0/0</div>
-        <div class="stat-detail" id="statGoalDetail">0% atteint</div>
-        <div class="stat-trend" id="statGoalTrend">
+        <div class="stat-value" id="statYearValue">0/0</div>
+        <div class="stat-detail" id="statYearDetail">0% atteint</div>
+        <div class="stat-trend" id="statYearTrend">
           <i class="fas fa-clock"></i> Reste 0 FCFA
         </div>
         <div class="stat-progress">
-          <div class="progress-bar" id="progressGoal" style="width: 0%"></div>
+          <div class="progress-bar" id="progressYear" style="width: 0%"></div>
         </div>
       </div>
     </div>
+
+    <!-- CONTENEUR POUR LES VUES DÉTAILLÉES -->
+    <div id="detailContainer" style="display: none;"></div>
 
     <!-- BARRE DE NAVIGATION -->
     <div class="nav-bar">
@@ -951,13 +1070,23 @@
         </div>
       </div>
     </div>
+  </div>
 
   <script>
     // ===== DONNÉES =====
     let transactions = [];
     let currentType = 'standard';
     const PRICES = { standard: 2500, promo: 1500 };
-    const MONTHLY_GOAL = 100000; // Objectif mensuel : 100 000 FCFA
+    const YEARLY_GOAL = 1200000; // Objectif annuel : 1 200 000 FCFA
+
+    // États de navigation
+    let navigationState = {
+      currentCard: null, // 'today', 'week', 'month', 'year'
+      viewLevel: 'summary', // 'summary', 'detail', 'subdetail'
+      selectedYear: new Date().getFullYear(),
+      selectedMonth: new Date().getMonth(),
+      selectedDay: null
+    };
 
     // ===== THÈME =====
     function setTheme(theme) {
@@ -975,9 +1104,7 @@
 
     // ===== FUSEAU HORAIRE (Afrique de l'Ouest) =====
     function getWestAfricaTime() {
-      const now = new Date();
-      // UTC+0 pour l'Afrique de l'Ouest
-      return now;
+      return new Date(); // UTC+0 pour l'Afrique de l'Ouest
     }
 
     // ===== SALUTATION ADAPTÉE =====
@@ -997,7 +1124,7 @@
       }
       
       document.getElementById('greetingMessage').textContent = `${greeting}, Abdoulaye`;
-      document.getElementById('greetingTime').textContent = `Dernier mise a jour : ${timeString}`;
+      document.getElementById('greetingTime').textContent = `Heure locale (Afrique de l'Ouest) : ${timeString}`;
     }
 
     // ===== INITIALISATION =====
@@ -1024,6 +1151,8 @@
       const saved = localStorage.getItem('mes_transactions');
       if (saved) {
         transactions = JSON.parse(saved);
+      } else {
+        transactions = [];
       }
     }
 
@@ -1041,91 +1170,208 @@
       return amount.toLocaleString('fr-FR') + ' FCFA';
     }
 
-    // ===== STATISTIQUES AVANCÉES =====
+    function getMonthName(monthIndex) {
+      const months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 
+                     'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+      return months[monthIndex];
+    }
+
+    // ===== FONCTIONS DE DATE POUR LE CALENDRIER RÉEL =====
+
+    // Début de la semaine (lundi à 00:00)
+    function getStartOfWeek(date) {
+      const d = new Date(date);
+      const day = d.getDay(); // 0 = dimanche, 1 = lundi...
+      // Ajuster pour que la semaine commence lundi
+      const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+      d.setDate(diff);
+      d.setHours(0, 0, 0, 0);
+      return d;
+    }
+
+    // Fin de la semaine (dimanche à 23:59)
+    function getEndOfWeek(date) {
+      const d = getStartOfWeek(date);
+      d.setDate(d.getDate() + 6);
+      d.setHours(23, 59, 59, 999);
+      return d;
+    }
+
+    // ===== STATISTIQUES AVEC CALENDRIER RÉEL =====
+
+    // Statistiques du jour
     function getTodayStats() {
       const today = getWestAfricaTime().toISOString().split('T')[0];
       const todayTransactions = transactions.filter(t => t.date === today);
       const count = todayTransactions.length;
-      const revenue = todayTransactions.reduce((sum, t) => sum + t.amount, 0);
       const profit = todayTransactions.reduce((sum, t) => sum + (t.amount - t.fees), 0);
-      return { count, revenue, profit };
+      return { count, profit };
     }
 
+    // Statistiques d'hier
     function getYesterdayStats() {
       const yesterday = new Date(getWestAfricaTime());
       yesterday.setDate(yesterday.getDate() - 1);
       const yesterdayStr = yesterday.toISOString().split('T')[0];
       const yesterdayTransactions = transactions.filter(t => t.date === yesterdayStr);
-      const count = yesterdayTransactions.length;
-      const revenue = yesterdayTransactions.reduce((sum, t) => sum + t.amount, 0);
-      return { count, revenue };
+      return { count: yesterdayTransactions.length };
     }
 
+    // Statistiques de la semaine (calendrier réel)
     function getWeekStats() {
       const now = getWestAfricaTime();
-      const weekAgo = new Date(now);
-      weekAgo.setDate(now.getDate() - 7);
-      const weekTransactions = transactions.filter(t => new Date(t.date) >= weekAgo);
-      const count = weekTransactions.length;
-      const revenue = weekTransactions.reduce((sum, t) => sum + t.amount, 0);
-      const profit = weekTransactions.reduce((sum, t) => sum + (t.amount - t.fees), 0);
-      return { count, revenue, profit };
-    }
-
-    function getLastWeekStats() {
-      const now = getWestAfricaTime();
-      const weekAgo = new Date(now);
-      weekAgo.setDate(now.getDate() - 7);
-      const twoWeeksAgo = new Date(now);
-      twoWeeksAgo.setDate(now.getDate() - 14);
+      const startOfThisWeek = getStartOfWeek(now);
+      const endOfThisWeek = getEndOfWeek(now);
+      
+      const startOfLastWeek = new Date(startOfThisWeek);
+      startOfLastWeek.setDate(startOfThisWeek.getDate() - 7);
+      const endOfLastWeek = new Date(endOfThisWeek);
+      endOfLastWeek.setDate(endOfThisWeek.getDate() - 7);
+      
+      const thisWeekTransactions = transactions.filter(t => {
+        const d = new Date(t.date);
+        return d >= startOfThisWeek && d <= endOfThisWeek;
+      });
+      
       const lastWeekTransactions = transactions.filter(t => {
         const d = new Date(t.date);
-        return d >= twoWeeksAgo && d < weekAgo;
+        return d >= startOfLastWeek && d <= endOfLastWeek;
       });
-      const count = lastWeekTransactions.length;
-      const revenue = lastWeekTransactions.reduce((sum, t) => sum + t.amount, 0);
-      return { count, revenue };
+      
+      return {
+        thisWeek: {
+          count: thisWeekTransactions.length,
+          profit: thisWeekTransactions.reduce((sum, t) => sum + (t.amount - t.fees), 0)
+        },
+        lastWeek: {
+          count: lastWeekTransactions.length
+        }
+      };
     }
 
+    // Statistiques du mois (calendrier réel)
     function getMonthStats() {
       const now = getWestAfricaTime();
-      const monthAgo = new Date(now);
-      monthAgo.setMonth(now.getMonth() - 1);
-      const monthTransactions = transactions.filter(t => new Date(t.date) >= monthAgo);
-      const count = monthTransactions.length;
-      const revenue = monthTransactions.reduce((sum, t) => sum + t.amount, 0);
-      const profit = monthTransactions.reduce((sum, t) => sum + (t.amount - t.fees), 0);
-      return { count, revenue, profit };
-    }
-
-    function getLastMonthStats() {
-      const now = getWestAfricaTime();
-      const monthAgo = new Date(now);
-      monthAgo.setMonth(now.getMonth() - 1);
-      const twoMonthsAgo = new Date(now);
-      twoMonthsAgo.setMonth(now.getMonth() - 2);
+      
+      // Ce mois (du 1er au dernier jour du mois actuel)
+      const startOfThisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+      startOfThisMonth.setHours(0, 0, 0, 0);
+      
+      const endOfThisMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+      endOfThisMonth.setHours(23, 59, 59, 999);
+      
+      // Mois dernier (du 1er au dernier jour du mois précédent)
+      const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+      startOfLastMonth.setHours(0, 0, 0, 0);
+      
+      const endOfLastMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+      endOfLastMonth.setHours(23, 59, 59, 999);
+      
+      const thisMonthTransactions = transactions.filter(t => {
+        const d = new Date(t.date);
+        return d >= startOfThisMonth && d <= endOfThisMonth;
+      });
+      
       const lastMonthTransactions = transactions.filter(t => {
         const d = new Date(t.date);
-        return d >= twoMonthsAgo && d < monthAgo;
+        return d >= startOfLastMonth && d <= endOfLastMonth;
       });
-      const count = lastMonthTransactions.length;
-      const revenue = lastMonthTransactions.reduce((sum, t) => sum + t.amount, 0);
-      return { count, revenue };
+      
+      return {
+        thisMonth: {
+          count: thisMonthTransactions.length,
+          profit: thisMonthTransactions.reduce((sum, t) => sum + (t.amount - t.fees), 0)
+        },
+        lastMonth: {
+          count: lastMonthTransactions.length
+        }
+      };
     }
 
+    // Statistiques annuelles
+    function getYearStats(year) {
+      const startOfYear = new Date(year, 0, 1);
+      startOfYear.setHours(0, 0, 0, 0);
+      
+      const endOfYear = new Date(year, 11, 31);
+      endOfYear.setHours(23, 59, 59, 999);
+      
+      const yearTransactions = transactions.filter(t => {
+        const d = new Date(t.date);
+        return d >= startOfYear && d <= endOfYear;
+      });
+      
+      const profit = yearTransactions.reduce((sum, t) => sum + (t.amount - t.fees), 0);
+      
+      return {
+        count: yearTransactions.length,
+        profit: profit
+      };
+    }
+
+    // Statistiques par mois pour une année donnée
+    function getMonthsStats(year) {
+      const months = [];
+      
+      for (let month = 0; month < 12; month++) {
+        const startOfMonth = new Date(year, month, 1);
+        startOfMonth.setHours(0, 0, 0, 0);
+        
+        const endOfMonth = new Date(year, month + 1, 0);
+        endOfMonth.setHours(23, 59, 59, 999);
+        
+        const monthTransactions = transactions.filter(t => {
+          const d = new Date(t.date);
+          return d >= startOfMonth && d <= endOfMonth;
+        });
+        
+        const profit = monthTransactions.reduce((sum, t) => sum + (t.amount - t.fees), 0);
+        
+        months.push({
+          month: month,
+          name: getMonthName(month),
+          count: monthTransactions.length,
+          profit: profit
+        });
+      }
+      
+      return months;
+    }
+
+    // Statistiques par jour pour un mois donné
+    function getDaysStats(year, month) {
+      const days = [];
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        
+        const dayTransactions = transactions.filter(t => t.date === dateStr);
+        const profit = dayTransactions.reduce((sum, t) => sum + (t.amount - t.fees), 0);
+        
+        days.push({
+          day: day,
+          date: dateStr,
+          count: dayTransactions.length,
+          profit: profit
+        });
+      }
+      
+      return days;
+    }
+
+    // Profit total
     function getTotalProfit() {
       return transactions.reduce((sum, t) => sum + (t.amount - t.fees), 0);
     }
 
-    // ===== ANALYSE IA AMÉLIORÉE =====
+    // ===== ANALYSE IA =====
     function updateIA() {
       const today = getTodayStats();
       const yesterday = getYesterdayStats();
       const week = getWeekStats();
-      const lastWeek = getLastWeekStats();
       const month = getMonthStats();
       const total = transactions.length;
-      const profit = getTotalProfit();
 
       let message = '';
       let recommendation = '';
@@ -1153,31 +1399,240 @@
         recommendation = 'Baisse d\'activité. Publiez du contenu et contactez vos prospects.';
         objective = `Objectif : revenir à ${yesterday.count} transactions`;
       }
-      else if (week.count > lastWeek.count) {
-        const growth = Math.round((week.count - lastWeek.count) / lastWeek.count * 100);
-        message = `${week.count} transaction${week.count > 1 ? 's' : ''} cette semaine (+${growth}% vs semaine dernière).`;
-        recommendation = 'Bonne progression hebdomadaire ! Maintenez le rythme.';
-        objective = `Objectif semaine prochaine : ${Math.round(week.count * 1.2)} transactions`;
-      }
       else {
         message = `${today.count} transaction${today.count > 1 ? 's' : ''} aujourd'hui.`;
         recommendation = 'Activité stable. Continuez vos efforts.';
-        objective = `Objectif mensuel : ${month.count + 5} transactions`;
+        objective = `Objectif mensuel : ${month.thisMonth.count + 5} transactions`;
       }
 
       document.getElementById('iaMessage').textContent = message;
       document.getElementById('iaRecommendation').innerHTML = `<i class="fas fa-lightbulb"></i> ${recommendation}`;
       document.getElementById('iaObjective').textContent = objective;
     }
-
-    // ===== MISE À JOUR DES STATISTIQUES =====
-    function updateAll() {
-      // Chiffre d'affaires total
-      document.getElementById('totalRevenue').textContent = formatCurrency(getTotalProfit());
+  
+     // ===== AFFICHAGE DES VUES DÉTAILLÉES =====
+    function showCardDetail(cardType) {
+      navigationState.currentCard = cardType;
+      navigationState.viewLevel = 'detail';
       
-      // Stats du jour
+      const detailContainer = document.getElementById('detailContainer');
+      
+      if (cardType === 'year') {
+        showYearDetail();
+      } else if (cardType === 'month') {
+        showMonthDetail();
+      } else if (cardType === 'week') {
+        showWeekDetail();
+      } else if (cardType === 'today') {
+        showTodayDetail();
+      }
+    }
+
+    function showYearDetail() {
+      const months = getMonthsStats(navigationState.selectedYear);
+      const yearStats = getYearStats(navigationState.selectedYear);
+      
+      let monthsHtml = '';
+      months.forEach(m => {
+        monthsHtml += `
+          <div class="detail-item">
+            <div class="detail-item-left">
+              <span class="detail-item-name clickable" onclick="showMonthDetailFromYear(${navigationState.selectedYear}, ${m.month})">${m.name}</span>
+            </div>
+            <div class="detail-item-amount">${formatCurrency(m.profit)}</div>
+          </div>
+        `;
+      });
+      
+      const html = `
+        <div class="detail-view">
+          <div class="detail-header">
+            <div class="detail-title">
+              <i class="fas fa-calendar-alt"></i>
+              Détail par mois - ${navigationState.selectedYear}
+            </div>
+            <div>
+              <select class="selector" onchange="changeYear(this.value)">
+                ${generateYearOptions(navigationState.selectedYear)}
+              </select>
+              <button class="back-btn" onclick="hideDetail()">
+                <i class="fas fa-arrow-left"></i> Retour
+              </button>
+            </div>
+          </div>
+          <div class="detail-list">
+            ${monthsHtml}
+          </div>
+          <div class="detail-total">
+            <span>Total ${navigationState.selectedYear}</span>
+            <span>${formatCurrency(yearStats.profit)}</span>
+          </div>
+        </div>
+      `;
+      
+      document.getElementById('detailContainer').innerHTML = html;
+      document.getElementById('detailContainer').style.display = 'block';
+    }
+
+    function showMonthDetailFromYear(year, month) {
+      navigationState.selectedYear = year;
+      navigationState.selectedMonth = month;
+      showMonthDetail();
+    }
+
+    function showMonthDetail() {
+      const days = getDaysStats(navigationState.selectedYear, navigationState.selectedMonth);
+      const monthName = getMonthName(navigationState.selectedMonth);
+      
+      let daysHtml = '';
+      days.forEach(d => {
+        if (d.profit > 0) {
+          daysHtml += `
+            <div class="detail-item">
+              <div class="detail-item-left">
+                <span class="detail-item-name">${d.day} ${monthName}</span>
+              </div>
+              <div class="detail-item-amount">${formatCurrency(d.profit)}</div>
+            </div>
+          `;
+        }
+      });
+      
+      if (daysHtml === '') {
+        daysHtml = '<div class="empty-state" style="padding: 20px;">Aucune transaction ce mois</div>';
+      }
+      
+      const totalMonth = days.reduce((sum, d) => sum + d.profit, 0);
+      
+      const html = `
+        <div class="detail-view">
+          <div class="detail-header">
+            <div class="detail-title">
+              <i class="fas fa-calendar-day"></i>
+              Détail par jour - ${monthName} ${navigationState.selectedYear}
+            </div>
+            <div>
+              <button class="back-btn" onclick="showYearDetail()">
+                <i class="fas fa-arrow-left"></i> Retour aux mois
+              </button>
+            </div>
+          </div>
+          <div class="detail-list">
+            ${daysHtml}
+          </div>
+          <div class="detail-total">
+            <span>Total ${monthName}</span>
+            <span>${formatCurrency(totalMonth)}</span>
+          </div>
+        </div>
+      `;
+      
+      document.getElementById('detailContainer').innerHTML = html;
+      document.getElementById('detailContainer').style.display = 'block';
+    }
+
+    function showWeekDetail() {
+      const html = `
+        <div class="detail-view">
+          <div class="detail-header">
+            <div class="detail-title">
+              <i class="fas fa-calendar-week"></i>
+              Détail de la semaine
+            </div>
+            <button class="back-btn" onclick="hideDetail()">
+              <i class="fas fa-arrow-left"></i> Retour
+            </button>
+          </div>
+          <div class="empty-state" style="padding: 20px;">
+            Vue détaillée de la semaine à venir...
+          </div>
+        </div>
+      `;
+      
+      document.getElementById('detailContainer').innerHTML = html;
+      document.getElementById('detailContainer').style.display = 'block';
+    }
+
+    function showTodayDetail() {
+      const today = getWestAfricaTime().toISOString().split('T')[0];
+      const todayTransactions = transactions.filter(t => t.date === today);
+      
+      let transactionsHtml = '';
+      if (todayTransactions.length > 0) {
+        todayTransactions.forEach(t => {
+          transactionsHtml += `
+            <div class="detail-item">
+              <div class="detail-item-left">
+                <span class="detail-item-name">${t.client}</span>
+                <span class="client-badge">${t.type}</span>
+              </div>
+              <div class="detail-item-amount">${formatCurrency(t.amount - t.fees)}</div>
+            </div>
+          `;
+        });
+      } else {
+        transactionsHtml = '<div class="empty-state" style="padding: 20px;">Aucune transaction aujourd\'hui</div>';
+      }
+      
+      const todayProfit = todayTransactions.reduce((sum, t) => sum + (t.amount - t.fees), 0);
+      
+      const html = `
+        <div class="detail-view">
+          <div class="detail-header">
+            <div class="detail-title">
+              <i class="fas fa-calendar-day"></i>
+              Transactions du jour
+            </div>
+            <button class="back-btn" onclick="hideDetail()">
+              <i class="fas fa-arrow-left"></i> Retour
+            </button>
+          </div>
+          <div class="detail-list">
+            ${transactionsHtml}
+          </div>
+          <div class="detail-total">
+            <span>Total aujourd'hui</span>
+            <span>${formatCurrency(todayProfit)}</span>
+          </div>
+        </div>
+      `;
+      
+      document.getElementById('detailContainer').innerHTML = html;
+      document.getElementById('detailContainer').style.display = 'block';
+    }
+
+    function generateYearOptions(selectedYear) {
+      const currentYear = new Date().getFullYear();
+      let options = '';
+      for (let year = currentYear - 2; year <= currentYear + 1; year++) {
+        options += `<option value="${year}" ${year === selectedYear ? 'selected' : ''}>${year}</option>`;
+      }
+      return options;
+    }
+
+    function changeYear(year) {
+      navigationState.selectedYear = parseInt(year);
+      showYearDetail();
+    }
+
+    function hideDetail() {
+      document.getElementById('detailContainer').style.display = 'none';
+      navigationState.viewLevel = 'summary';
+    }
+
+    // ===== MISE À JOUR DE L'AFFICHAGE =====
+    function updateAll() {
       const today = getTodayStats();
       const yesterday = getYesterdayStats();
+      const week = getWeekStats();
+      const month = getMonthStats();
+      const year = getYearStats(new Date().getFullYear());
+      const totalProfit = getTotalProfit();
+      
+      // Chiffre d'affaires total
+      document.getElementById('totalRevenue').textContent = formatCurrency(totalProfit);
+      
+      // Carte Aujourd'hui
       document.getElementById('statTodayValue').textContent = today.count;
       document.getElementById('statTodayDetail').textContent = formatCurrency(today.profit);
       
@@ -1198,19 +1653,17 @@
       const progressToday = yesterday.count > 0 ? Math.min(100, (today.count / yesterday.count) * 100) : 0;
       document.getElementById('progressToday').style.width = `${progressToday}%`;
 
-      // Stats semaine
-      const week = getWeekStats();
-      const lastWeek = getLastWeekStats();
-      document.getElementById('statWeekValue').textContent = week.count;
-      document.getElementById('statWeekDetail').textContent = formatCurrency(week.profit);
+      // Carte Semaine
+      document.getElementById('statWeekValue').textContent = week.thisWeek.count;
+      document.getElementById('statWeekDetail').textContent = formatCurrency(week.thisWeek.profit);
       
       const weekTrend = document.getElementById('statWeekTrend');
-      if (week.count > lastWeek.count && lastWeek.count > 0) {
-        const percent = Math.round((week.count - lastWeek.count) / lastWeek.count * 100);
+      if (week.thisWeek.count > week.lastWeek.count && week.lastWeek.count > 0) {
+        const percent = Math.round((week.thisWeek.count - week.lastWeek.count) / week.lastWeek.count * 100);
         weekTrend.className = 'stat-trend positive';
         weekTrend.innerHTML = `<i class="fas fa-arrow-up"></i> +${percent}% vs semaine dernière`;
-      } else if (week.count < lastWeek.count) {
-        const percent = Math.round((lastWeek.count - week.count) / lastWeek.count * 100);
+      } else if (week.thisWeek.count < week.lastWeek.count) {
+        const percent = Math.round((week.lastWeek.count - week.thisWeek.count) / week.lastWeek.count * 100);
         weekTrend.className = 'stat-trend negative';
         weekTrend.innerHTML = `<i class="fas fa-arrow-down"></i> -${percent}% vs semaine dernière`;
       } else {
@@ -1218,22 +1671,20 @@
         weekTrend.innerHTML = `<i class="fas fa-minus"></i> Stable vs semaine dernière`;
       }
       
-      const progressWeek = lastWeek.count > 0 ? Math.min(100, (week.count / lastWeek.count) * 100) : 0;
+      const progressWeek = week.lastWeek.count > 0 ? Math.min(100, (week.thisWeek.count / week.lastWeek.count) * 100) : 0;
       document.getElementById('progressWeek').style.width = `${progressWeek}%`;
 
-      // Stats mois
-      const month = getMonthStats();
-      const lastMonth = getLastMonthStats();
-      document.getElementById('statMonthValue').textContent = month.count;
-      document.getElementById('statMonthDetail').textContent = formatCurrency(month.profit);
+      // Carte Mois
+      document.getElementById('statMonthValue').textContent = month.thisMonth.count;
+      document.getElementById('statMonthDetail').textContent = formatCurrency(month.thisMonth.profit);
       
       const monthTrend = document.getElementById('statMonthTrend');
-      if (month.count > lastMonth.count && lastMonth.count > 0) {
-        const percent = Math.round((month.count - lastMonth.count) / lastMonth.count * 100);
+      if (month.thisMonth.count > month.lastMonth.count && month.lastMonth.count > 0) {
+        const percent = Math.round((month.thisMonth.count - month.lastMonth.count) / month.lastMonth.count * 100);
         monthTrend.className = 'stat-trend positive';
         monthTrend.innerHTML = `<i class="fas fa-arrow-up"></i> +${percent}% vs mois dernier`;
-      } else if (month.count < lastMonth.count) {
-        const percent = Math.round((lastMonth.count - month.count) / lastMonth.count * 100);
+      } else if (month.thisMonth.count < month.lastMonth.count) {
+        const percent = Math.round((month.lastMonth.count - month.thisMonth.count) / month.lastMonth.count * 100);
         monthTrend.className = 'stat-trend negative';
         monthTrend.innerHTML = `<i class="fas fa-arrow-down"></i> -${percent}% vs mois dernier`;
       } else {
@@ -1241,22 +1692,21 @@
         monthTrend.innerHTML = `<i class="fas fa-minus"></i> Stable vs mois dernier`;
       }
       
-      const progressMonth = lastMonth.count > 0 ? Math.min(100, (month.count / lastMonth.count) * 100) : 0;
+      const progressMonth = month.lastMonth.count > 0 ? Math.min(100, (month.thisMonth.count / month.lastMonth.count) * 100) : 0;
       document.getElementById('progressMonth').style.width = `${progressMonth}%`;
 
-      // Objectif mensuel
-      const monthProfit = month.profit;
-      const goalProgress = Math.min(100, (monthProfit / MONTHLY_GOAL) * 100);
-      const remaining = Math.max(0, MONTHLY_GOAL - monthProfit);
+      // Carte Objectif annuel
+      const goalProgress = Math.min(100, (year.profit / YEARLY_GOAL) * 100);
+      const remaining = Math.max(0, YEARLY_GOAL - year.profit);
       
-      document.getElementById('statGoalValue').textContent = `${Math.round(monthProfit / 1000)}k/${Math.round(MONTHLY_GOAL / 1000)}k`;
-      document.getElementById('statGoalDetail').textContent = `${Math.round(goalProgress)}% atteint`;
-      document.getElementById('statGoalTrend').innerHTML = `<i class="fas fa-clock"></i> Reste ${formatCurrency(remaining)}`;
-      document.getElementById('progressGoal').style.width = `${goalProgress}%`;
+      document.getElementById('statYearValue').textContent = `${Math.round(year.profit / 1000)}k/${Math.round(YEARLY_GOAL / 1000)}k`;
+      document.getElementById('statYearDetail').textContent = `${Math.round(goalProgress)}% atteint`;
+      document.getElementById('statYearTrend').innerHTML = `<i class="fas fa-clock"></i> Reste ${formatCurrency(remaining)}`;
+      document.getElementById('progressYear').style.width = `${goalProgress}%`;
 
       // Stats générales
       if (transactions.length > 0) {
-        document.getElementById('revenueStats').innerHTML = `${transactions.length} transaction${transactions.length > 1 ? 's' : ''} • Moyenne: ${formatCurrency(getTotalProfit() / transactions.length)}`;
+        document.getElementById('revenueStats').innerHTML = `${transactions.length} transaction${transactions.length > 1 ? 's' : ''} • Moyenne: ${formatCurrency(totalProfit / transactions.length)}`;
       }
 
       // Mise à jour IA
@@ -1386,6 +1836,9 @@
       
       document.getElementById('btnAdd').classList.toggle('active', section === 'add');
       document.getElementById('btnList').classList.toggle('active', section === 'list');
+      
+      // Cacher la vue détaillée si on change de section
+      hideDetail();
     }
 
     // ===== EXPORT =====
@@ -1403,11 +1856,6 @@
       a.download = `transactions_${new Date().toISOString().split('T')[0]}.json`;
       a.click();
       URL.revokeObjectURL(url);
-    }
-
-    // ===== GESTION FINANCIÈRE =====
-    function openFinance() {
-      alert('La page de gestion financière (gestion.html) sera créée prochainement !');
     }
 
     // ===== EVENT =====
