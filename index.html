@@ -898,7 +898,7 @@
       <div class="revenue-amount" id="totalRevenue">0 FCFA</div>
       <div class="revenue-stats" id="revenueStats">Aucune transaction</div>
     </div>
-
+    
     <!-- CARTE IA -->
     <div class="ia-card">
       <div class="ia-header">
@@ -916,7 +916,7 @@
         Objectif : 5 transactions cette semaine
       </div>
     </div>
-    
+
     <!-- GRILLE DE STATISTIQUES (4 CARTES CLIQUABLES) -->
     <div class="stats-grid">
       <!-- Carte 1 : Aujourd'hui -->
@@ -935,7 +935,7 @@
         </div>
       </div>
 
-      <!-- Carte 2 : Cette semaine -->
+       <!-- Carte 2 : Cette semaine -->
       <div class="stat-card clickable" onclick="showCardDetail('week')" id="cardWeek">
         <div class="stat-header">
           <i class="fas fa-calendar-week"></i>
@@ -987,7 +987,7 @@
     <!-- CONTENEUR POUR LES VUES DÉTAILLÉES -->
     <div id="detailContainer" style="display: none;"></div>
 
-    <!-- BARRE DE NAVIGATION -->
+    <!-- BARRE DE NAVIGATION AVEC BOUTON GESTION -->
     <div class="nav-bar">
       <button class="nav-btn active" onclick="showSection('add')" id="btnAdd">
         <i class="fas fa-plus"></i>
@@ -997,9 +997,8 @@
         <i class="fas fa-list"></i>
         Liste
       </button>
-      <button class="nav-btn" onclick="exportData()">
-        <i class="fas fa-download"></i>
-        Export
+      <button class="nav-btn" onclick="openGestion()">
+        <i class="fas fa-chart-pie"></i> Gestion
       </button>
     </div>
 
@@ -1077,7 +1076,7 @@
     let transactions = [];
     let currentType = 'standard';
     const PRICES = { standard: 2500, promo: 1500 };
-    const YEARLY_GOAL = 1200000; // Objectif annuel : 1 200 000 FCFA
+    const YEARLY_GOAL = 100000; // Objectif annuel : 100 000 FCFA
 
     // États de navigation
     let navigationState = {
@@ -1409,8 +1408,8 @@
       document.getElementById('iaRecommendation').innerHTML = `<i class="fas fa-lightbulb"></i> ${recommendation}`;
       document.getElementById('iaObjective').textContent = objective;
     }
-  
-     // ===== AFFICHAGE DES VUES DÉTAILLÉES =====
+
+    // ===== AFFICHAGE DES VUES DÉTAILLÉES =====
     function showCardDetail(cardType) {
       navigationState.currentCard = cardType;
       navigationState.viewLevel = 'detail';
@@ -1479,8 +1478,8 @@
       navigationState.selectedMonth = month;
       showMonthDetail();
     }
-
-    function showMonthDetail() {
+  
+  function showMonthDetail() {
       const days = getDaysStats(navigationState.selectedYear, navigationState.selectedMonth);
       const monthName = getMonthName(navigationState.selectedMonth);
       
@@ -1841,21 +1840,9 @@
       hideDetail();
     }
 
-    // ===== EXPORT =====
-    function exportData() {
-      if (transactions.length === 0) {
-        alert('Aucune donnée à exporter');
-        return;
-      }
-
-      const data = JSON.stringify(transactions, null, 2);
-      const blob = new Blob([data], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `transactions_${new Date().toISOString().split('T')[0]}.json`;
-      a.click();
-      URL.revokeObjectURL(url);
+    // ===== NOUVELLE FONCTION GESTION =====
+    function openGestion() {
+      window.open('gestion.html', '_blank');
     }
 
     // ===== EVENT =====

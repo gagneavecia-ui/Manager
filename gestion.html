@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Mon Entreprise • Gestion d'argent</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ===== VARIABLES DE THÈME ===== */
+    :root {
+      --bg-primary: #030303;
+      --bg-secondary: #0a0a0a;
+      --bg-card: #111111;
+      --text-primary: #ffffff;
+      --text-secondary: #9ca3af;
+      --border: #1f1f1f;
+      --accent: #2c3e50;
+      --accent-hover: #34495e;
+      --success: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --info: #3b82f6;
+      --shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
+    }
+
+    [data-theme="light"] {
+      --bg-primary: #f8fafc;
+      --bg-secondary: #ffffff;
+      --bg-card: #ffffff;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --border: #e2e8f0;
+      --accent: #2c3e50;
+      --accent-hover: #34495e;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      padding: 20px;
+      min-height: 100vh;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.3px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .theme-toggle {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 40px;
+      padding: 4px;
+      display: flex;
+      gap: 4px;
+    }
+
+    .theme-btn {
+      padding: 8px 20px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      border-radius: 40px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .theme-btn.active {
+      background: var(--accent);
+      color: white;
+    }
+
+    .back-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 10px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .back-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ===== SALUTATION ===== */
+    .greeting {
+      margin-bottom: 24px;
+    }
+
+    .greeting h1 {
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .greeting p {
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    /* ===== CARTE ARGENT TOTAL ===== */
+    .money-card {
+      background: linear-gradient(145deg, var(--accent), #1a2632);
+      border-radius: 28px;
+      padding: 32px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .money-card::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: rotate 20s linear infinite;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .money-label {
+      color: rgba(255,255,255,0.8);
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .money-amount {
+      color: white;
+      font-size: 52px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -1px;
+      position: relative;
+      z-index: 1;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    .money-detail {
+      color: rgba(255,255,255,0.7);
+      font-size: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== GRILLE STATISTIQUES ===== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 600px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .stat-card {
+      background-color: var(--bg-card);
+      border-radius: 20px;
+      padding: 20px;
+      border: 1px solid var(--border);
+    }
+
+    .stat-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      color: var(--text-secondary);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .stat-header i {
+      color: var(--accent);
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .stat-sub {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    /* ===== ACTIONS RAPIDES ===== */
+    .actions-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 600px) {
+      .actions-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .action-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .action-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+      box-shadow: var(--shadow);
+    }
+
+    .action-card i {
+      font-size: 32px;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .action-card h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--text-primary);
+    }
+
+    .action-card p {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .action-card.depot:hover i { color: var(--success); }
+    .action-card.retrait:hover i { color: var(--warning); }
+    .action-card.depense:hover i { color: var(--danger); }
+
+    /* ===== FORMULAIRES MODAUX ===== */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.8);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      backdrop-filter: blur(5px);
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--bg-card);
+      border-radius: 24px;
+      padding: 24px;
+      width: 90%;
+      max-width: 400px;
+      border: 1px solid var(--border);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-header h2 {
+      font-size: 20px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-header i {
+      color: var(--accent);
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .close-btn:hover {
+      color: var(--danger);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 14px;
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 15px;
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: #0d9488;
+      transform: translateY(-2px);
+    }
+
+    .btn-warning {
+      background: var(--warning);
+      color: white;
+    }
+
+    .btn-warning:hover {
+      background: #d97706;
+      transform: translateY(-2px);
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+      transform: translateY(-2px);
+    }
+
+    /* ===== HISTORIQUE ===== */
+    .history-card {
+      background-color: var(--bg-card);
+      border-radius: 24px;
+      padding: 24px;
+      border: 1px solid var(--border);
+    }
+
+    .history-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .history-header h2 {
+      font-size: 18px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .history-header i {
+      color: var(--accent);
+    }
+
+    .history-list {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .history-list::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .history-list::-webkit-scrollbar-track {
+      background: var(--border);
+      border-radius: 10px;
+    }
+
+    .history-list::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 10px;
+    }
+
+    .history-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .history-item:last-child {
+      border-bottom: none;
+    }
+
+    .history-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .history-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .history-icon.depot { background: var(--info); color: white; }
+    .history-icon.retrait { background: var(--warning); color: white; }
+    .history-icon.depense { background: var(--danger); color: white; }
+
+    .history-details h4 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--text-primary);
+    }
+
+    .history-date {
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    .history-amount {
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .history-amount.positive { color: var(--success); }
+    .history-amount.negative { color: var(--danger); }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-secondary);
+    }
+
+    .empty-state i {
+      font-size: 48px;
+      color: var(--border);
+      margin-bottom: 16px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 600px) {
+      .money-amount {
+        font-size: 36px;
+      }
+
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .header-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="container">
+    <!-- HEADER -->
+    <div class="header">
+      <div class="logo">GESTION FINANCIÈRE</div>
+      <div class="header-actions">
+        <div class="theme-toggle">
+          <button class="theme-btn" onclick="setTheme('dark')" id="themeDark">Sombre</button>
+          <button class="theme-btn" onclick="setTheme('light')" id="themeLight">Clair</button>
+        </div>
+        <a href="index.html" class="back-btn">
+          <i class="fas fa-arrow-left"></i>
+          Accueil
+        </a>
+      </div>
+    </div>
+
+    <!-- SALUTATION -->
+    <div class="greeting">
+      <h1>💰 Gestion d'argent</h1>
+      <p>Suivez votre capital total et vos mouvements financiers</p>
+    </div>
+
+    <!-- CARTE ARGENT TOTAL -->
+    <div class="money-card">
+      <div class="money-label">
+        <i class="fas fa-coins"></i>
+        ARGENT TOTAL
+      </div>
+      <div class="money-amount" id="totalMoney">0 FCFA</div>
+      <div class="money-detail" id="moneyDetail">Dernière mise à jour en temps réel</div>
+    </div>
+
+    <!-- STATISTIQUES RAPIDES -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-header">
+          <i class="fas fa-coins"></i>
+          <span>Opérations</span>
+        </div>
+        <div class="stat-value" id="totalOperations">0</div>
+        <div class="stat-sub" id="operationsCount">0 opération</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-header">
+          <i class="fas fa-download"></i>
+          <span>Dépôts</span>
+        </div>
+        <div class="stat-value" id="totalDeposits">0 FCFA</div>
+        <div class="stat-sub" id="depositsCount">0 dépôt</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-header">
+          <i class="fas fa-upload"></i>
+          <span>Dépenses</span>
+        </div>
+        <div class="stat-value" id="totalExpenses">0 FCFA</div>
+        <div class="stat-sub" id="expensesCount">0 dépense</div>
+      </div>
+    </div>
+
+    <!-- ACTIONS RAPIDES -->
+    <div class="actions-grid">
+      <div class="action-card depot" onclick="openModal('depot')">
+        <i class="fas fa-plus-circle"></i>
+        <h3>Dépôt</h3>
+        <p>Ajouter de l'argent</p>
+      </div>
+
+      <div class="action-card depense" onclick="openModal('depense')">
+        <i class="fas fa-receipt"></i>
+        <h3>Dépense</h3>
+        <p>Enregistrer une dépense</p>
+      </div>
+    </div>
+
+    <!-- HISTORIQUE DES TRANSACTIONS (UNIQUEMENT DÉPÔTS, RETRAITS, DÉPENSES) -->
+    <div class="history-card">
+      <div class="history-header">
+        <h2>
+          <i class="fas fa-history"></i>
+          Historique des opérations
+        </h2>
+        <span class="stat-sub" id="transactionsCount">0 opération</span>
+      </div>
+
+      <div class="history-list" id="historyList">
+        <div class="empty-state">
+          <i class="fas fa-receipt"></i>
+          <p>Aucune opération de gestion</p>
+          <p style="font-size: 12px; margin-top: 8px;">Ajoutez des dépôts, retraits ou dépenses</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL DÉPÔT -->
+    <div class="modal" id="modalDepot">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>
+            <i class="fas fa-plus-circle" style="color: var(--success);"></i>
+            Ajouter un dépôt
+          </h2>
+          <button class="close-btn" onclick="closeModal('depot')">&times;</button>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Montant (FCFA)</label>
+          <input type="number" class="form-control" id="depotAmount" placeholder="Ex: 50000" min="1">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <input type="text" class="form-control" id="depotDesc" placeholder="Ex: Dépôt personnel">
+        </div>
+        <button class="btn btn-success" onclick="addDepot()">
+          <i class="fas fa-check"></i>
+          Ajouter le dépôt
+        </button>
+      </div>
+    </div>
+
+    <!-- MODAL RETRAIT -->
+    <div class="modal" id="modalRetrait">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>
+            <i class="fas fa-minus-circle" style="color: var(--warning);"></i>
+            Effectuer un retrait
+          </h2>
+          <button class="close-btn" onclick="closeModal('retrait')">&times;</button>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Montant (FCFA)</label>
+          <input type="number" class="form-control" id="retraitAmount" placeholder="Ex: 20000" min="1">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <input type="text" class="form-control" id="retraitDesc" placeholder="Ex: Retrait personnel">
+        </div>
+        <button class="btn btn-warning" onclick="addRetrait()">
+          <i class="fas fa-check"></i>
+          Effectuer le retrait
+        </button>
+      </div>
+    </div>
+
+    <!-- MODAL DÉPENSE -->
+    <div class="modal" id="modalDepense">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>
+            <i class="fas fa-receipt" style="color: var(--danger);"></i>
+            Enregistrer une dépense
+          </h2>
+          <button class="close-btn" onclick="closeModal('depense')">&times;</button>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Montant (FCFA)</label>
+          <input type="number" class="form-control" id="depenseAmount" placeholder="Ex: 30000" min="1">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <input type="text" class="form-control" id="depenseDesc" placeholder="Ex: Loyer, publicité, stock...">
+        </div>
+        <button class="btn btn-danger" onclick="addDepense()">
+          <i class="fas fa-check"></i>
+          Enregistrer la dépense
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===== DONNÉES =====
+    let moneyData = {
+      total: 0,
+      sales: 0,        // Des ventes (pour le calcul, mais pas dans l'historique)
+      deposits: 0,      // Total des dépôts
+      expenses: 0,      // Total des dépenses (retraits + dépenses)
+      transactions: []  // ← UNIQUEMENT dépôts, retraits, dépenses
+    };
+
+    // ===== THÈME =====
+    function setTheme(theme) {
+      document.body.setAttribute('data-theme', theme);
+      localStorage.setItem('gestionTheme', theme);
+      
+      document.getElementById('themeDark').classList.toggle('active', theme === 'dark');
+      document.getElementById('themeLight').classList.toggle('active', theme === 'light');
+    }
+
+    function loadTheme() {
+      const savedTheme = localStorage.getItem('gestionTheme') || 'dark';
+      setTheme(savedTheme);
+    }
+
+    // ===== ✅ CHARGEMENT CORRIGÉ (PAS DE VENTES DANS L'HISTORIQUE) =====
+    function loadData() {
+      // Réinitialiser les données
+      moneyData = {
+        total: 0,
+        sales: 0,
+        deposits: 0,
+        expenses: 0,
+        transactions: [] // Uniquement dépôts, retraits, dépenses
+      };
+
+      // 1️⃣ CHARGER les ventes (pour le calcul du total UNIQUEMENT)
+      const accueilData = localStorage.getItem('mes_transactions');
+      if (accueilData) {
+        const ventes = JSON.parse(accueilData);
+        moneyData.sales = ventes.reduce((sum, v) => sum + (v.amount - v.fees), 0);
+        // ❌ NE PAS AJOUTER les ventes à l'historique
+      }
+
+      // 2️⃣ CHARGER les opérations de gestion (dépôts, retraits, dépenses)
+      const savedData = localStorage.getItem('moneyData');
+      if (savedData) {
+        const parsed = JSON.parse(savedData);
+        moneyData.deposits = parsed.deposits || 0;
+        moneyData.expenses = parsed.expenses || 0;
+        
+       // ✅ Ajouter UNIQUEMENT les transactions de gestion
+        if (parsed.transactions && Array.isArray(parsed.transactions)) {
+          moneyData.transactions = parsed.transactions.filter(t => 
+            t.type === 'depot' || t.type === 'retrait' || t.type === 'depense'
+          );
+        }
+      }
+
+      // 3️⃣ CALCULER le total
+      moneyData.total = moneyData.sales + moneyData.deposits - moneyData.expenses;
+      
+      // 4️⃣ TRIER par date (plus récent en premier)
+      moneyData.transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+      
+      updateDisplay();
+    }
+
+    // ===== ✅ SAUVEGARDE CORRIGÉE =====
+    function saveData() {
+      // Sauvegarder UNIQUEMENT les données de gestion (pas les ventes)
+      const gestionData = {
+        deposits: moneyData.deposits,
+        expenses: moneyData.expenses,
+        transactions: moneyData.transactions.filter(t => 
+          t.type === 'depot' || t.type === 'retrait' || t.type === 'depense'
+        )
+      };
+      
+      localStorage.setItem('moneyData', JSON.stringify(gestionData));
+    }
+
+    // ===== MISE À JOUR DE L'AFFICHAGE =====
+    function updateDisplay() {
+      // Afficher l'argent total
+      document.getElementById('totalMoney').textContent = formatCurrency(moneyData.total);
+      
+      // Compter les transactions par type
+      const depositsCount = moneyData.transactions.filter(t => t.type === 'depot').length;
+      const retraitsCount = moneyData.transactions.filter(t => t.type === 'retrait').length;
+      const depensesCount = moneyData.transactions.filter(t => t.type === 'depense').length;
+      const totalGestion = depositsCount + retraitsCount + depensesCount;
+      
+      // Calculer les totaux par type
+      const totalDeposits = moneyData.transactions
+        .filter(t => t.type === 'depot')
+        .reduce((sum, t) => sum + t.amount, 0);
+      
+      const totalExpenses = moneyData.transactions
+        .filter(t => t.type === 'retrait' || t.type === 'depense')
+        .reduce((sum, t) => sum + Math.abs(t.amount), 0);
+      
+      // Afficher les stats
+      document.getElementById('totalOperations').textContent = totalGestion;
+      document.getElementById('operationsCount').textContent = `${totalGestion} opération${totalGestion > 1 ? 's' : ''}`;
+      
+      document.getElementById('totalDeposits').textContent = formatCurrency(totalDeposits);
+      document.getElementById('depositsCount').textContent = `${depositsCount} dépôt${depositsCount > 1 ? 's' : ''}`;
+      
+      document.getElementById('totalExpenses').textContent = formatCurrency(totalExpenses);
+      document.getElementById('expensesCount').textContent = `${retraitsCount + depensesCount} dépense${(retraitsCount + depensesCount) > 1 ? 's' : ''}`;
+      
+      document.getElementById('transactionsCount').textContent = `${totalGestion} opération${totalGestion > 1 ? 's' : ''}`;
+      
+      // Afficher l'historique
+      displayHistory();
+    }
+
+    // ===== ✅ AFFICHAGE DE L'HISTORIQUE (UNIQUEMENT DÉPÔTS, RETRAITS, DÉPENSES) =====
+    function displayHistory() {
+      const container = document.getElementById('historyList');
+      
+      if (moneyData.transactions.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-receipt"></i>
+            <p>Aucune opération de gestion</p>
+            <p style="font-size: 12px; margin-top: 8px;">Ajoutez des dépôts, retraits ou dépenses</p>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      moneyData.transactions.slice(0, 20).forEach(t => {
+        const isPositive = t.type === 'depot';
+        const icon = getIconForType(t.type);
+        const iconClass = getIconClass(t.type);
+        
+        html += `
+          <div class="history-item">
+            <div class="history-info">
+              <div class="history-icon ${iconClass}">
+                <i class="fas ${icon}"></i>
+              </div>
+              <div class="history-details">
+                <h4>${t.description}</h4>
+                <div class="history-date">${formatDisplayDate(t.date)}</div>
+              </div>
+            </div>
+            <div class="history-amount ${isPositive ? 'positive' : 'negative'}">
+              ${isPositive ? '+' : '-'} ${formatCurrency(Math.abs(t.amount))}
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function getIconForType(type) {
+      switch(type) {
+        case 'depot': return 'fa-plus-circle';
+        case 'retrait': return 'fa-minus-circle';
+        case 'depense': return 'fa-receipt';
+        default: return 'fa-circle';
+      }
+    }
+
+    function getIconClass(type) {
+      switch(type) {
+        case 'depot': return 'depot';
+        case 'retrait': return 'retrait';
+        case 'depense': return 'depense';
+        default: return '';
+      }
+    }
+
+    // ===== GESTION DES MODAUX =====
+    function openModal(type) {
+      document.getElementById(`modal${type.charAt(0).toUpperCase() + type.slice(1)}`).classList.add('active');
+    }
+
+    function closeModal(type) {
+      document.getElementById(`modal${type.charAt(0).toUpperCase() + type.slice(1)}`).classList.remove('active');
+      // Reset des champs
+      document.getElementById(`${type}Amount`).value = '';
+      document.getElementById(`${type}Desc`).value = '';
+    }
+
+    // ===== ACTIONS =====
+    function addDepot() {
+      const amount = parseInt(document.getElementById('depotAmount').value);
+      const desc = document.getElementById('depotDesc').value.trim() || 'Dépôt';
+
+      if (!amount || amount <= 0) {
+        alert('Veuillez entrer un montant valide');
+        return;
+      }
+
+      const transaction = {
+        id: `depot_${Date.now()}`,
+        type: 'depot',
+        amount: amount,
+        description: desc,
+        date: new Date().toISOString().split('T')[0]
+      };
+
+      moneyData.transactions.unshift(transaction);
+      moneyData.deposits += amount;
+      moneyData.total = moneyData.sales + moneyData.deposits - moneyData.expenses;
+      
+      saveData();
+      updateDisplay();
+      closeModal('depot');
+      
+      alert('✅ Dépôt ajouté avec succès');
+    }
+
+    function addRetrait() {
+      const amount = parseInt(document.getElementById('retraitAmount').value);
+      const desc = document.getElementById('retraitDesc').value.trim() || 'Retrait';
+
+      if (!amount || amount <= 0) {
+        alert('Veuillez entrer un montant valide');
+        return;
+      }
+
+      if (amount > moneyData.total) {
+        alert('⚠️ Fonds insuffisants !');
+        return;
+      }
+
+      const transaction = {
+        id: `retrait_${Date.now()}`,
+        type: 'retrait',
+        amount: -amount,
+        description: desc,
+        date: new Date().toISOString().split('T')[0]
+      };
+
+      moneyData.transactions.unshift(transaction);
+      moneyData.expenses += amount;
+      moneyData.total = moneyData.sales + moneyData.deposits - moneyData.expenses;
+      
+      saveData();
+      updateDisplay();
+      closeModal('retrait');
+      
+      alert('✅ Retrait effectué');
+    }
+
+    function addDepense() {
+      const amount = parseInt(document.getElementById('depenseAmount').value);
+      const desc = document.getElementById('depenseDesc').value.trim() || 'Dépense';
+
+      if (!amount || amount <= 0) {
+        alert('Veuillez entrer un montant valide');
+        return;
+      }
+
+      if (amount > moneyData.total) {
+        alert('⚠️ Fonds insuffisants !');
+        return;
+      }
+
+      const transaction = {
+        id: `depense_${Date.now()}`,
+        type: 'depense',
+        amount: -amount,
+        description: desc,
+        date: new Date().toISOString().split('T')[0]
+      };
+
+      moneyData.transactions.unshift(transaction);
+      moneyData.expenses += amount;
+      moneyData.total = moneyData.sales + moneyData.deposits - moneyData.expenses;
+      
+      saveData();
+      updateDisplay();
+      closeModal('depense');
+      
+      alert('✅ Dépense enregistrée');
+    }
+
+    // ===== ✅ AUTO-REFRESH CORRIGÉ =====
+    function startAutoRefresh() {
+      setInterval(() => {
+        const accueilData = localStorage.getItem('mes_transactions');
+        if (accueilData) {
+          const ventes = JSON.parse(accueilData);
+          const totalSales = ventes.reduce((sum, v) => sum + (v.amount - v.fees), 0);
+          
+          // Mettre à jour uniquement si le total des ventes a changé
+          if (totalSales !== moneyData.sales) {
+            // ✅ Mettre à jour le total des ventes (pour le calcul)
+            moneyData.sales = totalSales;
+            
+            // ❌ NE PAS toucher aux transactions de gestion
+            // moneyData.transactions reste inchangé
+            
+            // Recalculer le total
+            moneyData.total = moneyData.sales + moneyData.deposits - moneyData.expenses;
+            
+            // Mettre à jour l'affichage
+            updateDisplay();
+          }
+        }
+      }, 5000);
+    }
+
+    // ===== FORMATAGE =====
+    function formatCurrency(amount) {
+      return amount.toLocaleString('fr-FR') + ' FCFA';
+    }
+
+    function formatDisplayDate(dateStr) {
+      const [y, m, d] = dateStr.split('-');
+      return `${d}/${m}/${y}`;
+    }
+
+    // ===== INITIALISATION =====
+    function init() {
+      loadTheme();
+      loadData();
+      startAutoRefresh();
+    }
+
+    init();
+  </script>
+</body>
+</html>
