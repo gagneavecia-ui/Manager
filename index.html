@@ -12,19 +12,22 @@
     /* ===== VARIABLES DE THÈME ===== */
     :root {
       /* Thème sombre ultra-profond (par défaut) */
-      --bg-primary: #030303;
-      --bg-secondary: #0a0a0a;
-      --bg-card: #111111;
-      --text-primary: #ffffff;
-      --text-secondary: #9ca3af;
-      --border: #1f1f1f;
+      --bg-primary: #000000;
+      --bg-secondary: #050505;
+      --bg-card: #0a0a0a;
+      --text-primary: #f0f0f0;
+      --text-secondary: #6b7280;
+      --border: #161616;
       --accent: #2c3e50;
       --accent-hover: #34495e;
       --success: #10b981;
       --danger: #ef4444;
       --warning: #f59e0b;
       --info: #3b82f6;
-      --shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.95);
+      --expired: #ef4444;
+      --soon: #f59e0b;
+      --active: #10b981;
     }
 
     /* Thème clair */
@@ -47,6 +50,18 @@
       box-sizing: border-box;
     }
 
+    .revenue-sparkline {
+      display: none;
+      margin-top: 16px;
+    }
+
+    .revenue-sparkline svg {
+      width: 100%;
+      height: 48px;
+    }
+
+    [data-theme="dark"] .revenue-sparkline { display: block; }
+
     body {
       font-family: 'Inter', sans-serif;
       background-color: var(--bg-primary);
@@ -63,13 +78,25 @@
 
     /* ===== COMPOSANTS ===== */
     .card {
-      background-color: var(--bg-card);
+      background: linear-gradient(145deg, #080808, #050505);
       border-radius: 24px;
       padding: 24px;
       margin-bottom: 20px;
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
+      border: 1px solid #0f0f0f;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 1);
       transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
     }
 
     .card-header {
@@ -156,10 +183,44 @@
       transition: all 0.3s ease;
     }
 
-    /* Thème sombre : carte blanche */
+    /* Thème sombre : carte blanche spectaculaire */
     [data-theme="dark"] .revenue-card {
       background: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: none;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255,255,255,0.03);
+      position: relative;
+      overflow: hidden;
+    }
+    [data-theme="dark"] .revenue-sparkline { display: block; }
+    
+    /* Amélioration carte revenue-card générale */
+    .revenue-card {
+      border-radius: 28px;
+      padding: 28px 28px 20px;
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
+    }
+    
+    .revenue-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    
+    .revenue-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      background: rgba(0,0,0,0.07);
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #6b7280;
+      margin-bottom: 8px;
     }
 
     [data-theme="dark"] .revenue-label {
@@ -213,128 +274,173 @@
     /* ===== GRILLE DE STATISTIQUES ===== */
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
       margin-bottom: 24px;
     }
 
-    @media (max-width: 768px) {
-      .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
     @media (max-width: 480px) {
-      .stats-grid {
-        grid-template-columns: 1fr;
-      }
+      .stats-grid { grid-template-columns: 1fr; }
     }
 
     .stat-card {
-      background-color: var(--bg-card);
-      border-radius: 20px;
-      padding: 20px;
-      border: 1px solid var(--border);
-      transition: all 0.2s;
+      background: #080808;
+      border-radius: 22px;
+      padding: 0;
+      border: 1px solid #181818;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
       cursor: pointer;
       position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.8);
     }
 
     .stat-card:hover {
-      transform: translateY(-4px);
-      border-color: var(--accent);
-      box-shadow: var(--shadow);
+      transform: translateY(-4px) scale(1.01);
+      border-color: #252525;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.95);
     }
 
-    .stat-card.clickable {
-      cursor: pointer;
+    .stat-card.clickable { cursor: pointer; }
+
+    .stat-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 18px 0 18px;
     }
 
-    .stat-card.clickable:after {
-      content: '🔍';
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 12px;
-      opacity: 0.5;
-      transition: opacity 0.2s;
-    }
-
-    .stat-card.clickable:hover:after {
-      opacity: 1;
-    }
-
-    .stat-header {
+    .stat-card-label {
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 12px;
     }
 
-    .stat-header i {
-      color: var(--accent);
-      font-size: 16px;
+    .stat-icon-wrap {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
     }
 
-    .stat-header span {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-secondary);
+    .stat-icon-wrap.today   { background: rgba(59,130,246,0.15); color: #3b82f6; }
+    .stat-icon-wrap.week    { background: rgba(16,185,129,0.15); color: #10b981; }
+    .stat-icon-wrap.month   { background: rgba(245,158,11,0.15);  color: #f59e0b; }
+    .stat-icon-wrap.year    { background: rgba(239,68,68,0.15);   color: #ef4444; }
+
+    .stat-card-label span {
+      font-size: 11px;
+      font-weight: 600;
+      color: #555;
       text-transform: uppercase;
-      letter-spacing: 0.3px;
+      letter-spacing: 0.8px;
+    }
+
+    .stat-card-arrow {
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      background: #111;
+      border: 1px solid #1e1e1e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: #444;
+      transition: all 0.2s;
+    }
+
+    .stat-card:hover .stat-card-arrow { color: #888; border-color: #2a2a2a; }
+
+    .stat-card-body {
+      padding: 12px 18px 0 18px;
     }
 
     .stat-value {
-      font-size: 24px;
+      font-size: 30px;
       font-weight: 700;
-      color: var(--text-primary);
-      margin-bottom: 8px;
+      color: #f5f5f5;
+      letter-spacing: -1px;
+      line-height: 1.1;
+      margin-bottom: 3px;
     }
 
     .stat-detail {
-      font-size: 13px;
-      color: var(--text-secondary);
+      font-size: 12px;
+      color: #4a4a4a;
       margin-bottom: 8px;
+      font-weight: 500;
     }
 
     .stat-trend {
-      font-size: 12px;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 4px;
-      padding: 4px 0;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 20px;
+      margin-bottom: 10px;
     }
 
-    .stat-trend.positive {
-      color: var(--success);
+    .stat-trend.positive { background: rgba(16,185,129,0.1); color: #10b981; border: 1px solid rgba(16,185,129,0.15); }
+    .stat-trend.negative { background: rgba(239,68,68,0.1);  color: #ef4444; border: 1px solid rgba(239,68,68,0.15); }
+    .stat-trend i { font-size: 9px; }
+
+    .stat-chart-zone {
+      margin: 0 -1px;
+      height: 64px;
+      position: relative;
     }
 
-    .stat-trend.negative {
-      color: var(--danger);
+    .stat-chart-zone svg { width: 100%; height: 100%; display: block; }
+
+    .stat-ring-zone {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 18px 16px 18px;
+      gap: 12px;
     }
 
-    .stat-trend.warning {
-      color: var(--warning);
+    .stat-ring-info { flex: 1; }
+    .stat-ring-info .label { font-size: 10px; color: #3a3a3a; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 4px; }
+    .stat-ring-info .value { font-size: 13px; font-weight: 700; color: #888; }
+
+    .ring-svg-wrap {
+      position: relative;
+      width: 52px;
+      height: 52px;
+      flex-shrink: 0;
     }
 
-    .stat-trend i {
+    .ring-svg-wrap .ring-pct {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 10px;
+      font-weight: 700;
+      color: #ef4444;
     }
 
-    .stat-progress {
-      margin-top: 12px;
-      height: 4px;
-      background: var(--border);
-      border-radius: 4px;
-      overflow: hidden;
+    .stat-bottom-bar {
+      padding: 8px 18px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
-    .progress-bar {
-      height: 100%;
-      background: var(--accent);
-      border-radius: 4px;
-      transition: width 0.3s ease;
-    }
+    .stat-bottom-bar .mini-label { font-size: 10px; color: #2e2e2e; text-transform: uppercase; letter-spacing: 0.6px; }
+
+    /* compatibilité : cacher anciens éléments */
+    .stat-progress { display: none; }
+    .progress-bar  { display: none; }
+    .stat-header   { display: none; }
 
     /* ===== VUE DÉTAILLÉE ===== */
     .detail-view {
@@ -475,68 +581,109 @@
     }
 
     /* ===== CARTE IA ===== */
+    /* ===== MANAGER IA ===== */
     .ia-card {
-      background-color: var(--bg-card);
+      background: #050505;
       border-radius: 24px;
-      padding: 24px;
       margin-bottom: 20px;
-      border: 1px solid var(--border);
+      border: 1px solid #1a1a1a;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.95);
     }
-
-    .ia-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 16px;
+    .ia-top-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 18px; border-bottom: 1px solid #0e0e0e;
     }
-
-    .ia-header i {
-      color: var(--accent);
-      font-size: 18px;
+    .ia-identity { display: flex; align-items: center; gap: 11px; }
+    .ia-avatar {
+      width: 36px; height: 36px; border-radius: 11px;
+      background: linear-gradient(135deg, #1e3a5f, #0f2340);
+      border: 1px solid #2a4a6f;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; color: #60a5fa; flex-shrink: 0; position: relative;
     }
-
-    .ia-header span {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--accent);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+    .ia-avatar::after {
+      content: ''; position: absolute; bottom: -2px; right: -2px;
+      width: 9px; height: 9px; background: #10b981;
+      border-radius: 50%; border: 2px solid #050505;
     }
-
-    .ia-message {
-      font-size: 15px;
-      line-height: 1.6;
-      color: var(--text-primary);
-      margin-bottom: 16px;
+    .ia-name-block .ia-name { font-size: 13px; font-weight: 700; color: #e0e0e0; }
+    .ia-name-block .ia-role { font-size: 10px; color: #333; text-transform: uppercase; letter-spacing: 0.8px; }
+    .ia-mode-toggle { display: flex; gap: 6px; }
+    .ia-mode-btn {
+      padding: 4px 11px; font-size: 11px; font-weight: 600;
+      border: 1px solid #1e1e1e; background: transparent; color: #444;
+      border-radius: 20px; cursor: pointer; transition: all 0.2s;
+      font-family: "Inter", sans-serif;
     }
-
-    .ia-recommendation {
-      background-color: var(--bg-primary);
-      border-radius: 16px;
-      padding: 16px;
-      font-size: 14px;
-      color: var(--text-primary);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 12px;
+    .ia-mode-btn.active { background: #0f2340; border-color: #2a4a6f; color: #60a5fa; }
+    .ia-chat-zone { padding: 14px 18px; min-height: 80px; }
+    .ia-bubble { display: flex; gap: 10px; margin-bottom: 10px; animation: bubbleIn 0.35s ease; }
+    @keyframes bubbleIn { from { opacity:0; transform:translateY(8px);} to { opacity:1; transform:translateY(0);} }
+    .ia-bubble-avatar {
+      width: 26px; height: 26px; border-radius: 8px;
+      background: linear-gradient(135deg, #1e3a5f, #0f2340);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; color: #60a5fa; flex-shrink: 0; margin-top: 2px;
     }
-
-    .ia-recommendation i {
-      color: var(--accent);
-      font-size: 16px;
+    .ia-bubble-content { flex: 1; }
+    .ia-bubble-text {
+      background: #0a0a0a; border: 1px solid #181818;
+      border-radius: 4px 16px 16px 16px;
+      padding: 11px 13px; font-size: 13.5px; line-height: 1.65; color: #c8c8c8;
     }
-
-    .ia-objective {
-      margin-top: 16px;
-      padding: 12px;
-      background: rgba(44, 62, 80, 0.1);
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--accent);
-      text-align: center;
+    .ia-bubble-text strong { color: #f0f0f0; }
+    .ia-bubble-text .ia-emoji { font-size: 15px; }
+    .ia-bubble-time { font-size: 10px; color: #252525; margin-top: 4px; padding-left: 4px; }
+    .ia-metrics-row { display: flex; gap: 7px; margin-top: 10px; flex-wrap: wrap; }
+    .ia-metric-chip {
+      display: flex; align-items: center; gap: 5px;
+      padding: 5px 9px; background: #080808; border: 1px solid #0f0f0f;
+      border-radius: 9px; font-size: 11px; color: #444;
     }
+    .ia-metric-chip span { font-weight: 700; font-size: 12px; }
+    .chip-v-green  { color: #10b981; }
+    .chip-v-blue   { color: #3b82f6; }
+    .chip-v-orange { color: #f59e0b; }
+    .chip-v-red    { color: #ef4444; }
+    .ia-goals-row { display: flex; gap: 7px; padding: 0 18px 12px; flex-wrap: wrap; }
+    .ia-goal-pill { flex: 1; min-width: 110px; padding: 9px 11px; background: #080808; border: 1px solid #0f0f0f; border-radius: 13px; }
+    .ia-goal-pill .goal-title { font-size: 10px; color: #2e2e2e; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 5px; }
+    .ia-goal-pill .goal-bar-bg { height: 3px; background: #111; border-radius: 3px; overflow: hidden; margin-bottom: 4px; }
+    .ia-goal-pill .goal-bar-fill { height: 100%; border-radius: 3px; transition: width 0.8s ease; }
+    .ia-goal-pill .goal-numbers { font-size: 11px; color: #383838; font-weight: 600; }
+    .ia-typing { display: none; align-items: center; gap: 5px; padding: 6px 14px; font-size: 12px; color: #2e2e2e; }
+    .ia-typing.visible { display: flex; }
+    .ia-typing-dots { display: flex; gap: 3px; }
+    .ia-typing-dots span { width: 4px; height: 4px; background: #333; border-radius: 50%; animation: typingDot 1.2s infinite; }
+    .ia-typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .ia-typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typingDot { 0%,60%,100% { opacity:0.2; transform:translateY(0);} 30% { opacity:1; transform:translateY(-3px);} }
+    .ia-quick-btns { display: flex; gap: 6px; padding: 0 16px 10px; flex-wrap: wrap; }
+    .ia-quick-btn {
+      padding: 5px 11px; background: transparent; border: 1px solid #181818;
+      border-radius: 20px; font-size: 11px; color: #3a3a3a;
+      cursor: pointer; font-family: "Inter", sans-serif; transition: all 0.2s;
+    }
+    .ia-quick-btn:hover { border-color: #2a4a6f; color: #60a5fa; background: rgba(30,58,95,0.08); }
+    .ia-input-row { display: flex; gap: 8px; padding: 10px 14px 14px; border-top: 1px solid #0e0e0e; }
+    .ia-input {
+      flex: 1; background: #080808; border: 1px solid #1a1a1a; border-radius: 13px;
+      padding: 10px 13px; font-size: 13px; color: #d0d0d0;
+      font-family: "Inter", sans-serif; outline: none; transition: border-color 0.2s;
+    }
+    .ia-input::placeholder { color: #252525; }
+    .ia-input:focus { border-color: #2a4a6f; }
+    .ia-send-btn {
+      width: 38px; height: 38px;
+      background: linear-gradient(135deg, #1e3a5f, #0f2340);
+      border: 1px solid #2a4a6f; border-radius: 11px;
+      color: #60a5fa; cursor: pointer; font-size: 13px;
+      display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+    }
+    .ia-send-btn:hover { transform: scale(1.05); }
+    /* anciens ids toujours présents mais cachés */
+    #iaMessage, #iaRecommendation, #iaObjective { display: none; }
 
     /* ===== BARRE DE NAVIGATION ===== */
     .nav-bar {
@@ -587,7 +734,7 @@
       margin-bottom: 8px;
     }
 
-    .form-control {
+        .form-control {
       width: 100%;
       padding: 16px;
       background-color: var(--bg-primary);
@@ -682,26 +829,36 @@
       box-shadow: 0 8px 20px rgba(44, 62, 80, 0.3);
     }
 
-    /* ===== FICHE DE TRANSACTION ===== */
     .transaction-sheet {
-      background-color: var(--bg-card);
+      background: transparent;
       border-radius: 20px;
       padding: 8px;
-      border: 1px solid var(--border);
+      border: none;
+      max-height: 520px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #1e1e1e #000;
     }
+    .transaction-sheet::-webkit-scrollbar { width: 5px; }
+    .transaction-sheet::-webkit-scrollbar-track { background: #000; border-radius: 10px; }
+    .transaction-sheet::-webkit-scrollbar-thumb { background: #1e1e1e; border-radius: 10px; }
+    .transaction-sheet::-webkit-scrollbar-thumb:hover { background: #2a2a2a; }
 
     .transaction-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 18px;
-      border-bottom: 1px solid var(--border);
-      transition: background-color 0.2s;
+      padding: 16px;
+      border-bottom: 1px solid #111111;
+      transition: all 0.2s ease;
+      border-radius: 12px;
+      margin-bottom: 2px;
+      flex-wrap: wrap;
     }
 
     .transaction-item:hover {
-      background-color: var(--bg-primary);
-      border-radius: 12px;
+      background: linear-gradient(135deg, #111111, #0d0d0d);
+      border-bottom-color: transparent;
     }
 
     .transaction-item:last-child {
@@ -710,6 +867,7 @@
 
     .client-info {
       flex: 1;
+      min-width: 180px;
     }
 
     .client-name {
@@ -720,6 +878,7 @@
       align-items: center;
       gap: 10px;
       font-size: 16px;
+      flex-wrap: wrap;
     }
 
     .client-badge {
@@ -733,8 +892,25 @@
       font-weight: 500;
     }
 
+    .expiry-badge {
+      display: inline-block;
+      font-size: 10px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+    .expiry-badge.active { background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3); }
+    .expiry-badge.soon { background: rgba(245,158,11,0.15); color: #f59e0b; border: 1px solid rgba(245,158,11,0.3); }
+    .expiry-badge.expired { background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.3); }
+
     .transaction-date {
       font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .expiry-date {
+      font-size: 11px;
+      margin-top: 4px;
       color: var(--text-secondary);
     }
 
@@ -826,12 +1002,21 @@
     .card {
       animation: slideIn 0.3s ease-out;
     }
+    .card:hover {
+      border-color: #1e1e1e;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.95);
+    }
 
     .detail-view {
       animation: slideIn 0.2s ease-out;
     }
 
     /* ===== RESPONSIVE ===== */
+    .stat-card:nth-child(1) { animation: slideIn 0.3s ease-out 0.05s both; }
+    .stat-card:nth-child(2) { animation: slideIn 0.3s ease-out 0.1s both; }
+    .stat-card:nth-child(3) { animation: slideIn 0.3s ease-out 0.15s both; }
+    .stat-card:nth-child(4) { animation: slideIn 0.3s ease-out 0.2s both; }
+
     @media (max-width: 600px) {
       body {
         padding: 16px;
@@ -870,6 +1055,20 @@
         gap: 12px;
       }
     }
+
+    /* ===== ANIMATIONS SURPRISE ===== */
+    @keyframes confettiFly {
+      0%   { transform: rotate(0deg) translateY(0) scale(1); opacity: 1; }
+      100% { transform: rotate(720deg) translateY(-220px) translateX(var(--tx, 60px)) scale(0.3); opacity: 0; }
+    }
+    @keyframes popupSlide {
+      from { transform: translateX(-50%) translateY(80px); opacity: 0; }
+      to   { transform: translateX(-50%) translateY(0); opacity: 1; }
+    }
+    @keyframes popupSlideOut {
+      from { transform: translateX(-50%) translateY(0); opacity: 1; }
+      to   { transform: translateX(-50%) translateY(80px); opacity: 0; }
+    }
   </style>
 </head>
 <body data-theme="dark">
@@ -892,93 +1091,202 @@
     <!-- CARTE CHIFFRE D'AFFAIRES -->
     <div class="revenue-card">
       <div class="revenue-label">Chiffre d'affaires total</div>
-      <div class="revenue-amount" id="totalRevenue">0 FCFA</div>
+      <div class="revenue-row">
+        <div class="revenue-amount" id="totalRevenue">0 FCFA</div>
+        <div class="revenue-badge" id="revenueBadge">—</div>
+      </div>
       <div class="revenue-stats" id="revenueStats">Aucune transaction</div>
+      <div class="revenue-sparkline">
+        <svg id="revenueSparkline" viewBox="0 0 400 48" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="gradRevenue" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#111827" stop-opacity="0.15"/>
+              <stop offset="100%" stop-color="#111827" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <path id="sparklineFill" d="M0,48 L400,48 Z" fill="url(#gradRevenue)"/>
+          <path id="sparklineLine" d="M0,44 L400,44" fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
     </div>
     
-    <!-- CARTE IA -->
+    <!-- hidden legacy IA targets -->
+    <span id="iaMessage" style="display:none"></span>
+    <span id="iaRecommendation" style="display:none"></span>
+    <span id="iaObjective" style="display:none"></span>
+
+    <!-- MANAGER IA -->
     <div class="ia-card">
-      <div class="ia-header">
-        <i class="fas fa-chart-line"></i>
-        <span>ANALYSE BUSINESS</span>
+      <!-- Barre du haut -->
+      <div class="ia-top-bar">
+        <div class="ia-identity">
+          <div class="ia-avatar"><i class="fas fa-robot"></i></div>
+          <div class="ia-name-block">
+            <div class="ia-name">MAX — Manager IA</div>
+            <div class="ia-role">Analyse &bull; Coaching &bull; Stratégie</div>
+          </div>
+        </div>
+        <div class="ia-mode-toggle">
+          <button class="ia-mode-btn active" id="btnModeAuto" onclick="setIAMode('auto')">Auto</button>
+          <button class="ia-mode-btn" id="btnModeChat" onclick="setIAMode('chat')">Chat</button>
+        </div>
       </div>
-      <div class="ia-message" id="iaMessage">
-        Ajoutez vos premières transactions pour obtenir une analyse.
+
+      <!-- Zone de chat / message IA -->
+      <div class="ia-chat-zone" id="iaChatZone">
+        <div class="ia-bubble">
+          <div class="ia-bubble-avatar"><i class="fas fa-robot"></i></div>
+          <div class="ia-bubble-content">
+            <div class="ia-bubble-text" id="iaMainBubble">
+              Bonjour Abdoulaye ! <strong>Enregistre ta première vente</strong> pour que je commence ton suivi personnalisé.
+            </div>
+            <div class="ia-bubble-time" id="iaBubbleTime">À l'instant</div>
+          </div>
+        </div>
+        <!-- Indicateur de frappe -->
+        <div class="ia-typing" id="iaTyping">
+          <div class="ia-typing-dots"><span></span><span></span><span></span></div>
+          Max analyse...
+        </div>
+        <!-- Métriques rapides -->
+        <div class="ia-metrics-row" id="iaMetricsRow"></div>
       </div>
-      <div class="ia-recommendation" id="iaRecommendation">
-        <i class="fas fa-lightbulb"></i>
-        Commencez par enregistrer vos ventes.
+
+      <!-- Objectifs / barres de progression -->
+      <div class="ia-goals-row" id="iaGoalsRow"></div>
+
+      <!-- Suggestions rapides -->
+      <div class="ia-quick-btns" id="iaQuickBtns">
+        <button class="ia-quick-btn" onclick="askIA('bilan')">📊 Bilan</button>
+        <button class="ia-quick-btn" onclick="askIA('conseil')">💡 Conseil</button>
+        <button class="ia-quick-btn" onclick="askIA('objectif')">🎯 Objectif</button>
+        <button class="ia-quick-btn" onclick="askIA('motivation')">🔥 Motivation</button>
       </div>
-      <div class="ia-objective" id="iaObjective">
-        Objectif : 5 transactions cette semaine
+
+      <!-- Input chat -->
+      <div class="ia-input-row" id="iaInputRow" style="display:none">
+        <input class="ia-input" id="iaInputField" placeholder="Pose une question à Max..." 
+               onkeydown="if(event.key==='Enter') sendToIA()"/>
+        <button class="ia-send-btn" onclick="sendToIA()"><i class="fas fa-paper-plane"></i></button>
       </div>
     </div>
-
-    <!-- GRILLE DE STATISTIQUES (4 CARTES CLIQUABLES) -->
+    
+     <!-- GRILLE DE STATISTIQUES (4 CARTES CLIQUABLES) -->
     <div class="stats-grid">
+
       <!-- Carte 1 : Aujourd'hui -->
       <div class="stat-card clickable" onclick="showCardDetail('today')" id="cardToday">
-        <div class="stat-header">
-          <i class="fas fa-calendar-day"></i>
-          <span>Aujourd'hui</span>
+        <div class="stat-card-top">
+          <div class="stat-card-label">
+            <div class="stat-icon-wrap today"><i class="fas fa-sun"></i></div>
+            <span>Aujourd'hui</span>
+          </div>
+          <div class="stat-card-arrow"><i class="fas fa-chevron-right"></i></div>
         </div>
-        <div class="stat-value" id="statTodayValue">0</div>
-        <div class="stat-detail" id="statTodayDetail">0 FCFA</div>
-        <div class="stat-trend" id="statTodayTrend">
-          <i class="fas fa-minus"></i> vs hier
+        <div class="stat-card-body">
+          <div class="stat-value" id="statTodayValue">0</div>
+          <div class="stat-detail" id="statTodayDetail">0 FCFA</div>
+          <div class="stat-trend" id="statTodayTrend"><i class="fas fa-minus"></i> vs hier</div>
         </div>
-        <div class="stat-progress">
-          <div class="progress-bar" id="progressToday" style="width: 0%"></div>
+        <div class="stat-chart-zone">
+          <svg id="chartToday" preserveAspectRatio="none" viewBox="0 0 200 64">
+            <defs>
+              <linearGradient id="gradToday" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.3"/>
+                <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <path id="chartTodayFill" d="M0,64 L200,64 Z" fill="url(#gradToday)"/>
+            <path id="chartTodayLine" d="M0,60 L200,60" fill="none" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
         </div>
+        <div class="stat-progress"><div class="progress-bar" id="progressToday" style="width:0%"></div></div>
       </div>
 
-       <!-- Carte 2 : Cette semaine -->
+      <!-- Carte 2 : Cette semaine -->
       <div class="stat-card clickable" onclick="showCardDetail('week')" id="cardWeek">
-        <div class="stat-header">
-          <i class="fas fa-calendar-week"></i>
-          <span>Cette semaine</span>
+        <div class="stat-card-top">
+          <div class="stat-card-label">
+            <div class="stat-icon-wrap week"><i class="fas fa-calendar-week"></i></div>
+            <span>Semaine</span>
+          </div>
+          <div class="stat-card-arrow"><i class="fas fa-chevron-right"></i></div>
         </div>
-        <div class="stat-value" id="statWeekValue">0</div>
-        <div class="stat-detail" id="statWeekDetail">0 FCFA</div>
-        <div class="stat-trend" id="statWeekTrend">
-          <i class="fas fa-minus"></i> vs semaine dernière
+        <div class="stat-card-body">
+          <div class="stat-value" id="statWeekValue">0</div>
+          <div class="stat-detail" id="statWeekDetail">0 FCFA</div>
+          <div class="stat-trend" id="statWeekTrend"><i class="fas fa-minus"></i> vs s. dernière</div>
         </div>
-        <div class="stat-progress">
-          <div class="progress-bar" id="progressWeek" style="width: 0%"></div>
+        <div class="stat-chart-zone">
+          <svg id="chartWeek" preserveAspectRatio="none" viewBox="0 0 200 64">
+            <defs>
+              <linearGradient id="gradWeek" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#10b981" stop-opacity="0.3"/>
+                <stop offset="100%" stop-color="#10b981" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <path id="chartWeekFill" d="M0,64 L200,64 Z" fill="url(#gradWeek)"/>
+            <path id="chartWeekLine" d="M0,60 L200,60" fill="none" stroke="#10b981" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
         </div>
+        <div class="stat-progress"><div class="progress-bar" id="progressWeek" style="width:0%"></div></div>
       </div>
 
       <!-- Carte 3 : Ce mois -->
       <div class="stat-card clickable" onclick="showCardDetail('month')" id="cardMonth">
-        <div class="stat-header">
-          <i class="fas fa-calendar-alt"></i>
-          <span>Ce mois</span>
+        <div class="stat-card-top">
+          <div class="stat-card-label">
+            <div class="stat-icon-wrap month"><i class="fas fa-calendar-alt"></i></div>
+            <span>Ce mois</span>
+          </div>
+          <div class="stat-card-arrow"><i class="fas fa-chevron-right"></i></div>
         </div>
-        <div class="stat-value" id="statMonthValue">0</div>
-        <div class="stat-detail" id="statMonthDetail">0 FCFA</div>
-        <div class="stat-trend" id="statMonthTrend">
-          <i class="fas fa-minus"></i> vs mois dernier
+        <div class="stat-card-body">
+          <div class="stat-value" id="statMonthValue">0</div>
+          <div class="stat-detail" id="statMonthDetail">0 FCFA</div>
+          <div class="stat-trend" id="statMonthTrend"><i class="fas fa-minus"></i> vs mois dernier</div>
         </div>
-        <div class="stat-progress">
-          <div class="progress-bar" id="progressMonth" style="width: 0%"></div>
+        <div class="stat-chart-zone">
+          <!-- Barres pour les jours du mois -->
+          <svg id="chartMonth" preserveAspectRatio="none" viewBox="0 0 200 64">
+            <g id="chartMonthBars"></g>
+          </svg>
         </div>
+        <div class="stat-progress"><div class="progress-bar" id="progressMonth" style="width:0%"></div></div>
       </div>
 
       <!-- Carte 4 : Objectif annuel -->
       <div class="stat-card clickable" onclick="showCardDetail('year')" id="cardYear">
-        <div class="stat-header">
-          <i class="fas fa-bullseye"></i>
-          <span>Objectif annuel</span>
+        <div class="stat-card-top">
+          <div class="stat-card-label">
+            <div class="stat-icon-wrap year"><i class="fas fa-bullseye"></i></div>
+            <span>Objectif</span>
+          </div>
+          <div class="stat-card-arrow"><i class="fas fa-chevron-right"></i></div>
         </div>
-        <div class="stat-value" id="statYearValue">0/0</div>
-        <div class="stat-detail" id="statYearDetail">0% atteint</div>
-        <div class="stat-trend" id="statYearTrend">
-          <i class="fas fa-clock"></i> Reste 0 FCFA
+        <div class="stat-card-body">
+          <div class="stat-value" id="statYearValue">0%</div>
+          <div class="stat-detail" id="statYearDetail">0% atteint</div>
+          <div class="stat-trend" id="statYearTrend"><i class="fas fa-clock"></i> Reste 0 FCFA</div>
         </div>
-        <div class="stat-progress">
-          <div class="progress-bar" id="progressYear" style="width: 0%"></div>
+        <div class="stat-ring-zone">
+          <div class="stat-ring-info">
+            <div class="label">Progression annuelle</div>
+            <div class="value" id="yearGoalText">0 / 0 FCFA</div>
+          </div>
+          <div class="ring-svg-wrap">
+            <svg viewBox="0 0 52 52" fill="none">
+              <circle cx="26" cy="26" r="22" stroke="#1a1a1a" stroke-width="4"/>
+              <circle id="ringProgress" cx="26" cy="26" r="22" stroke="#ef4444" stroke-width="4"
+                stroke-linecap="round" stroke-dasharray="138.23" stroke-dashoffset="138.23"
+                transform="rotate(-90 26 26)" style="transition: stroke-dashoffset 1s ease"/>
+            </svg>
+            <div class="ring-pct" id="ringPct">0%</div>
+          </div>
         </div>
+        <div class="stat-progress"><div class="progress-bar" id="progressYear" style="width:0%"></div></div>
       </div>
+
     </div>
 
     <!-- CONTENEUR POUR LES VUES DÉTAILLÉES -->
@@ -1074,6 +1382,7 @@
     let currentType = 'standard';
     const PRICES = { standard: 2500, promo: 1500 };
     const YEARLY_GOAL = 100000; // Objectif annuel : 100 000 FCFA
+    const SUBSCRIPTION_DAYS = 50; // Durée d'abonnement en jours
 
     // États de navigation
     let navigationState = {
@@ -1083,6 +1392,34 @@
       selectedMonth: new Date().getMonth(),
       selectedDay: null
     };
+
+    // ===== FONCTIONS DE DATE D'EXPIRATION =====
+    function calculateExpiryDate(startDate) {
+      const date = new Date(startDate);
+      date.setDate(date.getDate() + SUBSCRIPTION_DAYS);
+      return date;
+    }
+
+    function formatExpiryDate(date) {
+      const d = new Date(date);
+      const day = String(d.getDate()).padStart(2, '0');
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const year = d.getFullYear();
+      return `${day}/${month}/${year}`;
+    }
+
+    function getExpiryStatus(expiryDate) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const expiry = new Date(expiryDate);
+      expiry.setHours(0, 0, 0, 0);
+      
+      const diffDays = Math.ceil((expiry - today) / (1000 * 60 * 60 * 24));
+      
+      if (diffDays < 0) return { status: 'expired', text: 'Expiré', diffDays };
+      if (diffDays <= 7) return { status: 'soon', text: `Expire dans ${diffDays} jour${diffDays > 1 ? 's' : ''}`, diffDays };
+      return { status: 'active', text: `Valable ${diffDays} jours`, diffDays };
+    }
 
     // ===== THÈME =====
     function setTheme(theme) {
@@ -1171,8 +1508,8 @@
                      'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
       return months[monthIndex];
     }
-
-    // ===== FONCTIONS DE DATE POUR LE CALENDRIER RÉEL =====
+  
+     // ===== FONCTIONS DE DATE POUR LE CALENDRIER RÉEL =====
 
     // Début de la semaine (lundi à 00:00)
     function getStartOfWeek(date) {
@@ -1361,52 +1698,390 @@
       return transactions.reduce((sum, t) => sum + (t.amount - t.fees), 0);
     }
 
-    // ===== ANALYSE IA =====
-    function updateIA() {
+    // ===== LISTE DES TRANSACTIONS AVEC DATE D'EXPIRATION =====
+    function updateTransactionsList() {
+      const container = document.getElementById('transactionsList');
+      const sorted = [...transactions].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      if (sorted.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-receipt"></i>
+            <p>Aucune transaction</p>
+          </div>
+        `;
+        document.getElementById('totalProfit').textContent = formatCurrency(0);
+        return;
+      }
+
+      let html = '';
+      sorted.forEach(t => {
+        // Calcul de la date d'expiration
+        const expiryDate = calculateExpiryDate(t.date);
+        const expiryStatus = getExpiryStatus(expiryDate);
+        const formattedExpiry = formatExpiryDate(expiryDate);
+        
+        let badgeClass = '';
+        let badgeText = '';
+        if (expiryStatus.status === 'active') {
+          badgeClass = 'active';
+          badgeText = '✓ Actif';
+        } else if (expiryStatus.status === 'soon') {
+          badgeClass = 'soon';
+          badgeText = '⚠️ ' + expiryStatus.text;
+        } else {
+          badgeClass = 'expired';
+          badgeText = '❌ ' + expiryStatus.text;
+        }
+        
+        html += `
+          <div class="transaction-item">
+            <div class="client-info">
+              <div class="client-name">
+                ${t.client}
+                <span class="client-badge">${t.type}</span>
+                <span class="expiry-badge ${badgeClass}">${badgeText}</span>
+              </div>
+              <div class="transaction-date">Achat: ${formatDate(t.date)}</div>
+              <div class="expiry-date">📅 Expiration: ${formattedExpiry}</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div class="transaction-amounts">
+                <div class="amount-gross">${formatCurrency(t.amount)}</div>
+                <div class="amount-net">profit: ${formatCurrency(t.amount - t.fees)}</div>
+              </div>
+              <button class="delete-btn" onclick="deleteTransaction(${t.id})">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+      document.getElementById('totalProfit').textContent = formatCurrency(getTotalProfit());
+    }
+
+    // ===== AJOUT =====
+    function setType(type) {
+      currentType = type;
+      document.getElementById('typeStandard').classList.toggle('active', type === 'standard');
+      document.getElementById('typePromo').classList.toggle('active', type === 'promo');
+      updateNetDisplay();
+    }
+
+    function updateNetDisplay() {
+      const amount = PRICES[currentType];
+      const fees = parseInt(document.getElementById('fees').value) || 0;
+      document.getElementById('netDisplay').textContent = formatCurrency(amount - fees);
+    }
+
+    function addTransaction() {
+      const client = document.getElementById('clientName').value.trim();
+      const date = document.getElementById('saleDate').value;
+      const fees = parseInt(document.getElementById('fees').value) || 0;
+      const amount = PRICES[currentType];
+
+      if (!client) {
+        alert('Veuillez entrer le nom du client');
+        return;
+      }
+
+      if (!date) {
+        alert('Veuillez sélectionner une date');
+        return;
+      }
+
+      const transaction = {
+        id: Date.now(),
+        client: client,
+        date: date,
+        type: currentType === 'standard' ? 'Std' : 'Promo',
+        amount: amount,
+        fees: fees
+      };
+
+      transactions.push(transaction);
+      saveData();
+
+      // Reset formulaire
+      document.getElementById('clientName').value = '';
+      document.getElementById('fees').value = '0';
+      setTodayDate();
+      updateNetDisplay();
+      updateAll();
+
+      // Feedback
+      const btn = event.target;
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<i class="fas fa-check"></i> Ajouté !';
+      btn.style.background = '#10b981';
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.style.background = '';
+      }, 1500);
+    }
+
+    // ===== SUPPRESSION =====
+    function deleteTransaction(id) {
+      if (confirm('Supprimer cette transaction ?')) {
+        transactions = transactions.filter(t => t.id !== id);
+        saveData();
+        updateAll();
+      }
+    }
+
+    // ===== NAVIGATION =====
+    function showSection(section) {
+      document.getElementById('addSection').style.display = section === 'add' ? 'block' : 'none';
+      document.getElementById('listSection').style.display = section === 'list' ? 'block' : 'none';
+      
+      document.getElementById('btnAdd').classList.toggle('active', section === 'add');
+      document.getElementById('btnList').classList.toggle('active', section === 'list');
+      
+      // Cacher la vue détaillée si on change de section
+      hideDetail();
+    }
+
+    // ===== NOUVELLE FONCTION GESTION =====
+    function openGestion() {
+      window.open('gestion.html', '_blank');
+    }
+
+    // ===== EVENT =====
+    document.getElementById('fees').addEventListener('input', updateNetDisplay);
+
+    // ===== MISE À JOUR DE L'AFFICHAGE =====
+    function updateAll() {
       const today = getTodayStats();
       const yesterday = getYesterdayStats();
       const week = getWeekStats();
       const month = getMonthStats();
-      const total = transactions.length;
+      const year = getYearStats(new Date().getFullYear());
+      const totalProfit = getTotalProfit();
+      
+      // Chiffre d'affaires total
+      document.getElementById('totalRevenue').textContent = formatCurrency(totalProfit);
+      
+      // Carte Aujourd'hui
+      document.getElementById('statTodayValue').textContent = today.count;
+      document.getElementById('statTodayDetail').textContent = formatCurrency(today.profit);
+      
+      const todayTrend = document.getElementById('statTodayTrend');
+      if (today.count > yesterday.count && yesterday.count > 0) {
+        const percent = Math.round((today.count - yesterday.count) / yesterday.count * 100);
+        todayTrend.className = 'stat-trend positive';
+        todayTrend.innerHTML = `<i class="fas fa-arrow-up"></i> +${percent}% vs hier`;
+      } else if (today.count < yesterday.count) {
+        const percent = Math.round((yesterday.count - today.count) / yesterday.count * 100);
+        todayTrend.className = 'stat-trend negative';
+        todayTrend.innerHTML = `<i class="fas fa-arrow-down"></i> -${percent}% vs hier`;
+      } else {
+        todayTrend.className = 'stat-trend';
+        todayTrend.innerHTML = `<i class="fas fa-minus"></i> Stable vs hier`;
+      }
+      
+      const progressToday = yesterday.count > 0 ? Math.min(100, (today.count / yesterday.count) * 100) : 0;
+      document.getElementById('progressToday').style.width = `${progressToday}%`;
 
-      let message = '';
-      let recommendation = '';
-      let objective = '';
+      // Carte Semaine
+      document.getElementById('statWeekValue').textContent = week.thisWeek.count;
+      document.getElementById('statWeekDetail').textContent = formatCurrency(week.thisWeek.profit);
+      
+      const weekTrend = document.getElementById('statWeekTrend');
+      if (week.thisWeek.count > week.lastWeek.count && week.lastWeek.count > 0) {
+        const percent = Math.round((week.thisWeek.count - week.lastWeek.count) / week.lastWeek.count * 100);
+        weekTrend.className = 'stat-trend positive';
+        weekTrend.innerHTML = `<i class="fas fa-arrow-up"></i> +${percent}% vs semaine dernière`;
+      } else if (week.thisWeek.count < week.lastWeek.count) {
+        const percent = Math.round((week.lastWeek.count - week.thisWeek.count) / week.lastWeek.count * 100);
+        weekTrend.className = 'stat-trend negative';
+        weekTrend.innerHTML = `<i class="fas fa-arrow-down"></i> -${percent}% vs semaine dernière`;
+      } else {
+        weekTrend.className = 'stat-trend';
+        weekTrend.innerHTML = `<i class="fas fa-minus"></i> Stable vs semaine dernière`;
+      }
+      
+      const progressWeek = week.lastWeek.count > 0 ? Math.min(100, (week.thisWeek.count / week.lastWeek.count) * 100) : 0;
+      document.getElementById('progressWeek').style.width = `${progressWeek}%`;
 
-      if (total === 0) {
-        message = 'Aucune transaction pour le moment.';
-        recommendation = 'Ajoutez vos premières ventes pour démarrer l\'analyse.';
-        objective = 'Objectif : 5 transactions cette semaine';
-      } 
-      else if (today.count === 0) {
-        message = `${total} transaction${total > 1 ? 's' : ''} au total.`;
-        recommendation = 'Aucune vente aujourd\'hui. Pensez à relancer vos clients.';
-        objective = 'Objectif : 3 transactions aujourd\'hui';
+      // Carte Mois
+      document.getElementById('statMonthValue').textContent = month.thisMonth.count;
+      document.getElementById('statMonthDetail').textContent = formatCurrency(month.thisMonth.profit);
+      
+      const monthTrend = document.getElementById('statMonthTrend');
+      if (month.thisMonth.count > month.lastMonth.count && month.lastMonth.count > 0) {
+        const percent = Math.round((month.thisMonth.count - month.lastMonth.count) / month.lastMonth.count * 100);
+        monthTrend.className = 'stat-trend positive';
+        monthTrend.innerHTML = `<i class="fas fa-arrow-up"></i> +${percent}% vs mois dernier`;
+      } else if (month.thisMonth.count < month.lastMonth.count) {
+        const percent = Math.round((month.lastMonth.count - month.thisMonth.count) / month.lastMonth.count * 100);
+        monthTrend.className = 'stat-trend negative';
+        monthTrend.innerHTML = `<i class="fas fa-arrow-down"></i> -${percent}% vs mois dernier`;
+      } else {
+        monthTrend.className = 'stat-trend';
+        monthTrend.innerHTML = `<i class="fas fa-minus"></i> Stable vs mois dernier`;
       }
-      else if (today.count > yesterday.count && yesterday.count > 0) {
-        const growth = Math.round((today.count - yesterday.count) / yesterday.count * 100);
-        message = `${today.count} transaction${today.count > 1 ? 's' : ''} aujourd'hui (+${growth}% vs hier).`;
-        recommendation = 'Bonne dynamique ! Continuez vos actions actuelles.';
-        objective = `Objectif demain : ${today.count + 2} transactions`;
+      
+      const progressMonth = month.lastMonth.count > 0 ? Math.min(100, (month.thisMonth.count / month.lastMonth.count) * 100) : 0;
+      document.getElementById('progressMonth').style.width = `${progressMonth}%`;
+
+      // Carte Objectif annuel
+      const goalProgress = Math.min(100, (year.profit / YEARLY_GOAL) * 100);
+      const remaining = Math.max(0, YEARLY_GOAL - year.profit);
+      
+      document.getElementById('statYearValue').textContent = `${Math.round(goalProgress)}%`;
+      document.getElementById('statYearDetail').textContent = `${Math.round(goalProgress)}% atteint`;
+      document.getElementById('statYearTrend').innerHTML = `<i class="fas fa-clock"></i> Reste ${formatCurrency(remaining)}`;
+      document.getElementById('progressYear').style.width = `${goalProgress}%`;
+      // Anneau de progression
+      const circumference = 138.23;
+      const offset = circumference - (goalProgress / 100) * circumference;
+      document.getElementById('ringProgress').style.strokeDashoffset = offset;
+      document.getElementById('ringPct').textContent = `${Math.round(goalProgress)}%`;
+      document.getElementById('yearGoalText').textContent = `${formatCurrency(year.profit)} / ${formatCurrency(YEARLY_GOAL)}`;
+
+      // Stats générales
+      if (transactions.length > 0) {
+        document.getElementById('revenueStats').innerHTML = `${transactions.length} transaction${transactions.length > 1 ? 's' : ''} • Moyenne: ${formatCurrency(totalProfit / transactions.length)}`;
+      // Badge tendance sur la carte revenue
+      const revBadgeEl = document.getElementById('revenueBadge');
+      if (revBadgeEl) {
+        if (month.thisMonth.count > month.lastMonth.count && month.lastMonth.count > 0) {
+          const pct = Math.round((month.thisMonth.count - month.lastMonth.count) / month.lastMonth.count * 100);
+          revBadgeEl.innerHTML = '↑ +' + pct + '% ce mois';
+          revBadgeEl.style.color = '#10b981';
+        } else if (month.thisMonth.count < month.lastMonth.count && month.lastMonth.count > 0) {
+          const pct = Math.round((month.lastMonth.count - month.thisMonth.count) / month.lastMonth.count * 100);
+          revBadgeEl.innerHTML = '↓ -' + pct + '% ce mois';
+          revBadgeEl.style.color = '#ef4444';
+        } else {
+          revBadgeEl.innerHTML = '→ Stable';
+          revBadgeEl.style.color = '#6b7280';
+        }
       }
-      else if (today.count < yesterday.count) {
-        const drop = Math.round((yesterday.count - today.count) / yesterday.count * 100);
-        message = `${today.count} transaction${today.count > 1 ? 's' : ''} aujourd'hui (-${drop}% vs hier).`;
-        recommendation = 'Baisse d\'activité. Publiez du contenu et contactez vos prospects.';
-        objective = `Objectif : revenir à ${yesterday.count} transactions`;
-      }
-      else {
-        message = `${today.count} transaction${today.count > 1 ? 's' : ''} aujourd'hui.`;
-        recommendation = 'Activité stable. Continuez vos efforts.';
-        objective = `Objectif mensuel : ${month.thisMonth.count + 5} transactions`;
       }
 
-      document.getElementById('iaMessage').textContent = message;
-      document.getElementById('iaRecommendation').innerHTML = `<i class="fas fa-lightbulb"></i> ${recommendation}`;
-      document.getElementById('iaObjective').textContent = objective;
+      // Mise à jour IA
+      updateIA();
+
+      // Mise à jour graphiques cartes
+      renderTodayChart(today);
+      renderWeekChart(week);
+      renderMonthChart();
+
+      // Mise à jour liste
+      updateTransactionsList();
     }
 
-    // ===== AFFICHAGE DES VUES DÉTAILLÉES =====
+    // ===== MANAGER IA MAX (version simplifiée pour garder la compatibilité) =====
+    let iaMode = 'auto';
+
+    function setIAMode(mode) {
+      iaMode = mode;
+      document.getElementById('btnModeAuto').classList.toggle('active', mode === 'auto');
+      document.getElementById('btnModeChat').classList.toggle('active', mode === 'chat');
+      const inputRow = document.getElementById('iaInputRow');
+      if (mode === 'chat') {
+        inputRow.style.display = 'flex';
+      } else {
+        inputRow.style.display = 'none';
+        updateIA();
+      }
+    }
+
+    function askIA(topic) {
+      setIAMode('chat');
+      const prompts = {
+        bilan: 'Donne-moi mon bilan complet',
+        conseil: 'Donne-moi un conseil pour booster mes ventes',
+        objectif: 'Quel objectif dois-je me fixer ?',
+        motivation: 'Motive-moi !'
+      };
+      document.getElementById('iaInputField').value = prompts[topic] || topic;
+      sendToIA();
+    }
+
+    function sendToIA() {
+      const input = document.getElementById('iaInputField');
+      const question = input.value.trim();
+      if (!question) return;
+      input.value = '';
+      showIATyping(true);
+      setTimeout(() => {
+        showIATyping(false);
+        const response = generateSimpleResponse(question);
+        displayIAMessage(response);
+      }, 900 + Math.random() * 600);
+    }
+
+    function showIATyping(show) {
+      document.getElementById('iaTyping').classList.toggle('visible', show);
+    }
+
+    function displayIAMessage(html, animate = true) {
+      const bubble = document.getElementById('iaMainBubble');
+      bubble.innerHTML = html;
+      const timeEl = document.getElementById('iaBubbleTime');
+      const now = new Date();
+      timeEl.textContent = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+      if (animate) {
+        bubble.style.animation = 'none';
+        bubble.offsetHeight;
+        bubble.style.animation = 'bubbleIn 0.35s ease';
+      }
+    }
+
+    function generateSimpleResponse(question) {
+      const totalProfit = getTotalProfit();
+      const transactionsCount = transactions.length;
+      const todayStats = getTodayStats();
+      return `📊 <strong>Max - Votre Manager IA</strong><br><br>Bonjour Abdoulaye !<br><br>
+      📈 <strong>Vos statistiques :</strong><br>
+      • Total transactions : ${transactionsCount}<br>
+      • Chiffre d'affaires total : ${formatCurrency(totalProfit)}<br>
+      • Aujourd'hui : ${todayStats.count} vente(s) - ${formatCurrency(todayStats.profit)}<br><br>
+      💡 Pour plus de détails, utilisez les boutons ci-dessus ou continuez à me poser des questions !`;
+    }
+
+    function updateIA() {
+      const totalProfit = getTotalProfit();
+      const transactionsCount = transactions.length;
+      const todayStats = getTodayStats();
+      const monthStats = getMonthStats();
+      const yearStats = getYearStats(new Date().getFullYear());
+      const goalPct = Math.round((yearStats.profit / YEARLY_GOAL) * 100);
+      
+      let msg = '';
+      if (transactionsCount === 0) {
+        msg = '👋 Bonjour <strong>Abdoulaye !</strong> Je suis Max, ton manager IA. Enregistre ta première vente et je commence ton suivi personnalisé.';
+      } else if (todayStats.count === 0) {
+        msg = `🌅 Bonjour <strong>Abdoulaye !</strong> Aucune vente encore aujourd'hui. Tu as <strong>${transactionsCount} transaction(s)</strong> au total (${formatCurrency(totalProfit)}). Lance-toi tôt — les meilleures journées commencent le matin !`;
+      } else {
+        msg = `✅ <strong>${todayStats.count} vente(s) aujourd'hui</strong> (${formatCurrency(todayStats.profit)})<br>Mois : <strong>${formatCurrency(monthStats.thisMonth.profit)}</strong> — Objectif annuel : <strong>${goalPct}% atteint.</strong>`;
+      }
+      displayIAMessage(msg, false);
+      
+      // Métriques chips
+      let chips = '';
+      if (transactionsCount > 0) {
+        chips += '<div class="ia-metric-chip"><i class="fas fa-receipt" style="color:#3b82f6;font-size:10px"></i> Total <span class="chip-v-blue">' + transactionsCount + '</span></div>';
+        chips += '<div class="ia-metric-chip"><i class="fas fa-coins" style="color:#f59e0b;font-size:10px"></i> Profit <span class="chip-v-orange">' + formatCurrency(totalProfit) + '</span></div>';
+        chips += '<div class="ia-metric-chip"><i class="fas fa-bullseye" style="color:#ef4444;font-size:10px"></i> Objectif <span class="chip-v-red">' + goalPct + '%</span></div>';
+      }
+      document.getElementById('iaMetricsRow').innerHTML = chips;
+      
+      // Barres de progression
+      const weekGoal = 5, monthGoal = 20;
+      const weekPct = Math.min(100, Math.round(monthStats.thisWeek?.count || 0 / weekGoal * 100));
+      const monthPct = Math.min(100, Math.round(monthStats.thisMonth.count / monthGoal * 100));
+      document.getElementById('iaGoalsRow').innerHTML = transactionsCount === 0 ? '' :
+        '<div class="ia-goal-pill"><div class="goal-title">Semaine (obj. ' + weekGoal + ')</div><div class="goal-bar-bg"><div class="goal-bar-fill" style="width:' + weekPct + '%;background:#10b981"></div></div><div class="goal-numbers">' + (monthStats.thisWeek?.count || 0) + ' / ' + weekGoal + ' ventes</div></div>' +
+        '<div class="ia-goal-pill"><div class="goal-title">Mois (obj. ' + monthGoal + ')</div><div class="goal-bar-bg"><div class="goal-bar-fill" style="width:' + monthPct + '%;background:#f59e0b"></div></div><div class="goal-numbers">' + monthStats.thisMonth.count + ' / ' + monthGoal + ' ventes</div></div>' +
+        '<div class="ia-goal-pill"><div class="goal-title">Annuel (' + formatCurrency(YEARLY_GOAL) + ')</div><div class="goal-bar-bg"><div class="goal-bar-fill" style="width:' + goalPct + '%;background:#ef4444"></div></div><div class="goal-numbers">' + formatCurrency(yearStats.profit) + ' / ' + formatCurrency(YEARLY_GOAL) + '</div></div>';
+    }
+
+    // ===== VUES DÉTAILLÉES =====
     function showCardDetail(cardType) {
       navigationState.currentCard = cardType;
       navigationState.viewLevel = 'detail';
@@ -1476,7 +2151,7 @@
       showMonthDetail();
     }
   
-  function showMonthDetail() {
+    function showMonthDetail() {
       const days = getDaysStats(navigationState.selectedYear, navigationState.selectedMonth);
       const monthName = getMonthName(navigationState.selectedMonth);
       
@@ -1616,237 +2291,101 @@
       navigationState.viewLevel = 'summary';
     }
 
-    // ===== MISE À JOUR DE L'AFFICHAGE =====
-    function updateAll() {
-      const today = getTodayStats();
-      const yesterday = getYesterdayStats();
-      const week = getWeekStats();
-      const month = getMonthStats();
-      const year = getYearStats(new Date().getFullYear());
-      const totalProfit = getTotalProfit();
-      
-      // Chiffre d'affaires total
-      document.getElementById('totalRevenue').textContent = formatCurrency(totalProfit);
-      
-      // Carte Aujourd'hui
-      document.getElementById('statTodayValue').textContent = today.count;
-      document.getElementById('statTodayDetail').textContent = formatCurrency(today.profit);
-      
-      const todayTrend = document.getElementById('statTodayTrend');
-      if (today.count > yesterday.count && yesterday.count > 0) {
-        const percent = Math.round((today.count - yesterday.count) / yesterday.count * 100);
-        todayTrend.className = 'stat-trend positive';
-        todayTrend.innerHTML = `<i class="fas fa-arrow-up"></i> +${percent}% vs hier`;
-      } else if (today.count < yesterday.count) {
-        const percent = Math.round((yesterday.count - today.count) / yesterday.count * 100);
-        todayTrend.className = 'stat-trend negative';
-        todayTrend.innerHTML = `<i class="fas fa-arrow-down"></i> -${percent}% vs hier`;
-      } else {
-        todayTrend.className = 'stat-trend';
-        todayTrend.innerHTML = `<i class="fas fa-minus"></i> Stable vs hier`;
-      }
-      
-      const progressToday = yesterday.count > 0 ? Math.min(100, (today.count / yesterday.count) * 100) : 0;
-      document.getElementById('progressToday').style.width = `${progressToday}%`;
-
-      // Carte Semaine
-      document.getElementById('statWeekValue').textContent = week.thisWeek.count;
-      document.getElementById('statWeekDetail').textContent = formatCurrency(week.thisWeek.profit);
-      
-      const weekTrend = document.getElementById('statWeekTrend');
-      if (week.thisWeek.count > week.lastWeek.count && week.lastWeek.count > 0) {
-        const percent = Math.round((week.thisWeek.count - week.lastWeek.count) / week.lastWeek.count * 100);
-        weekTrend.className = 'stat-trend positive';
-        weekTrend.innerHTML = `<i class="fas fa-arrow-up"></i> +${percent}% vs semaine dernière`;
-      } else if (week.thisWeek.count < week.lastWeek.count) {
-        const percent = Math.round((week.lastWeek.count - week.thisWeek.count) / week.lastWeek.count * 100);
-        weekTrend.className = 'stat-trend negative';
-        weekTrend.innerHTML = `<i class="fas fa-arrow-down"></i> -${percent}% vs semaine dernière`;
-      } else {
-        weekTrend.className = 'stat-trend';
-        weekTrend.innerHTML = `<i class="fas fa-minus"></i> Stable vs semaine dernière`;
-      }
-      
-      const progressWeek = week.lastWeek.count > 0 ? Math.min(100, (week.thisWeek.count / week.lastWeek.count) * 100) : 0;
-      document.getElementById('progressWeek').style.width = `${progressWeek}%`;
-
-      // Carte Mois
-      document.getElementById('statMonthValue').textContent = month.thisMonth.count;
-      document.getElementById('statMonthDetail').textContent = formatCurrency(month.thisMonth.profit);
-      
-      const monthTrend = document.getElementById('statMonthTrend');
-      if (month.thisMonth.count > month.lastMonth.count && month.lastMonth.count > 0) {
-        const percent = Math.round((month.thisMonth.count - month.lastMonth.count) / month.lastMonth.count * 100);
-        monthTrend.className = 'stat-trend positive';
-        monthTrend.innerHTML = `<i class="fas fa-arrow-up"></i> +${percent}% vs mois dernier`;
-      } else if (month.thisMonth.count < month.lastMonth.count) {
-        const percent = Math.round((month.lastMonth.count - month.thisMonth.count) / month.lastMonth.count * 100);
-        monthTrend.className = 'stat-trend negative';
-        monthTrend.innerHTML = `<i class="fas fa-arrow-down"></i> -${percent}% vs mois dernier`;
-      } else {
-        monthTrend.className = 'stat-trend';
-        monthTrend.innerHTML = `<i class="fas fa-minus"></i> Stable vs mois dernier`;
-      }
-      
-      const progressMonth = month.lastMonth.count > 0 ? Math.min(100, (month.thisMonth.count / month.lastMonth.count) * 100) : 0;
-      document.getElementById('progressMonth').style.width = `${progressMonth}%`;
-
-      // Carte Objectif annuel
-      const goalProgress = Math.min(100, (year.profit / YEARLY_GOAL) * 100);
-      const remaining = Math.max(0, YEARLY_GOAL - year.profit);
-      
-      document.getElementById('statYearValue').textContent = `${Math.round(year.profit / 1000)}k/${Math.round(YEARLY_GOAL / 1000)}k`;
-      document.getElementById('statYearDetail').textContent = `${Math.round(goalProgress)}% atteint`;
-      document.getElementById('statYearTrend').innerHTML = `<i class="fas fa-clock"></i> Reste ${formatCurrency(remaining)}`;
-      document.getElementById('progressYear').style.width = `${goalProgress}%`;
-
-      // Stats générales
-      if (transactions.length > 0) {
-        document.getElementById('revenueStats').innerHTML = `${transactions.length} transaction${transactions.length > 1 ? 's' : ''} • Moyenne: ${formatCurrency(totalProfit / transactions.length)}`;
-      }
-
-      // Mise à jour IA
-      updateIA();
-
-      // Mise à jour liste
-      updateTransactionsList();
-    }
-
-    // ===== LISTE =====
-    function updateTransactionsList() {
-      const container = document.getElementById('transactionsList');
-      const sorted = [...transactions].sort((a, b) => new Date(b.date) - new Date(a.date));
-
-      if (sorted.length === 0) {
-        container.innerHTML = `
-          <div class="empty-state">
-            <i class="fas fa-receipt"></i>
-            <p>Aucune transaction</p>
-          </div>
-        `;
-        document.getElementById('totalProfit').textContent = formatCurrency(0);
-        return;
-      }
-
-      let html = '';
-      sorted.slice(0, 10).forEach(t => {
-        html += `
-          <div class="transaction-item">
-            <div class="client-info">
-              <div class="client-name">
-                ${t.client}
-                <span class="client-badge">${t.type}</span>
-              </div>
-              <div class="transaction-date">${formatDate(t.date)}</div>
-            </div>
-            <div style="display: flex; align-items: center; gap: 12px;">
-              <div class="transaction-amounts">
-                <div class="amount-gross">${formatCurrency(t.amount)}</div>
-                <div class="amount-net">profit: ${formatCurrency(t.amount - t.fees)}</div>
-              </div>
-              <button class="delete-btn" onclick="deleteTransaction(${t.id})">
-                <i class="fas fa-trash"></i>
-              </button>
-            </div>
-          </div>
-        `;
+    // ===== GRAPHIQUES SVG =====
+    function makeSmoothPath(points, w, h) {
+      if (points.length === 0) return `M0,${h} L${w},${h}`;
+      const max = Math.max(...points, 1);
+      const coords = points.map((v, i) => {
+        const x = (i / (points.length - 1 || 1)) * w;
+        const y = h - (v / max) * (h * 0.75) - 4;
+        return [x, y];
       });
-
-      container.innerHTML = html;
-      document.getElementById('totalProfit').textContent = formatCurrency(getTotalProfit());
-    }
-
-    // ===== AJOUT =====
-    function setType(type) {
-      currentType = type;
-      document.getElementById('typeStandard').classList.toggle('active', type === 'standard');
-      document.getElementById('typePromo').classList.toggle('active', type === 'promo');
-      updateNetDisplay();
-    }
-
-    function updateNetDisplay() {
-      const amount = PRICES[currentType];
-      const fees = parseInt(document.getElementById('fees').value) || 0;
-      document.getElementById('netDisplay').textContent = formatCurrency(amount - fees);
-    }
-
-    function addTransaction() {
-      const client = document.getElementById('clientName').value.trim();
-      const date = document.getElementById('saleDate').value;
-      const fees = parseInt(document.getElementById('fees').value) || 0;
-      const amount = PRICES[currentType];
-
-      if (!client) {
-        alert('Veuillez entrer le nom du client');
-        return;
+      let d = `M${coords[0][0]},${coords[0][1]}`;
+      for (let i = 1; i < coords.length; i++) {
+        const [px, py] = coords[i-1];
+        const [cx, cy] = coords[i];
+        const mx = (px + cx) / 2;
+        d += ` C${mx},${py} ${mx},${cy} ${cx},${cy}`;
       }
+      return d;
+    }
 
-      if (!date) {
-        alert('Veuillez sélectionner une date');
-        return;
+    function renderTodayChart(todayStats) {
+      // Graphique des 7 derniers jours
+      const points = [];
+      for (let i = 6; i >= 0; i--) {
+        const d = new Date(getWestAfricaTime());
+        d.setDate(d.getDate() - i);
+        const ds = d.toISOString().split('T')[0];
+        const ts = transactions.filter(t => t.date === ds);
+        points.push(ts.reduce((s, t) => s + (t.amount - t.fees), 0));
       }
+      const w = 200, h = 64;
+      const line = makeSmoothPath(points, w, h);
+      const fill = line + ` L${w},${h} L0,${h} Z`;
+      document.getElementById('chartTodayLine').setAttribute('d', line);
+      document.getElementById('chartTodayFill').setAttribute('d', fill);
 
-      const transaction = {
-        id: Date.now(),
-        client: client,
-        date: date,
-        type: currentType === 'standard' ? 'Std' : 'Promo',
-        amount: amount,
-        fees: fees
-      };
-
-      transactions.push(transaction);
-      saveData();
-
-      // Reset formulaire
-      document.getElementById('clientName').value = '';
-      document.getElementById('fees').value = '0';
-      setTodayDate();
-      updateNetDisplay();
-      updateAll();
-
-      // Feedback
-      const btn = event.target;
-      const originalText = btn.innerHTML;
-      btn.innerHTML = '<i class="fas fa-check"></i> Ajouté !';
-      btn.style.background = '#10b981';
-      setTimeout(() => {
-        btn.innerHTML = originalText;
-        btn.style.background = '';
-      }, 1500);
-    }
-
-    // ===== SUPPRESSION =====
-    function deleteTransaction(id) {
-      if (confirm('Supprimer cette transaction ?')) {
-        transactions = transactions.filter(t => t.id !== id);
-        saveData();
-        updateAll();
+      // Sparkline revenue (30 derniers jours)
+      const pts30 = [];
+      for (let i = 29; i >= 0; i--) {
+        const d = new Date(getWestAfricaTime());
+        d.setDate(d.getDate() - i);
+        const ds = d.toISOString().split('T')[0];
+        const ts = transactions.filter(t => t.date === ds);
+        pts30.push(ts.reduce((s, t) => s + (t.amount - t.fees), 0));
       }
+      const sl = makeSmoothPath(pts30, 400, 48);
+      const sf = sl + ` L400,48 L0,48 Z`;
+      document.getElementById('sparklineLine').setAttribute('d', sl);
+      document.getElementById('sparklineFill').setAttribute('d', sf);
     }
 
-    // ===== NAVIGATION =====
-    function showSection(section) {
-      document.getElementById('addSection').style.display = section === 'add' ? 'block' : 'none';
-      document.getElementById('listSection').style.display = section === 'list' ? 'block' : 'none';
-      
-      document.getElementById('btnAdd').classList.toggle('active', section === 'add');
-      document.getElementById('btnList').classList.toggle('active', section === 'list');
-      
-      // Cacher la vue détaillée si on change de section
-      hideDetail();
+    function renderWeekChart(weekStats) {
+      // Graphique des 4 dernières semaines (count)
+      const points = [];
+      for (let i = 3; i >= 0; i--) {
+        const now = getWestAfricaTime();
+        const start = getStartOfWeek(new Date(now));
+        start.setDate(start.getDate() - i * 7);
+        const end = new Date(start);
+        end.setDate(end.getDate() + 6);
+        end.setHours(23,59,59,999);
+        const wt = transactions.filter(t => { const d = new Date(t.date); return d >= start && d <= end; });
+        points.push(wt.reduce((s, t) => s + (t.amount - t.fees), 0));
+      }
+      const w = 200, h = 64;
+      const line = makeSmoothPath(points, w, h);
+      const fill = line + ` L${w},${h} L0,${h} Z`;
+      document.getElementById('chartWeekLine').setAttribute('d', line);
+      document.getElementById('chartWeekFill').setAttribute('d', fill);
     }
 
-    // ===== NOUVELLE FONCTION GESTION =====
-    function openGestion() {
-      window.open('gestion.html', '_blank');
+    function renderMonthChart() {
+      // Barres par jour du mois courant
+      const now = getWestAfricaTime();
+      const year = now.getFullYear();
+      const month = now.getMonth();
+      const days = getDaysStats(year, month);
+      const svg = document.getElementById('chartMonthBars');
+      const w = 200, h = 64;
+      const max = Math.max(...days.map(d => d.profit), 1);
+      const barW = w / days.length - 1;
+      let html = '';
+      days.forEach((d, i) => {
+        const barH = Math.max(2, (d.profit / max) * (h - 8));
+        const x = i * (barW + 1);
+        const y = h - barH;
+        const alpha = d.profit > 0 ? 0.8 : 0.12;
+        const col = d.profit > 0 ? `rgba(245,158,11,${alpha})` : `rgba(255,255,255,0.04)`;
+        html += `<rect x="${x}" y="${y}" width="${barW}" height="${barH}" rx="1.5" fill="${col}"/>`;
+      });
+      svg.innerHTML = html;
     }
-
-    // ===== EVENT =====
-    document.getElementById('fees').addEventListener('input', updateNetDisplay);
 
     // ===== DÉMARRAGE =====
     init();
   </script>
 </body>
 </html>
+ 
