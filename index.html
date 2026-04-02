@@ -6,12 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="manifest" href="manifest.json">
-<link rel="icon" type="image/png" href="icon.png">
   <style>
     /* ===== VARIABLES DE THÈME ===== */
     :root {
-      /* Thème sombre ultra-profond (par défaut) */
       --bg-primary: #000000;
       --bg-secondary: #050505;
       --bg-card: #0a0a0a;
@@ -25,12 +22,8 @@
       --warning: #f59e0b;
       --info: #3b82f6;
       --shadow: 0 8px 32px rgba(0, 0, 0, 0.95);
-      --expired: #ef4444;
-      --soon: #f59e0b;
-      --active: #10b981;
     }
 
-    /* Thème clair */
     [data-theme="light"] {
       --bg-primary: #f8fafc;
       --bg-secondary: #ffffff;
@@ -43,24 +36,11 @@
       --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     }
 
-    /* ===== STYLES GÉNÉRAUX ===== */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-
-    .revenue-sparkline {
-      display: none;
-      margin-top: 16px;
-    }
-
-    .revenue-sparkline svg {
-      width: 100%;
-      height: 48px;
-    }
-
-    [data-theme="dark"] .revenue-sparkline { display: block; }
 
     body {
       font-family: 'Inter', sans-serif;
@@ -76,7 +56,6 @@
       margin: 0 auto;
     }
 
-    /* ===== COMPOSANTS ===== */
     .card {
       background: linear-gradient(145deg, #080808, #050505);
       border-radius: 24px;
@@ -117,7 +96,6 @@
       color: var(--text-primary);
     }
 
-    /* ===== HEADER ===== */
     .main-header {
       display: flex;
       justify-content: space-between;
@@ -158,7 +136,6 @@
       color: white;
     }
 
-    /* ===== SALUTATION ===== */
     .greeting {
       margin-bottom: 24px;
     }
@@ -175,32 +152,35 @@
       font-size: 14px;
     }
 
-    /* ===== CARTE CHIFFRE D'AFFAIRES ===== */
-    .revenue-card {
-      border-radius: 28px;
-      padding: 32px;
-      margin-bottom: 20px;
-      transition: all 0.3s ease;
-    }
-
-    /* Thème sombre : carte blanche spectaculaire */
-    [data-theme="dark"] .revenue-card {
-      background: #ffffff;
-      border: none;
-      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255,255,255,0.03);
-      position: relative;
-      overflow: hidden;
-    }
-    [data-theme="dark"] .revenue-sparkline { display: block; }
-    
-    /* Amélioration carte revenue-card générale */
     .revenue-card {
       border-radius: 28px;
       padding: 28px 28px 20px;
       margin-bottom: 20px;
       transition: all 0.3s ease;
     }
-    
+
+    [data-theme="dark"] .revenue-card {
+      background: #ffffff;
+      border: none;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255,255,255,0.03);
+    }
+
+    [data-theme="light"] .revenue-card {
+      background: #111827;
+      border: 1px solid #1f2937;
+    }
+
+    .revenue-label {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      color: #6b7280;
+    }
+
+    [data-theme="dark"] .revenue-label { color: #4b5563; }
+    [data-theme="light"] .revenue-label { color: #9ca3af; }
+
     .revenue-row {
       display: flex;
       align-items: flex-end;
@@ -209,7 +189,16 @@
       gap: 8px;
       margin-bottom: 6px;
     }
-    
+
+    .revenue-amount {
+      font-size: 48px;
+      font-weight: 700;
+      letter-spacing: -1px;
+    }
+
+    [data-theme="dark"] .revenue-amount { color: #111827; }
+    [data-theme="light"] .revenue-amount { color: #ffffff; }
+
     .revenue-badge {
       display: inline-flex;
       align-items: center;
@@ -220,58 +209,14 @@
       font-size: 11px;
       font-weight: 600;
       color: #6b7280;
-      margin-bottom: 8px;
-    }
-
-    [data-theme="dark"] .revenue-label {
-      color: #4b5563;
-    }
-
-    [data-theme="dark"] .revenue-amount {
-      color: #111827;
-    }
-
-    [data-theme="dark"] .revenue-stats {
-      color: #6b7280;
-    }
-
-    /* Thème clair : carte noire */
-    [data-theme="light"] .revenue-card {
-      background: #111827;
-      border: 1px solid #1f2937;
-    }
-
-    [data-theme="light"] .revenue-label {
-      color: #9ca3af;
-    }
-
-    [data-theme="light"] .revenue-amount {
-      color: #ffffff;
-    }
-
-    [data-theme="light"] .revenue-stats {
-      color: #9ca3af;
-    }
-
-    .revenue-label {
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 8px;
-    }
-
-    .revenue-amount {
-      font-size: 48px;
-      font-weight: 700;
-      margin-bottom: 12px;
-      letter-spacing: -1px;
     }
 
     .revenue-stats {
       font-size: 14px;
+      color: #6b7280;
     }
 
-    /* ===== GRILLE DE STATISTIQUES ===== */
+    /* GRILLE STATISTIQUES */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -286,7 +231,6 @@
     .stat-card {
       background: #080808;
       border-radius: 22px;
-      padding: 0;
       border: 1px solid #181818;
       transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
       cursor: pointer;
@@ -300,8 +244,6 @@
       border-color: #252525;
       box-shadow: 0 20px 50px rgba(0,0,0,0.95);
     }
-
-    .stat-card.clickable { cursor: pointer; }
 
     .stat-card-top {
       display: flex;
@@ -350,10 +292,7 @@
       justify-content: center;
       font-size: 10px;
       color: #444;
-      transition: all 0.2s;
     }
-
-    .stat-card:hover .stat-card-arrow { color: #888; border-color: #2a2a2a; }
 
     .stat-card-body {
       padding: 12px 18px 0 18px;
@@ -428,21 +367,370 @@
       color: #ef4444;
     }
 
-    .stat-bottom-bar {
-      padding: 8px 18px 16px;
+    /* IA CARD AMÉLIORÉE */
+    .ia-card {
+      background: #050505;
+      border-radius: 24px;
+      margin-bottom: 20px;
+      border: 1px solid #1a1a1a;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.95);
+    }
+
+    .ia-top-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      padding: 14px 18px;
+      border-bottom: 1px solid #0e0e0e;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
-    .stat-bottom-bar .mini-label { font-size: 10px; color: #2e2e2e; text-transform: uppercase; letter-spacing: 0.6px; }
+    .ia-identity {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
 
-    /* compatibilité : cacher anciens éléments */
-    .stat-progress { display: none; }
-    .progress-bar  { display: none; }
-    .stat-header   { display: none; }
+    .ia-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, #1e3a5f, #0f2340);
+      border: 1px solid #2a4a6f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      color: #60a5fa;
+      flex-shrink: 0;
+      position: relative;
+    }
 
-    /* ===== VUE DÉTAILLÉE ===== */
+    .ia-avatar::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 9px;
+      height: 9px;
+      background: #10b981;
+      border-radius: 50%;
+      border: 2px solid #050505;
+    }
+
+    .ia-name-block .ia-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #e0e0e0;
+    }
+
+    .ia-name-block .ia-role {
+      font-size: 10px;
+      color: #333;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .ia-mode-toggle {
+      display: flex;
+      gap: 6px;
+    }
+
+    .ia-mode-btn, .ia-admin-btn {
+      padding: 4px 11px;
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid #1e1e1e;
+      background: transparent;
+      color: #444;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: "Inter", sans-serif;
+    }
+
+    .ia-mode-btn.active {
+      background: #0f2340;
+      border-color: #2a4a6f;
+      color: #60a5fa;
+    }
+
+    .ia-admin-btn {
+      background: #0f2340;
+      border-color: #2a4a6f;
+      color: #60a5fa;
+    }
+
+    .ia-admin-btn:hover {
+      background: #1e3a5f;
+    }
+
+    .ia-chat-zone {
+      padding: 14px 18px;
+      min-height: 80px;
+    }
+
+    .ia-bubble {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+      animation: bubbleIn 0.35s ease;
+    }
+
+    @keyframes bubbleIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .ia-bubble-avatar {
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #1e3a5f, #0f2340);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: #60a5fa;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .ia-bubble-content {
+      flex: 1;
+    }
+
+    .ia-bubble-text {
+      background: #0a0a0a;
+      border: 1px solid #181818;
+      border-radius: 4px 16px 16px 16px;
+      padding: 11px 13px;
+      font-size: 13.5px;
+      line-height: 1.65;
+      color: #c8c8c8;
+    }
+
+    .ia-bubble-text strong {
+      color: #f0f0f0;
+    }
+
+    .ia-bubble-time {
+      font-size: 10px;
+      color: #252525;
+      margin-top: 4px;
+      padding-left: 4px;
+    }
+
+    .ia-metrics-row {
+      display: flex;
+      gap: 7px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .ia-metric-chip {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 9px;
+      background: #080808;
+      border: 1px solid #0f0f0f;
+      border-radius: 9px;
+      font-size: 11px;
+      color: #444;
+    }
+
+    .ia-metric-chip span {
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    .chip-v-green  { color: #10b981; }
+    .chip-v-blue   { color: #3b82f6; }
+    .chip-v-orange { color: #f59e0b; }
+    .chip-v-red    { color: #ef4444; }
+
+    .ia-goals-row {
+      display: flex;
+      gap: 7px;
+      padding: 0 18px 12px;
+      flex-wrap: wrap;
+    }
+
+    .ia-goal-pill {
+      flex: 1;
+      min-width: 110px;
+      padding: 9px 11px;
+      background: #080808;
+      border: 1px solid #0f0f0f;
+      border-radius: 13px;
+    }
+
+    .ia-goal-pill .goal-title {
+      font-size: 10px;
+      color: #2e2e2e;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 5px;
+    }
+
+    .ia-goal-pill .goal-bar-bg {
+      height: 3px;
+      background: #111;
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 4px;
+    }
+
+    .ia-goal-pill .goal-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.8s ease;
+    }
+
+    .ia-goal-pill .goal-numbers {
+      font-size: 11px;
+      color: #383838;
+      font-weight: 600;
+    }
+
+    .ia-typing {
+      display: none;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 14px;
+      font-size: 12px;
+      color: #2e2e2e;
+    }
+
+    .ia-typing.visible {
+      display: flex;
+    }
+
+    .ia-typing-dots {
+      display: flex;
+      gap: 3px;
+    }
+
+    .ia-typing-dots span {
+      width: 4px;
+      height: 4px;
+      background: #333;
+      border-radius: 50%;
+      animation: typingDot 1.2s infinite;
+    }
+
+    .ia-typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .ia-typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes typingDot {
+      0%,60%,100% { opacity: 0.2; transform: translateY(0); }
+      30% { opacity: 1; transform: translateY(-3px); }
+    }
+
+    .ia-quick-btns {
+      display: flex;
+      gap: 6px;
+      padding: 0 16px 10px;
+      flex-wrap: wrap;
+    }
+
+    .ia-quick-btn {
+      padding: 5px 11px;
+      background: transparent;
+      border: 1px solid #181818;
+      border-radius: 20px;
+      font-size: 11px;
+      color: #3a3a3a;
+      cursor: pointer;
+      font-family: "Inter", sans-serif;
+      transition: all 0.2s;
+    }
+
+    .ia-quick-btn:hover {
+      border-color: #2a4a6f;
+      color: #60a5fa;
+      background: rgba(30,58,95,0.08);
+    }
+
+    .ia-input-row {
+      display: flex;
+      gap: 8px;
+      padding: 10px 14px 14px;
+      border-top: 1px solid #0e0e0e;
+    }
+
+    .ia-input {
+      flex: 1;
+      background: #080808;
+      border: 1px solid #1a1a1a;
+      border-radius: 13px;
+      padding: 10px 13px;
+      font-size: 13px;
+      color: #d0d0d0;
+      font-family: "Inter", sans-serif;
+      outline: none;
+    }
+
+    .ia-input:focus {
+      border-color: #2a4a6f;
+    }
+
+    .ia-send-btn {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, #1e3a5f, #0f2340);
+      border: 1px solid #2a4a6f;
+      border-radius: 11px;
+      color: #60a5fa;
+      cursor: pointer;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ia-send-btn:hover {
+      transform: scale(1.05);
+    }
+
+    /* Challenge badge */
+    .challenge-badge {
+      background: linear-gradient(135deg, #f59e0b, #ef4444);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: bold;
+      margin-left: 8px;
+    }
+
+    /* Admin panel */
+    .admin-panel-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.9);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .admin-panel {
+      background: #0a0a0a;
+      border: 2px solid #1e3a5f;
+      border-radius: 24px;
+      width: 90%;
+      max-width: 500px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
     .detail-view {
       background-color: var(--bg-card);
       border-radius: 20px;
@@ -456,6 +744,8 @@
       align-items: center;
       justify-content: space-between;
       margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
     }
 
     .detail-title {
@@ -464,10 +754,6 @@
       gap: 10px;
       font-size: 18px;
       font-weight: 600;
-    }
-
-    .detail-title i {
-      color: var(--accent);
     }
 
     .back-btn {
@@ -484,11 +770,6 @@
       gap: 8px;
     }
 
-    .back-btn:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
     .selector {
       background: var(--bg-primary);
       border: 1px solid var(--border);
@@ -497,11 +778,6 @@
       border-radius: 30px;
       font-size: 14px;
       cursor: pointer;
-      font-family: 'Inter', sans-serif;
-    }
-
-    .selector:hover {
-      border-color: var(--accent);
     }
 
     .detail-list {
@@ -510,55 +786,12 @@
       padding-right: 8px;
     }
 
-    .detail-list::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    .detail-list::-webkit-scrollbar-track {
-      background: var(--border);
-      border-radius: 10px;
-    }
-
-    .detail-list::-webkit-scrollbar-thumb {
-      background: var(--accent);
-      border-radius: 10px;
-    }
-
     .detail-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 12px;
       border-bottom: 1px solid var(--border);
-      transition: background 0.2s;
-    }
-
-    .detail-item:hover {
-      background: var(--bg-primary);
-      border-radius: 12px;
-    }
-
-    .detail-item:last-child {
-      border-bottom: none;
-    }
-
-    .detail-item-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .detail-item-name {
-      font-weight: 500;
-    }
-
-    .detail-item-name.clickable {
-      cursor: pointer;
-      color: var(--accent);
-    }
-
-    .detail-item-name.clickable:hover {
-      text-decoration: underline;
     }
 
     .detail-item-amount {
@@ -573,119 +806,8 @@
       display: flex;
       justify-content: space-between;
       font-weight: 700;
-      font-size: 16px;
     }
 
-    .detail-total span:last-child {
-      color: var(--accent);
-    }
-
-    /* ===== CARTE IA ===== */
-    /* ===== MANAGER IA ===== */
-    .ia-card {
-      background: #050505;
-      border-radius: 24px;
-      margin-bottom: 20px;
-      border: 1px solid #1a1a1a;
-      overflow: hidden;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.95);
-    }
-    .ia-top-bar {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 18px; border-bottom: 1px solid #0e0e0e;
-    }
-    .ia-identity { display: flex; align-items: center; gap: 11px; }
-    .ia-avatar {
-      width: 36px; height: 36px; border-radius: 11px;
-      background: linear-gradient(135deg, #1e3a5f, #0f2340);
-      border: 1px solid #2a4a6f;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 15px; color: #60a5fa; flex-shrink: 0; position: relative;
-    }
-    .ia-avatar::after {
-      content: ''; position: absolute; bottom: -2px; right: -2px;
-      width: 9px; height: 9px; background: #10b981;
-      border-radius: 50%; border: 2px solid #050505;
-    }
-    .ia-name-block .ia-name { font-size: 13px; font-weight: 700; color: #e0e0e0; }
-    .ia-name-block .ia-role { font-size: 10px; color: #333; text-transform: uppercase; letter-spacing: 0.8px; }
-    .ia-mode-toggle { display: flex; gap: 6px; }
-    .ia-mode-btn {
-      padding: 4px 11px; font-size: 11px; font-weight: 600;
-      border: 1px solid #1e1e1e; background: transparent; color: #444;
-      border-radius: 20px; cursor: pointer; transition: all 0.2s;
-      font-family: "Inter", sans-serif;
-    }
-    .ia-mode-btn.active { background: #0f2340; border-color: #2a4a6f; color: #60a5fa; }
-    .ia-chat-zone { padding: 14px 18px; min-height: 80px; }
-    .ia-bubble { display: flex; gap: 10px; margin-bottom: 10px; animation: bubbleIn 0.35s ease; }
-    @keyframes bubbleIn { from { opacity:0; transform:translateY(8px);} to { opacity:1; transform:translateY(0);} }
-    .ia-bubble-avatar {
-      width: 26px; height: 26px; border-radius: 8px;
-      background: linear-gradient(135deg, #1e3a5f, #0f2340);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 11px; color: #60a5fa; flex-shrink: 0; margin-top: 2px;
-    }
-    .ia-bubble-content { flex: 1; }
-    .ia-bubble-text {
-      background: #0a0a0a; border: 1px solid #181818;
-      border-radius: 4px 16px 16px 16px;
-      padding: 11px 13px; font-size: 13.5px; line-height: 1.65; color: #c8c8c8;
-    }
-    .ia-bubble-text strong { color: #f0f0f0; }
-    .ia-bubble-text .ia-emoji { font-size: 15px; }
-    .ia-bubble-time { font-size: 10px; color: #252525; margin-top: 4px; padding-left: 4px; }
-    .ia-metrics-row { display: flex; gap: 7px; margin-top: 10px; flex-wrap: wrap; }
-    .ia-metric-chip {
-      display: flex; align-items: center; gap: 5px;
-      padding: 5px 9px; background: #080808; border: 1px solid #0f0f0f;
-      border-radius: 9px; font-size: 11px; color: #444;
-    }
-    .ia-metric-chip span { font-weight: 700; font-size: 12px; }
-    .chip-v-green  { color: #10b981; }
-    .chip-v-blue   { color: #3b82f6; }
-    .chip-v-orange { color: #f59e0b; }
-    .chip-v-red    { color: #ef4444; }
-    .ia-goals-row { display: flex; gap: 7px; padding: 0 18px 12px; flex-wrap: wrap; }
-    .ia-goal-pill { flex: 1; min-width: 110px; padding: 9px 11px; background: #080808; border: 1px solid #0f0f0f; border-radius: 13px; }
-    .ia-goal-pill .goal-title { font-size: 10px; color: #2e2e2e; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 5px; }
-    .ia-goal-pill .goal-bar-bg { height: 3px; background: #111; border-radius: 3px; overflow: hidden; margin-bottom: 4px; }
-    .ia-goal-pill .goal-bar-fill { height: 100%; border-radius: 3px; transition: width 0.8s ease; }
-    .ia-goal-pill .goal-numbers { font-size: 11px; color: #383838; font-weight: 600; }
-    .ia-typing { display: none; align-items: center; gap: 5px; padding: 6px 14px; font-size: 12px; color: #2e2e2e; }
-    .ia-typing.visible { display: flex; }
-    .ia-typing-dots { display: flex; gap: 3px; }
-    .ia-typing-dots span { width: 4px; height: 4px; background: #333; border-radius: 50%; animation: typingDot 1.2s infinite; }
-    .ia-typing-dots span:nth-child(2) { animation-delay: 0.2s; }
-    .ia-typing-dots span:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes typingDot { 0%,60%,100% { opacity:0.2; transform:translateY(0);} 30% { opacity:1; transform:translateY(-3px);} }
-    .ia-quick-btns { display: flex; gap: 6px; padding: 0 16px 10px; flex-wrap: wrap; }
-    .ia-quick-btn {
-      padding: 5px 11px; background: transparent; border: 1px solid #181818;
-      border-radius: 20px; font-size: 11px; color: #3a3a3a;
-      cursor: pointer; font-family: "Inter", sans-serif; transition: all 0.2s;
-    }
-    .ia-quick-btn:hover { border-color: #2a4a6f; color: #60a5fa; background: rgba(30,58,95,0.08); }
-    .ia-input-row { display: flex; gap: 8px; padding: 10px 14px 14px; border-top: 1px solid #0e0e0e; }
-    .ia-input {
-      flex: 1; background: #080808; border: 1px solid #1a1a1a; border-radius: 13px;
-      padding: 10px 13px; font-size: 13px; color: #d0d0d0;
-      font-family: "Inter", sans-serif; outline: none; transition: border-color 0.2s;
-    }
-    .ia-input::placeholder { color: #252525; }
-    .ia-input:focus { border-color: #2a4a6f; }
-    .ia-send-btn {
-      width: 38px; height: 38px;
-      background: linear-gradient(135deg, #1e3a5f, #0f2340);
-      border: 1px solid #2a4a6f; border-radius: 11px;
-      color: #60a5fa; cursor: pointer; font-size: 13px;
-      display: flex; align-items: center; justify-content: center; transition: all 0.2s;
-    }
-    .ia-send-btn:hover { transform: scale(1.05); }
-    /* anciens ids toujours présents mais cachés */
-    #iaMessage, #iaRecommendation, #iaObjective { display: none; }
-
-    /* ===== BARRE DE NAVIGATION ===== */
     .nav-bar {
       display: flex;
       gap: 10px;
@@ -709,19 +831,12 @@
       gap: 8px;
     }
 
-    .nav-btn:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      transform: translateY(-2px);
-    }
-
     .nav-btn.active {
       background-color: var(--accent);
       color: white;
       border-color: var(--accent);
     }
 
-    /* ===== FORMULAIRE ===== */
     .form-group {
       margin-bottom: 20px;
     }
@@ -734,7 +849,7 @@
       margin-bottom: 8px;
     }
 
-        .form-control {
+    .form-control {
       width: 100%;
       padding: 16px;
       background-color: var(--bg-primary);
@@ -743,13 +858,11 @@
       font-size: 15px;
       color: var(--text-primary);
       font-family: 'Inter', sans-serif;
-      transition: all 0.2s;
     }
 
     .form-control:focus {
       outline: none;
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
     }
 
     .plan-selector {
@@ -766,25 +879,17 @@
       border-radius: 16px;
       text-align: center;
       cursor: pointer;
-      transition: all 0.2s;
     }
 
     .plan-option.active {
       background-color: var(--accent);
       color: white;
       border-color: var(--accent);
-      transform: translateY(-2px);
     }
 
     .plan-price {
       font-size: 20px;
       font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .plan-name {
-      font-size: 12px;
-      opacity: 0.8;
     }
 
     .profit-display {
@@ -796,12 +901,6 @@
       justify-content: space-between;
       align-items: center;
       border: 1px solid var(--border);
-    }
-
-    .profit-label {
-      font-weight: 500;
-      color: var(--text-secondary);
-      font-size: 15px;
     }
 
     .profit-value {
@@ -820,29 +919,15 @@
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s;
     }
 
-    .btn:hover {
-      background-color: var(--accent-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(44, 62, 80, 0.3);
-    }
-
-    .transaction-sheet {
+     .transaction-sheet {
       background: transparent;
       border-radius: 20px;
       padding: 8px;
-      border: none;
       max-height: 520px;
       overflow-y: auto;
-      scrollbar-width: thin;
-      scrollbar-color: #1e1e1e #000;
     }
-    .transaction-sheet::-webkit-scrollbar { width: 5px; }
-    .transaction-sheet::-webkit-scrollbar-track { background: #000; border-radius: 10px; }
-    .transaction-sheet::-webkit-scrollbar-thumb { background: #1e1e1e; border-radius: 10px; }
-    .transaction-sheet::-webkit-scrollbar-thumb:hover { background: #2a2a2a; }
 
     .transaction-item {
       display: flex;
@@ -850,24 +935,15 @@
       align-items: center;
       padding: 16px;
       border-bottom: 1px solid #111111;
-      transition: all 0.2s ease;
       border-radius: 12px;
-      margin-bottom: 2px;
-      flex-wrap: wrap;
     }
 
     .transaction-item:hover {
       background: linear-gradient(135deg, #111111, #0d0d0d);
-      border-bottom-color: transparent;
-    }
-
-    .transaction-item:last-child {
-      border-bottom: none;
     }
 
     .client-info {
       flex: 1;
-      min-width: 180px;
     }
 
     .client-name {
@@ -877,8 +953,6 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      font-size: 16px;
-      flex-wrap: wrap;
     }
 
     .client-badge {
@@ -889,28 +963,10 @@
       border-radius: 30px;
       color: var(--text-secondary);
       border: 1px solid var(--border);
-      font-weight: 500;
     }
-
-    .expiry-badge {
-      display: inline-block;
-      font-size: 10px;
-      padding: 3px 10px;
-      border-radius: 20px;
-      font-weight: 500;
-    }
-    .expiry-badge.active { background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3); }
-    .expiry-badge.soon { background: rgba(245,158,11,0.15); color: #f59e0b; border: 1px solid rgba(245,158,11,0.3); }
-    .expiry-badge.expired { background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.3); }
 
     .transaction-date {
       font-size: 12px;
-      color: var(--text-secondary);
-    }
-
-    .expiry-date {
-      font-size: 11px;
-      margin-top: 4px;
       color: var(--text-secondary);
     }
 
@@ -922,7 +978,6 @@
     .amount-gross {
       font-weight: 600;
       color: var(--text-primary);
-      margin-bottom: 4px;
     }
 
     .amount-net {
@@ -939,17 +994,9 @@
       color: var(--danger);
       cursor: pointer;
       font-size: 14px;
-      transition: all 0.2s;
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-
-    .delete-btn:hover {
-      background-color: var(--danger);
-      color: white;
-      border-color: var(--danger);
-      transform: scale(1.1);
     }
 
     .table-footer {
@@ -959,121 +1006,150 @@
       display: flex;
       justify-content: space-between;
       font-weight: 600;
-      font-size: 16px;
-      color: var(--text-primary);
     }
 
-    .table-footer span:last-child {
-      color: var(--accent);
-      font-size: 20px;
-    }
-
-    /* ===== ÉTAT VIDE ===== */
     .empty-state {
       text-align: center;
       padding: 60px 20px;
       color: var(--text-secondary);
     }
 
-    .empty-state i {
-      font-size: 56px;
-      color: var(--border);
-      margin-bottom: 20px;
-      opacity: 0.5;
-    }
-
-    .empty-state p {
-      font-size: 15px;
-      line-height: 1.6;
-    }
-
-    /* ===== ANIMATIONS ===== */
     @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .card {
       animation: slideIn 0.3s ease-out;
     }
-    .card:hover {
-      border-color: #1e1e1e;
-      box-shadow: 0 12px 40px rgba(0,0,0,0.95);
+
+    @keyframes confettiFly {
+      0% { transform: rotate(0deg) translateY(0) scale(1); opacity: 1; }
+      100% { transform: rotate(720deg) translateY(-220px) translateX(var(--tx, 60px)) scale(0.3); opacity: 0; }
     }
 
-    .detail-view {
-      animation: slideIn 0.2s ease-out;
+    @keyframes popupSlide {
+      from { transform: translateX(-50%) translateY(80px); opacity: 0; }
+      to { transform: translateX(-50%) translateY(0); opacity: 1; }
     }
 
-    /* ===== RESPONSIVE ===== */
+    hr {
+      margin: 15px 0;
+      border-color: #1a1a1a;
+    }
+
+    /* ===== SCROLL LISTE ===== */
+    .transaction-sheet {
+      background: transparent;
+      border-radius: 20px;
+      padding: 8px;
+      border: none;
+      max-height: 520px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #1e1e1e #000;
+    }
+    .transaction-sheet::-webkit-scrollbar { width: 5px; }
+    .transaction-sheet::-webkit-scrollbar-track { background: #000; border-radius: 10px; }
+    .transaction-sheet::-webkit-scrollbar-thumb { background: #1e1e1e; border-radius: 10px; }
+
+    /* ===== TRANSACTION ITEMS ===== */
+    .transaction-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      border-bottom: 1px solid #111;
+      transition: all 0.2s ease;
+      border-radius: 12px;
+      margin-bottom: 2px;
+    }
+    .transaction-item:hover { background: linear-gradient(135deg, #111, #0d0d0d); border-bottom-color: transparent; }
+    .transaction-item:last-child { border-bottom: none; }
+    .client-info { flex: 1; }
+    .client-name { font-weight: 600; color: var(--text-primary); margin-bottom: 6px; display: flex; align-items: center; gap: 10px; font-size: 15px; }
+    .client-badge { display: inline-block; font-size: 10px; padding: 3px 10px; background: #0a0a0a; border-radius: 20px; color: #555; border: 1px solid #161616; }
+    .transaction-date { font-size: 12px; color: var(--text-secondary); }
+
+    /* ===== PLAN SELECTOR ===== */
+    .plan-selector { display: flex; gap: 12px; margin-bottom: 24px; }
+    .plan-option { flex:1; padding: 18px; background: #050505; border: 1px solid #0f0f0f; border-radius: 16px; text-align: center; cursor: pointer; transition: all 0.2s; }
+    .plan-option.active { background: var(--accent); color: white; border-color: var(--accent); transform: translateY(-2px); }
+    .plan-price { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .plan-name { font-size: 12px; opacity: 0.8; }
+
+    /* ===== FORM ===== */
+    .form-group { margin-bottom: 20px; }
+    .form-label { display: block; font-size: 13px; font-weight: 500; color: var(--text-secondary); margin-bottom: 8px; }
+    .form-control { width: 100%; padding: 16px; background: #000; border: 1px solid #0f0f0f; border-radius: 16px; font-size: 15px; color: var(--text-primary); font-family: 'Inter', sans-serif; transition: all 0.2s; outline: none; }
+    .form-control:focus { border-color: var(--accent); }
+    textarea.form-control { resize: vertical; min-height: 80px; }
+    .profit-display { background: #000; border-radius: 16px; padding: 20px; margin: 24px 0; display: flex; justify-content: space-between; align-items: center; border: 1px solid #0f0f0f; }
+    .profit-label { font-weight: 500; color: var(--text-secondary); font-size: 15px; }
+    .profit-value { font-size: 24px; font-weight: 700; color: var(--accent); }
+    .btn { width: 100%; padding: 18px; background: var(--accent); color: white; border: none; border-radius: 16px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: 'Inter', sans-serif; }
+    .btn:hover { background: var(--accent-hover); transform: translateY(-2px); }
+
+    /* ===== NAV BUTTONS ===== */
+    .nav-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+    .nav-btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+    .nav-btn { justify-content: center; font-family: 'Inter', sans-serif; }
+
+    /* ===== TABLE FOOTER ===== */
+    .table-footer span:last-child { color: var(--accent); font-size: 18px; }
+    .delete-btn:hover { background: var(--danger); color: white; border-color: var(--danger); transform: scale(1.1); }
+
+    /* ===== DETAIL VIEW ===== */
+    .detail-item:hover { background: #050505; border-radius: 10px; }
+    .detail-item-name { font-weight: 500; }
+    .detail-item-name.clickable { cursor: pointer; color: var(--accent); }
+    .detail-title i { color: var(--accent); }
+    .back-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .detail-total span:last-child { color: var(--accent); }
+
+    /* ===== STAT CARD ANIMATIONS ===== */
     .stat-card:nth-child(1) { animation: slideIn 0.3s ease-out 0.05s both; }
     .stat-card:nth-child(2) { animation: slideIn 0.3s ease-out 0.1s both; }
     .stat-card:nth-child(3) { animation: slideIn 0.3s ease-out 0.15s both; }
     .stat-card:nth-child(4) { animation: slideIn 0.3s ease-out 0.2s both; }
+    .stat-card:hover .stat-card-arrow { color: #888; border-color: #2a2a2a; }
 
-    @media (max-width: 600px) {
-      body {
-        padding: 16px;
-      }
-
-      .revenue-amount {
-        font-size: 36px;
-      }
-
-      .plan-selector {
-        flex-direction: column;
-      }
-
-      .transaction-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-      }
-
-      .transaction-amounts {
-        text-align: left;
-        margin-right: 0;
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .detail-header {
-        flex-direction: column;
-        gap: 12px;
-        align-items: flex-start;
-      }
-
-      .stats-grid {
-        gap: 12px;
-      }
-    }
+    /* ===== SPARKLINE REVENUE ===== */
+    .revenue-sparkline { display: none; margin-top: 14px; }
+    .revenue-sparkline svg { width: 100%; height: 44px; }
+    [data-theme="dark"] .revenue-sparkline { display: block; }
 
     /* ===== ANIMATIONS SURPRISE ===== */
     @keyframes confettiFly {
-      0%   { transform: rotate(0deg) translateY(0) scale(1); opacity: 1; }
-      100% { transform: rotate(720deg) translateY(-220px) translateX(var(--tx, 60px)) scale(0.3); opacity: 0; }
+      0% { transform: rotate(0deg) translateY(0) scale(1); opacity: 1; }
+      100% { transform: rotate(720deg) translateY(-220px) scale(0.3); opacity: 0; }
     }
     @keyframes popupSlide {
       from { transform: translateX(-50%) translateY(80px); opacity: 0; }
-      to   { transform: translateX(-50%) translateY(0); opacity: 1; }
+      to { transform: translateX(-50%) translateY(0); opacity: 1; }
     }
     @keyframes popupSlideOut {
       from { transform: translateX(-50%) translateY(0); opacity: 1; }
-      to   { transform: translateX(-50%) translateY(80px); opacity: 0; }
+      to { transform: translateX(-50%) translateY(80px); opacity: 0; }
+    }
+
+    /* ===== EMPTY STATE ===== */
+    .empty-state i { font-size: 48px; color: #1a1a1a; margin-bottom: 16px; display: block; }
+    .empty-state p { font-size: 14px; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 600px) {
+      body { padding: 16px; }
+      .revenue-amount { font-size: 36px; }
+      .plan-selector { flex-direction: column; }
+      .transaction-item { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .transaction-amounts { text-align: left; margin-right: 0; }
+      .detail-header { flex-direction: column; gap: 10px; align-items: flex-start; }
     }
   </style>
 </head>
 <body data-theme="dark">
   <div class="container">
-    <!-- HEADER AVEC BOUTON THEME -->
     <div class="main-header">
       <div class="logo">MON ENTREPRISE</div>
       <div class="theme-toggle">
@@ -1082,13 +1158,11 @@
       </div>
     </div>
 
-    <!-- SALUTATION -->
     <div class="greeting">
       <h1 id="greetingMessage">Bonjour, Abdoulaye</h1>
       <p id="greetingTime">Chargement...</p>
     </div>
 
-    <!-- CARTE CHIFFRE D'AFFAIRES -->
     <div class="revenue-card">
       <div class="revenue-label">Chiffre d'affaires total</div>
       <div class="revenue-row">
@@ -1097,90 +1171,64 @@
       </div>
       <div class="revenue-stats" id="revenueStats">Aucune transaction</div>
       <div class="revenue-sparkline">
-        <svg id="revenueSparkline" viewBox="0 0 400 48" preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="gradRevenue" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#111827" stop-opacity="0.15"/>
-              <stop offset="100%" stop-color="#111827" stop-opacity="0"/>
-            </linearGradient>
-          </defs>
-          <path id="sparklineFill" d="M0,48 L400,48 Z" fill="url(#gradRevenue)"/>
-          <path id="sparklineLine" d="M0,44 L400,44" fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"/>
+        <svg id="revenueSparkline" viewBox="0 0 400 44" preserveAspectRatio="none">
+          <defs><linearGradient id="gradRevenue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#111827" stop-opacity="0.18"/><stop offset="100%" stop-color="#111827" stop-opacity="0"/></linearGradient></defs>
+          <path id="sparklineFill" d="M0,44 L400,44 Z" fill="url(#gradRevenue)"/>
+          <path id="sparklineLine" d="M0,40 L400,40" fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
       </div>
     </div>
-    
-    <!-- hidden legacy IA targets -->
-    <span id="iaMessage" style="display:none"></span>
-    <span id="iaRecommendation" style="display:none"></span>
-    <span id="iaObjective" style="display:none"></span>
 
-    <!-- MANAGER IA -->
+    <!-- MANAGER IA AMÉLIORÉ -->
     <div class="ia-card">
-      <!-- Barre du haut -->
       <div class="ia-top-bar">
         <div class="ia-identity">
           <div class="ia-avatar"><i class="fas fa-robot"></i></div>
           <div class="ia-name-block">
-            <div class="ia-name">MAX — Manager IA</div>
-            <div class="ia-role">Analyse &bull; Coaching &bull; Stratégie</div>
+            <div class="ia-name">MAX — Manager IA <span id="challengeIndicator" style="display:none" class="challenge-badge">🏆 Défi actif</span></div>
+            <div class="ia-role">Analyse • Coaching • Stratégie</div>
           </div>
         </div>
-        <div class="ia-mode-toggle">
-          <button class="ia-mode-btn active" id="btnModeAuto" onclick="setIAMode('auto')">Auto</button>
-          <button class="ia-mode-btn" id="btnModeChat" onclick="setIAMode('chat')">Chat</button>
+        <div style="display: flex; gap: 6px;">
+          <button class="ia-admin-btn" onclick="openAdminPanel()"><i class="fas fa-plus"></i> Enrichir</button>
+          <div class="ia-mode-toggle">
+            <button class="ia-mode-btn active" id="btnModeAuto" onclick="setIAMode('auto')">Auto</button>
+            <button class="ia-mode-btn" id="btnModeChat" onclick="setIAMode('chat')">Chat</button>
+          </div>
         </div>
       </div>
 
-      <!-- Zone de chat / message IA -->
       <div class="ia-chat-zone" id="iaChatZone">
         <div class="ia-bubble">
           <div class="ia-bubble-avatar"><i class="fas fa-robot"></i></div>
           <div class="ia-bubble-content">
             <div class="ia-bubble-text" id="iaMainBubble">
-              Bonjour Abdoulaye ! <strong>Enregistre ta première vente</strong> pour que je commence ton suivi personnalisé.
+              Bonjour Abdoulaye ! <strong>Je suis MAX version 2.0</strong> — Je me souviens de nos conversations et je m'améliore chaque jour. Enregistre ta première vente pour commencer !
             </div>
             <div class="ia-bubble-time" id="iaBubbleTime">À l'instant</div>
           </div>
         </div>
-        <!-- Indicateur de frappe -->
         <div class="ia-typing" id="iaTyping">
           <div class="ia-typing-dots"><span></span><span></span><span></span></div>
           Max analyse...
         </div>
-        <!-- Métriques rapides -->
         <div class="ia-metrics-row" id="iaMetricsRow"></div>
       </div>
 
-      <!-- Objectifs / barres de progression -->
       <div class="ia-goals-row" id="iaGoalsRow"></div>
 
-      <!-- Suggestions rapides -->
-      <div class="ia-quick-btns" id="iaQuickBtns">
-        <button class="ia-quick-btn" onclick="askIA('bilan')">📊 Bilan</button>
-        <button class="ia-quick-btn" onclick="askIA('conseil')">💡 Conseil</button>
-        <button class="ia-quick-btn" onclick="askIA('objectif')">🎯 Objectif</button>
-        <button class="ia-quick-btn" onclick="askIA('motivation')">🔥 Motivation</button>
-      </div>
+      <div class="ia-quick-btns" id="iaQuickBtns"></div>
 
-      <!-- Input chat -->
       <div class="ia-input-row" id="iaInputRow" style="display:none">
-        <input class="ia-input" id="iaInputField" placeholder="Pose une question à Max..." 
-               onkeydown="if(event.key==='Enter') sendToIA()"/>
+        <input class="ia-input" id="iaInputField" placeholder="Pose une question à Max..." onkeydown="if(event.key==='Enter') sendToIA()"/>
         <button class="ia-send-btn" onclick="sendToIA()"><i class="fas fa-paper-plane"></i></button>
       </div>
     </div>
-    
-     <!-- GRILLE DE STATISTIQUES (4 CARTES CLIQUABLES) -->
-    <div class="stats-grid">
 
-      <!-- Carte 1 : Aujourd'hui -->
-      <div class="stat-card clickable" onclick="showCardDetail('today')" id="cardToday">
+    <div class="stats-grid">
+      <div class="stat-card clickable" onclick="showCardDetail('today')">
         <div class="stat-card-top">
-          <div class="stat-card-label">
-            <div class="stat-icon-wrap today"><i class="fas fa-sun"></i></div>
-            <span>Aujourd'hui</span>
-          </div>
+          <div class="stat-card-label"><div class="stat-icon-wrap today"><i class="fas fa-sun"></i></div><span>Aujourd'hui</span></div>
           <div class="stat-card-arrow"><i class="fas fa-chevron-right"></i></div>
         </div>
         <div class="stat-card-body">
@@ -1188,28 +1236,12 @@
           <div class="stat-detail" id="statTodayDetail">0 FCFA</div>
           <div class="stat-trend" id="statTodayTrend"><i class="fas fa-minus"></i> vs hier</div>
         </div>
-        <div class="stat-chart-zone">
-          <svg id="chartToday" preserveAspectRatio="none" viewBox="0 0 200 64">
-            <defs>
-              <linearGradient id="gradToday" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.3"/>
-                <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
-              </linearGradient>
-            </defs>
-            <path id="chartTodayFill" d="M0,64 L200,64 Z" fill="url(#gradToday)"/>
-            <path id="chartTodayLine" d="M0,60 L200,60" fill="none" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <div class="stat-progress"><div class="progress-bar" id="progressToday" style="width:0%"></div></div>
+        <div class="stat-chart-zone"><svg id="chartToday" preserveAspectRatio="none" viewBox="0 0 200 64"><defs><linearGradient id="gradToday" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3b82f6" stop-opacity="0.3"/><stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/></linearGradient></defs><path id="chartTodayFill" d="M0,64 L200,64 Z" fill="url(#gradToday)"/><path id="chartTodayLine" d="M0,60 L200,60" fill="none" stroke="#3b82f6" stroke-width="1.5"/></svg></div>
       </div>
 
-      <!-- Carte 2 : Cette semaine -->
-      <div class="stat-card clickable" onclick="showCardDetail('week')" id="cardWeek">
+      <div class="stat-card clickable" onclick="showCardDetail('week')">
         <div class="stat-card-top">
-          <div class="stat-card-label">
-            <div class="stat-icon-wrap week"><i class="fas fa-calendar-week"></i></div>
-            <span>Semaine</span>
-          </div>
+          <div class="stat-card-label"><div class="stat-icon-wrap week"><i class="fas fa-calendar-week"></i></div><span>Semaine</span></div>
           <div class="stat-card-arrow"><i class="fas fa-chevron-right"></i></div>
         </div>
         <div class="stat-card-body">
@@ -1217,28 +1249,12 @@
           <div class="stat-detail" id="statWeekDetail">0 FCFA</div>
           <div class="stat-trend" id="statWeekTrend"><i class="fas fa-minus"></i> vs s. dernière</div>
         </div>
-        <div class="stat-chart-zone">
-          <svg id="chartWeek" preserveAspectRatio="none" viewBox="0 0 200 64">
-            <defs>
-              <linearGradient id="gradWeek" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#10b981" stop-opacity="0.3"/>
-                <stop offset="100%" stop-color="#10b981" stop-opacity="0"/>
-              </linearGradient>
-            </defs>
-            <path id="chartWeekFill" d="M0,64 L200,64 Z" fill="url(#gradWeek)"/>
-            <path id="chartWeekLine" d="M0,60 L200,60" fill="none" stroke="#10b981" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <div class="stat-progress"><div class="progress-bar" id="progressWeek" style="width:0%"></div></div>
+        <div class="stat-chart-zone"><svg id="chartWeek" preserveAspectRatio="none" viewBox="0 0 200 64"><defs><linearGradient id="gradWeek" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#10b981" stop-opacity="0.3"/><stop offset="100%" stop-color="#10b981" stop-opacity="0"/></linearGradient></defs><path id="chartWeekFill" d="M0,64 L200,64 Z" fill="url(#gradWeek)"/><path id="chartWeekLine" d="M0,60 L200,60" fill="none" stroke="#10b981" stroke-width="1.5"/></svg></div>
       </div>
 
-      <!-- Carte 3 : Ce mois -->
-      <div class="stat-card clickable" onclick="showCardDetail('month')" id="cardMonth">
+      <div class="stat-card clickable" onclick="showCardDetail('month')">
         <div class="stat-card-top">
-          <div class="stat-card-label">
-            <div class="stat-icon-wrap month"><i class="fas fa-calendar-alt"></i></div>
-            <span>Ce mois</span>
-          </div>
+          <div class="stat-card-label"><div class="stat-icon-wrap month"><i class="fas fa-calendar-alt"></i></div><span>Ce mois</span></div>
           <div class="stat-card-arrow"><i class="fas fa-chevron-right"></i></div>
         </div>
         <div class="stat-card-body">
@@ -1246,22 +1262,12 @@
           <div class="stat-detail" id="statMonthDetail">0 FCFA</div>
           <div class="stat-trend" id="statMonthTrend"><i class="fas fa-minus"></i> vs mois dernier</div>
         </div>
-        <div class="stat-chart-zone">
-          <!-- Barres pour les jours du mois -->
-          <svg id="chartMonth" preserveAspectRatio="none" viewBox="0 0 200 64">
-            <g id="chartMonthBars"></g>
-          </svg>
-        </div>
-        <div class="stat-progress"><div class="progress-bar" id="progressMonth" style="width:0%"></div></div>
+        <div class="stat-chart-zone"><svg id="chartMonth" preserveAspectRatio="none" viewBox="0 0 200 64"><g id="chartMonthBars"></g></svg></div>
       </div>
 
-      <!-- Carte 4 : Objectif annuel -->
-      <div class="stat-card clickable" onclick="showCardDetail('year')" id="cardYear">
+      <div class="stat-card clickable" onclick="showCardDetail('year')">
         <div class="stat-card-top">
-          <div class="stat-card-label">
-            <div class="stat-icon-wrap year"><i class="fas fa-bullseye"></i></div>
-            <span>Objectif</span>
-          </div>
+          <div class="stat-card-label"><div class="stat-icon-wrap year"><i class="fas fa-bullseye"></i></div><span>Objectif</span></div>
           <div class="stat-card-arrow"><i class="fas fa-chevron-right"></i></div>
         </div>
         <div class="stat-card-body">
@@ -1270,736 +1276,598 @@
           <div class="stat-trend" id="statYearTrend"><i class="fas fa-clock"></i> Reste 0 FCFA</div>
         </div>
         <div class="stat-ring-zone">
-          <div class="stat-ring-info">
-            <div class="label">Progression annuelle</div>
-            <div class="value" id="yearGoalText">0 / 0 FCFA</div>
-          </div>
-          <div class="ring-svg-wrap">
-            <svg viewBox="0 0 52 52" fill="none">
-              <circle cx="26" cy="26" r="22" stroke="#1a1a1a" stroke-width="4"/>
-              <circle id="ringProgress" cx="26" cy="26" r="22" stroke="#ef4444" stroke-width="4"
-                stroke-linecap="round" stroke-dasharray="138.23" stroke-dashoffset="138.23"
-                transform="rotate(-90 26 26)" style="transition: stroke-dashoffset 1s ease"/>
-            </svg>
-            <div class="ring-pct" id="ringPct">0%</div>
-          </div>
+          <div class="stat-ring-info"><div class="label">Progression annuelle</div><div class="value" id="yearGoalText">0 / 0 FCFA</div></div>
+          <div class="ring-svg-wrap"><svg viewBox="0 0 52 52" fill="none"><circle cx="26" cy="26" r="22" stroke="#1a1a1a" stroke-width="4"/><circle id="ringProgress" cx="26" cy="26" r="22" stroke="#ef4444" stroke-width="4" stroke-linecap="round" stroke-dasharray="138.23" stroke-dashoffset="138.23" transform="rotate(-90 26 26)" style="transition: stroke-dashoffset 1s ease"/></svg><div class="ring-pct" id="ringPct">0%</div></div>
         </div>
-        <div class="stat-progress"><div class="progress-bar" id="progressYear" style="width:0%"></div></div>
       </div>
-
     </div>
 
-    <!-- CONTENEUR POUR LES VUES DÉTAILLÉES -->
     <div id="detailContainer" style="display: none;"></div>
 
-    <!-- BARRE DE NAVIGATION AVEC BOUTON GESTION -->
     <div class="nav-bar">
-      <button class="nav-btn active" onclick="showSection('add')" id="btnAdd">
-        <i class="fas fa-plus"></i>
-        Ajouter
-      </button>
-      <button class="nav-btn" onclick="showSection('list')" id="btnList">
-        <i class="fas fa-list"></i>
-        Liste
-      </button>
-      <button class="nav-btn" onclick="openGestion()">
-        <i class="fas fa-chart-pie"></i> Gestion
-      </button>
+      <button class="nav-btn active" onclick="showSection('add')" id="btnAdd"><i class="fas fa-plus"></i> Ajouter</button>
+      <button class="nav-btn" onclick="showSection('list')" id="btnList"><i class="fas fa-list"></i> Liste</button>
+      <button class="nav-btn" onclick="openGestion()"><i class="fas fa-chart-pie"></i> Gestion</button>
     </div>
 
-    <!-- SECTION AJOUT -->
     <div id="addSection">
       <div class="card">
-        <div class="card-header">
-          <i class="fas fa-plus-circle"></i>
-          <h2>Nouvelle transaction</h2>
-        </div>
-
+        <div class="card-header"><i class="fas fa-plus-circle"></i><h2>Nouvelle transaction</h2></div>
         <div class="plan-selector">
-          <div class="plan-option active" onclick="setType('standard')" id="typeStandard">
-            <div class="plan-price">2 500</div>
-            <div class="plan-name">Standard</div>
-          </div>
-          <div class="plan-option" onclick="setType('promo')" id="typePromo">
-            <div class="plan-price">1 500</div>
-            <div class="plan-name">Promo</div>
-          </div>
+          <div class="plan-option active" onclick="setType('standard')" id="typeStandard"><div class="plan-price">2 500</div><div class="plan-name">Standard</div></div>
+          <div class="plan-option" onclick="setType('promo')" id="typePromo"><div class="plan-price">1 500</div><div class="plan-name">Promo</div></div>
         </div>
-
-        <div class="form-group">
-          <label class="form-label">Client</label>
-          <input type="text" class="form-control" id="clientName" placeholder="Nom du client">
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Date</label>
-          <input type="date" class="form-control" id="saleDate">
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Frais (FCFA)</label>
-          <input type="number" class="form-control" id="fees" value="0" min="0">
-        </div>
-
-        <div class="profit-display">
-          <span class="profit-label">Profit net</span>
-          <span class="profit-value" id="netDisplay">2 500 FCFA</span>
-        </div>
-
-        <button class="btn" onclick="addTransaction()">
-          <i class="fas fa-check"></i>
-          Enregistrer
-        </button>
+        <div class="form-group"><label class="form-label">Client</label><input type="text" class="form-control" id="clientName" placeholder="Nom du client"></div>
+        <div class="form-group"><label class="form-label">Date</label><input type="date" class="form-control" id="saleDate"></div>
+        <div class="form-group"><label class="form-label">Frais (FCFA)</label><input type="number" class="form-control" id="fees" value="0" min="0"></div>
+        <div class="profit-display"><span class="profit-label">Profit net</span><span class="profit-value" id="netDisplay">2 500 FCFA</span></div>
+        <button class="btn" onclick="addTransaction()"><i class="fas fa-check"></i> Enregistrer</button>
       </div>
     </div>
 
-    <!-- SECTION LISTE -->
     <div id="listSection" style="display: none;">
       <div class="card">
-        <div class="card-header">
-          <i class="fas fa-history"></i>
-          <h2>Historique</h2>
-        </div>
-
-        <div id="transactionsList" class="transaction-sheet">
-          <div class="empty-state">
-            <i class="fas fa-receipt"></i>
-            <p>Aucune transaction</p>
-          </div>
-        </div>
-
-        <div class="table-footer">
-          <span>Total</span>
-          <span id="totalProfit">0 FCFA</span>
-        </div>
+        <div class="card-header"><i class="fas fa-history"></i><h2>Historique</h2></div>
+        <div id="transactionsList" class="transaction-sheet"><div class="empty-state"><i class="fas fa-receipt"></i><p>Aucune transaction</p></div></div>
+        <div class="table-footer"><span>Total</span><span id="totalProfit">0 FCFA</span></div>
       </div>
     </div>
   </div>
-
-  <script>
-    // ===== DONNÉES =====
+  
+    <script>
+    // ===== DONNÉES PRINCIPALES =====
     let transactions = [];
     let currentType = 'standard';
     const PRICES = { standard: 2500, promo: 1500 };
-    const YEARLY_GOAL = 100000; // Objectif annuel : 100 000 FCFA
-    const SUBSCRIPTION_DAYS = 50; // Durée d'abonnement en jours
-
-    // États de navigation
+    const YEARLY_GOAL = 100000;
+    
     let navigationState = {
-      currentCard: null, // 'today', 'week', 'month', 'year'
-      viewLevel: 'summary', // 'summary', 'detail', 'subdetail'
+      currentCard: null,
+      viewLevel: 'summary',
       selectedYear: new Date().getFullYear(),
       selectedMonth: new Date().getMonth(),
       selectedDay: null
     };
+    
+    let iaMode = 'auto';
+    let conversationHistory = [];
+    let currentChallenge = null;
 
-    // ===== FONCTIONS DE DATE D'EXPIRATION =====
-    function calculateExpiryDate(startDate) {
-      const date = new Date(startDate);
-      date.setDate(date.getDate() + SUBSCRIPTION_DAYS);
-      return date;
+    // ===== BASE DE CONNAISSANCES PERSISTANTE =====
+    let knowledgeBase = {
+      givenAdvice: [],
+      qaHistory: [],
+      userPreferences: {
+        preferredAdviceType: 'mixte',
+        communicationStyle: 'encourageant',
+        favoriteTopics: []
+      },
+      whatWorked: [],
+      whatFailed: [],
+      customAdvice: [],  // Conseils ajoutés par l'utilisateur
+      advicePool: [
+        "💡 Poste du contenu tôt le matin entre 7h-10h — c'est le pic d'attention de tes clients.",
+        "💡 Fais un suivi 48h après chaque vente. Un client satisfait peut te recommander 3 autres.",
+        "💡 Crée une urgence : 'Offre valable jusqu'à ce soir minuit.' Les gens agissent sous pression positive.",
+        "💡 Montre des résultats réels de tes clients — la preuve sociale multiplie les conversions par 3.",
+        "💡 Teste le prix psychologique : 2 490 FCFA semble moins cher que 2 500 FCFA.",
+        "💡 Lance une promotion flash le vendredi — les gens achètent avant le weekend.",
+        "💡 Utilise WhatsApp Status quotidiennement — c'est ta vitrine gratuite 24h/24.",
+        "💡 Crée un pack duo ou famille pour augmenter ton panier moyen.",
+        "💡 Rappelle régulièrement les bénéfices, pas juste le prix. Vends une transformation.",
+        "💡 Identifie tes 3 meilleurs clients et demande-leur une recommandation aujourd'hui.",
+        "💡 Le storytelling fonctionne : partage l'histoire derrière ton produit/service.",
+        "💡 Un client qui recommande = 3 nouvelles ventes potentielles. Mets en place un programme de parrainage.",
+        "💡 Publie des témoignages vidéo courts (moins de 60 secondes) — ça convertit beaucoup mieux que du texte.",
+        "💡 Propose un essai ou une garantie 'satisfait ou remboursé' pour lever les blocages.",
+        "💡 Envoie un message personnalisé à chaque client le jour de son anniversaire."
+      ]
+    };
+
+    function loadKnowledgeBase() {
+      const saved = localStorage.getItem('max_knowledge_base');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        knowledgeBase = { ...knowledgeBase, ...parsed };
+      }
     }
 
-    function formatExpiryDate(date) {
-      const d = new Date(date);
-      const day = String(d.getDate()).padStart(2, '0');
-      const month = String(d.getMonth() + 1).padStart(2, '0');
-      const year = d.getFullYear();
-      return `${day}/${month}/${year}`;
+    function saveKnowledgeBase() {
+      localStorage.setItem('max_knowledge_base', JSON.stringify(knowledgeBase));
     }
 
-    function getExpiryStatus(expiryDate) {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const expiry = new Date(expiryDate);
-      expiry.setHours(0, 0, 0, 0);
+    function addCustomAdvice(advice) {
+      if (advice && advice.trim()) {
+        knowledgeBase.customAdvice.push({
+          text: advice,
+          date: new Date().toISOString(),
+          used: false
+        });
+        saveKnowledgeBase();
+        return true;
+      }
+      return false;
+    }
+
+    function getRandomAdvice() {
+      const allAdvice = [...knowledgeBase.advicePool];
+      if (knowledgeBase.customAdvice.length > 0) {
+        const unusedCustom = knowledgeBase.customAdvice.filter(a => !a.used);
+        if (unusedCustom.length > 0) {
+          const advice = unusedCustom[0];
+          advice.used = true;
+          saveKnowledgeBase();
+          return advice.text;
+        }
+      }
+      const unused = allAdvice.filter(a => !knowledgeBase.givenAdvice.includes(a));
+      if (unused.length > 0) {
+        const advice = unused[Math.floor(Math.random() * unused.length)];
+        knowledgeBase.givenAdvice.push(advice);
+        if (knowledgeBase.givenAdvice.length > 20) knowledgeBase.givenAdvice.shift();
+        saveKnowledgeBase();
+        return advice;
+      }
+      knowledgeBase.givenAdvice = [];
+      saveKnowledgeBase();
+      return allAdvice[Math.floor(Math.random() * allAdvice.length)];
+    }
+
+    // ===== SYSTÈME DE DÉFIS =====
+    function generateDailyChallenge() {
+      const today = getTodayStats();
+      const week = getWeekStats();
+      const month = getMonthStats();
+      const hour = new Date().getHours();
       
-      const diffDays = Math.ceil((expiry - today) / (1000 * 60 * 60 * 24));
+      if (currentChallenge && new Date(currentChallenge.deadline) > new Date()) {
+        return currentChallenge;
+      }
       
-      if (diffDays < 0) return { status: 'expired', text: 'Expiré', diffDays };
-      if (diffDays <= 7) return { status: 'soon', text: `Expire dans ${diffDays} jour${diffDays > 1 ? 's' : ''}`, diffDays };
-      return { status: 'active', text: `Valable ${diffDays} jours`, diffDays };
+      let challenge = null;
+      
+      if (today.count === 0 && hour < 14) {
+        challenge = {
+          id: 'morning_sales_' + new Date().toDateString(),
+          title: '🎯 Défi matinal',
+          description: 'Vends avant 14h',
+          action: 'Contacte 5 clients potentiels avant 14h',
+          reward: '🏅 Badge Matinal',
+          target: 1,
+          current: 0,
+          deadline: new Date().setHours(14, 0, 0, 0),
+          type: 'vente'
+        };
+      }
+      else if (week.thisWeek.count < 3 && new Date().getDay() === 5) {
+        challenge = {
+          id: 'weekend_boost_' + new Date().toDateString(),
+          title: '⚡ Week-end boosté',
+          description: 'Termine la semaine en beauté',
+          action: 'Fais 2 ventes avant dimanche soir',
+          reward: '🏅 Badge Weekend Warrior',
+          target: 2,
+          current: week.thisWeek.count,
+          deadline: new Date(new Date().setDate(new Date().getDate() + (7 - new Date().getDay()))),
+          type: 'vente'
+        };
+      }
+      else if (month.thisMonth.count < 10 && new Date().getDate() > 20) {
+        challenge = {
+          id: 'month_end_sprint_' + new Date().toDateString(),
+          title: '🏃 Sprint de fin de mois',
+          description: 'Atteins 10 ventes ce mois',
+          action: `Il te reste ${Math.max(0, 10 - month.thisMonth.count)} vente(s) à faire`,
+          reward: '🏅 Badge Finisher',
+          target: 10 - month.thisMonth.count,
+          current: month.thisMonth.count,
+          deadline: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
+          type: 'vente'
+        };
+      }
+      else if (transactions.length > 0) {
+        challenge = {
+          id: 'streak_' + new Date().toDateString(),
+          title: '🔥 Garde la flamme',
+          description: 'Ajoute une vente aujourd\'hui',
+          action: 'Une seule vente aujourd\'hui suffit',
+          reward: '🏅 Badge Streak',
+          target: 1,
+          current: today.count,
+          deadline: new Date().setHours(23, 59, 59, 999),
+          type: 'vente'
+        };
+      }
+      
+      if (challenge) {
+        if (challenge.type === 'vente') {
+          challenge.current = challenge.id.includes('month') ? month.thisMonth.count : 
+                              challenge.id.includes('weekend') ? week.thisWeek.count : today.count;
+        }
+        currentChallenge = challenge;
+        document.getElementById('challengeIndicator').style.display = 'inline-block';
+        saveChallengeToMemory();
+      } else {
+        document.getElementById('challengeIndicator').style.display = 'none';
+      }
+      
+      return challenge;
     }
 
-    // ===== THÈME =====
+    function saveChallengeToMemory() {
+      if (currentChallenge) {
+        localStorage.setItem('current_challenge', JSON.stringify(currentChallenge));
+      }
+    }
+
+    function loadChallengeFromMemory() {
+      const saved = localStorage.getItem('current_challenge');
+      if (saved) {
+        const challenge = JSON.parse(saved);
+        if (new Date(challenge.deadline) > new Date()) {
+          currentChallenge = challenge;
+          document.getElementById('challengeIndicator').style.display = 'inline-block';
+        } else {
+          localStorage.removeItem('current_challenge');
+        }
+      }
+    }
+
+    function checkAndUpdateChallenge() {
+      if (!currentChallenge) return null;
+      
+      const today = getTodayStats();
+      const week = getWeekStats();
+      const month = getMonthStats();
+      
+      let newProgress = currentChallenge.current;
+      if (currentChallenge.id.includes('month')) newProgress = month.thisMonth.count;
+      else if (currentChallenge.id.includes('weekend')) newProgress = week.thisWeek.count;
+      else newProgress = today.count;
+      
+      if (newProgress >= currentChallenge.target && currentChallenge.current < currentChallenge.target) {
+        currentChallenge.completed = true;
+        const message = `🏆 **FÉLICITATIONS !** 🏆\n\nTu as relevé le défi "${currentChallenge.title}" !\nRécompense : ${currentChallenge.reward}\n\nContinue sur cette lancée !`;
+        displayIAMessage(message, true);
+        currentChallenge = null;
+        document.getElementById('challengeIndicator').style.display = 'none';
+        localStorage.removeItem('current_challenge');
+        generateDailyChallenge();
+        return message;
+      }
+      
+      currentChallenge.current = newProgress;
+      saveChallengeToMemory();
+      return null;
+    }
+
+    function getChallengeMessage() {
+      if (!currentChallenge) return null;
+      const remaining = currentChallenge.target - currentChallenge.current;
+      if (remaining <= 0) return null;
+      return `🎯 **Défi en cours** : ${currentChallenge.title}\n${currentChallenge.action}\nPlus que ${remaining} objectif(s) à atteindre !`;
+    }
+
+    // ===== QUESTIONS RAPIDES DYNAMIQUES =====
+    function generateDynamicQuickReplies() {
+      const replies = [];
+      const today = getTodayStats();
+      const week = getWeekStats();
+      const month = getMonthStats();
+      const hour = new Date().getHours();
+      
+      if (today.count === 0 && hour < 12) {
+        replies.push({ label: "📞 Relance matinale", action: "Donne-moi un script de relance pour ce matin" });
+      }
+      if (week.thisWeek.count < 3 && new Date().getDay() <= 4) {
+        replies.push({ label: "🎯 Plan semaine", action: "Comment rattraper mon retard cette semaine ?" });
+      }
+      if (month.thisMonth.count > 15) {
+        replies.push({ label: "🏆 Prochain objectif", action: "J'ai dépassé mon objectif, quel nouveau but me fixer ?" });
+      }
+      if (knowledgeBase.whatWorked.length > 0) {
+        replies.push({ label: "💎 Mes réussites", action: "Qu'est-ce qui a le mieux marché pour moi ?" });
+      }
+      if (currentChallenge) {
+        replies.push({ label: "🎯 Mon défi", action: "Où en est mon défi ?" });
+      }
+      
+      replies.push(
+        { label: "📊 Bilan", action: "bilan" },
+        { label: "💡 Conseil", action: "conseil" },
+        { label: "🎯 Objectif", action: "objectif" },
+        { label: "🔥 Motivation", action: "motivation" }
+      );
+      
+      return replies.slice(0, 5);
+    }
+
+    function updateQuickReplies() {
+      const container = document.getElementById('iaQuickBtns');
+      if (!container) return;
+      const replies = generateDynamicQuickReplies();
+      container.innerHTML = replies.map(r => 
+        `<button class="ia-quick-btn" onclick="askIA('${r.action.replace(/'/g, "\\'")}')">${r.label}</button>`
+      ).join('');
+    }
+
+    // ===== MÉMOIRE CONVERSATIONNELLE =====
+    function rememberConversation(userQuestion, aiResponse) {
+      conversationHistory.push({
+        question: userQuestion,
+        response: aiResponse,
+        timestamp: Date.now()
+      });
+      if (conversationHistory.length > 10) conversationHistory.shift();
+      
+      const lowerQ = userQuestion.toLowerCase();
+      if (lowerQ.includes('galère') || lowerQ.includes('difficile') || lowerQ.includes('pas marcher')) {
+        knowledgeBase.whatFailed.push({ issue: userQuestion, date: new Date().toISOString() });
+        if (knowledgeBase.whatFailed.length > 10) knowledgeBase.whatFailed.shift();
+        saveKnowledgeBase();
+      }
+      if (lowerQ.includes('bravo') || lowerQ.includes('réussi') || lowerQ.includes('gagné')) {
+        knowledgeBase.whatWorked.push({ achievement: userQuestion, date: new Date().toISOString() });
+        if (knowledgeBase.whatWorked.length > 10) knowledgeBase.whatWorked.shift();
+        saveKnowledgeBase();
+      }
+    }
+
+    function getPersonalizedRecall(question) {
+      const lastInteraction = conversationHistory.slice(-3);
+      for (let i = lastInteraction.length - 1; i >= 0; i--) {
+        const hist = lastInteraction[i];
+        if (hist.question.toLowerCase().includes(question.toLowerCase().substring(0, 20))) {
+          return `🔁 Je me souviens qu'on avait parlé de ça récemment. ${hist.response.substring(0, 100)}... Veux-tu qu'on approfondisse ?`;
+        }
+      }
+      return null;
+    }
+  
+    // ===== MODE COACHING PERSONNALISÉ =====
+    function getCoachingMessage() {
+      const today = getTodayStats();
+      const week = getWeekStats();
+      const month = getMonthStats();
+      
+      let profile = { level: 'débutant', consistency: 'irrégulier', strength: null, weakness: null };
+      
+      if (transactions.length > 50) profile.level = 'expert';
+      else if (transactions.length > 20) profile.level = 'intermédiaire';
+      else if (transactions.length > 5) profile.level = 'confirmé';
+      
+      const activeDays = getActiveDays();
+      const avgPerDay = transactions.length / Math.max(1, activeDays);
+      if (avgPerDay >= 1) profile.consistency = 'régulier';
+      else if (avgPerDay >= 0.5) profile.consistency = 'moyen';
+      
+      const bestDay = getBestDay();
+      profile.strength = bestDay;
+      
+      let message = `🎯 **Analyse personnalisée**\n\n`;
+      message += `**Profil** : ${profile.level} • ${profile.consistency}\n`;
+      if (profile.strength) message += `**Force** : Le ${profile.strength} est ton meilleur jour 📈\n`;
+      message += `\n**Recommandation MAX** : `;
+      
+      if (profile.level === 'débutant') {
+        message += `Concentre-toi sur la régularité. Une vente par jour suffit pour démarrer.`;
+      } else if (profile.level === 'expert') {
+        message += `Tu maîtrises les bases. Il est temps d'optimiser : augmentation des prix ou upsell ?`;
+      } else {
+        message += `Continue sur ta lancée ! ${profile.strength ? `Double tes efforts le ${profile.strength}.` : ''}`;
+      }
+      
+      return message;
+    }
+
+    // ===== ADMIN PANEL =====
+    function openAdminPanel() {
+      const panel = document.createElement('div');
+      panel.className = 'admin-panel-overlay';
+      panel.innerHTML = `
+        <div class="admin-panel">
+          <div class="detail-header" style="padding:20px 20px 0 20px">
+            <div class="detail-title"><i class="fas fa-database"></i> Enrichir MAX</div>
+            <button class="back-btn" onclick="this.closest('.admin-panel-overlay').remove()">✕</button>
+          </div>
+          <div style="padding:20px">
+            <div class="form-group">
+              <label class="form-label">Nouveau conseil / astuce</label>
+              <textarea id="newAdviceInput" class="form-control" rows="3" placeholder="Ajoute un conseil que MAX pourra donner..."></textarea>
+            </div>
+            <button class="btn" onclick="addNewAdviceFromPanel()">Ajouter à la base</button>
+            <hr>
+            <div class="form-group">
+              <label class="form-label">Script de relance / message type</label>
+              <textarea id="newScriptInput" class="form-control" rows="3" placeholder="Ex: Bonjour [client], je pense à toi pour...""></textarea>
+            </div>
+            <button class="btn" onclick="addNewScriptFromPanel()">Ajouter le script</button>
+            <hr>
+            <p style="font-size:12px;color:#555;margin-top:15px">💡 Les conseils ajoutés seront utilisés par MAX dans ses réponses.</p>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(panel);
+    }
+
+    function addNewAdviceFromPanel() {
+      const input = document.getElementById('newAdviceInput');
+      if (input && input.value.trim()) {
+        addCustomAdvice(input.value);
+        displayIAMessage(`✅ **Nouveau conseil enregistré !**\n\nMerci d'enrichir ma base de connaissances. Je pourrai désormais donner ce conseil :\n"${input.value.substring(0, 100)}..."`, true);
+        input.value = '';
+        setTimeout(() => {
+          const panel = document.querySelector('.admin-panel-overlay');
+          if (panel) panel.remove();
+        }, 1500);
+      } else {
+        alert("Veuillez entrer un conseil");
+      }
+    }
+
+    function addNewScriptFromPanel() {
+      const input = document.getElementById('newScriptInput');
+      if (input && input.value.trim()) {
+        addCustomAdvice(`📝 Script de relance : ${input.value}`);
+        displayIAMessage(`✅ **Script enregistré !**\n\nJe pourrai te le rappeler quand tu auras besoin de relancer des clients.`, true);
+        input.value = '';
+        setTimeout(() => {
+          const panel = document.querySelector('.admin-panel-overlay');
+          if (panel) panel.remove();
+        }, 1500);
+      }
+    }
+
+    // ===== FONCTIONS UTILITAIRES EXISTANTES =====
     function setTheme(theme) {
       document.body.setAttribute('data-theme', theme);
       localStorage.setItem('theme', theme);
-      
       document.getElementById('themeDark').classList.toggle('active', theme === 'dark');
       document.getElementById('themeLight').classList.toggle('active', theme === 'light');
     }
 
     function loadTheme() {
-      const savedTheme = localStorage.getItem('theme') || 'dark';
-      setTheme(savedTheme);
+      const saved = localStorage.getItem('theme') || 'dark';
+      setTheme(saved);
     }
 
-    // ===== FUSEAU HORAIRE (Afrique de l'Ouest) =====
-    function getWestAfricaTime() {
-      return new Date(); // UTC+0 pour l'Afrique de l'Ouest
-    }
+    function getWestAfricaTime() { return new Date(); }
 
-    // ===== SALUTATION ADAPTÉE =====
     function updateGreeting() {
       const now = getWestAfricaTime();
-      const hours = now.getHours();
-      const minutes = now.getMinutes();
-      const timeString = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
-      
-      let greeting = '';
-      if (hours >= 0 && hours < 12) {
-        greeting = 'Bonjour';
-      } else if (hours >= 12 && hours < 23) {
-        greeting = 'Bonsoir';
-      } else {
-        greeting = 'Bonne nuit';
-      }
-      
-      document.getElementById('greetingMessage').textContent = `${greeting}, Abdoulaye`;
-      document.getElementById('greetingTime').textContent = `Heure locale (Afrique de l'Ouest) : ${timeString}`;
+      const h = now.getHours(), m = now.getMinutes();
+      const t = String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0');
+      let g = h < 12 ? 'Bonjour' : h < 23 ? 'Bonsoir' : 'Bonne nuit';
+      document.getElementById('greetingMessage').textContent = g + ', Abdoulaye';
+      document.getElementById('greetingTime').textContent = "Heure locale : " + t;
     }
 
-    // ===== INITIALISATION =====
-    function init() {
-      loadTheme();
-      loadData();
-      setTodayDate();
-      updateGreeting();
-      setInterval(updateGreeting, 1000);
-      updateAll();
-    }
-
-    // ===== DATE =====
     function setTodayDate() {
       const today = getWestAfricaTime();
       const y = today.getFullYear();
-      const m = String(today.getMonth() + 1).padStart(2, '0');
-      const d = String(today.getDate()).padStart(2, '0');
-      document.getElementById('saleDate').value = `${y}-${m}-${d}`;
+      const m = String(today.getMonth()+1).padStart(2,'0');
+      const d = String(today.getDate()).padStart(2,'0');
+      document.getElementById('saleDate').value = y + '-' + m + '-' + d;
     }
 
-    // ===== STOCKAGE =====
     function loadData() {
       const saved = localStorage.getItem('mes_transactions');
-      if (saved) {
-        transactions = JSON.parse(saved);
-      } else {
-        transactions = [];
-      }
+      transactions = saved ? JSON.parse(saved) : [];
     }
+    function saveData() { localStorage.setItem('mes_transactions', JSON.stringify(transactions)); }
 
-    function saveData() {
-      localStorage.setItem('mes_transactions', JSON.stringify(transactions));
-    }
+    function formatDate(dateStr) { const [y,m,d] = dateStr.split('-'); return d + '/' + m + '/' + y; }
+    function formatCurrency(amount) { return Math.round(amount).toLocaleString('fr-FR') + ' FCFA'; }
+    function getMonthName(i) { return ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'][i]; }
 
-    // ===== FORMATAGE =====
-    function formatDate(dateStr) {
-      const [y, m, d] = dateStr.split('-');
-      return `${d}/${m}/${y}`;
-    }
-
-    function formatCurrency(amount) {
-      return amount.toLocaleString('fr-FR') + ' FCFA';
-    }
-
-    function getMonthName(monthIndex) {
-      const months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 
-                     'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
-      return months[monthIndex];
-    }
-  
-     // ===== FONCTIONS DE DATE POUR LE CALENDRIER RÉEL =====
-
-    // Début de la semaine (lundi à 00:00)
     function getStartOfWeek(date) {
       const d = new Date(date);
-      const day = d.getDay(); // 0 = dimanche, 1 = lundi...
-      // Ajuster pour que la semaine commence lundi
-      const diff = d.getDate() - day + (day === 0 ? -6 : 1);
-      d.setDate(diff);
-      d.setHours(0, 0, 0, 0);
+      const day = d.getDay();
+      d.setDate(d.getDate() - day + (day === 0 ? -6 : 1));
+      d.setHours(0,0,0,0);
       return d;
     }
 
-    // Fin de la semaine (dimanche à 23:59)
-    function getEndOfWeek(date) {
-      const d = getStartOfWeek(date);
-      d.setDate(d.getDate() + 6);
-      d.setHours(23, 59, 59, 999);
-      return d;
-    }
-
-    // ===== STATISTIQUES AVEC CALENDRIER RÉEL =====
-
-    // Statistiques du jour
     function getTodayStats() {
       const today = getWestAfricaTime().toISOString().split('T')[0];
-      const todayTransactions = transactions.filter(t => t.date === today);
-      const count = todayTransactions.length;
-      const profit = todayTransactions.reduce((sum, t) => sum + (t.amount - t.fees), 0);
-      return { count, profit };
+      const ts = transactions.filter(t => t.date === today);
+      return { count: ts.length, profit: ts.reduce((s,t) => s+(t.amount-t.fees), 0) };
     }
-
-    // Statistiques d'hier
     function getYesterdayStats() {
-      const yesterday = new Date(getWestAfricaTime());
-      yesterday.setDate(yesterday.getDate() - 1);
-      const yesterdayStr = yesterday.toISOString().split('T')[0];
-      const yesterdayTransactions = transactions.filter(t => t.date === yesterdayStr);
-      return { count: yesterdayTransactions.length };
+      const y = new Date(getWestAfricaTime());
+      y.setDate(y.getDate()-1);
+      const ys = y.toISOString().split('T')[0];
+      const ts = transactions.filter(t => t.date === ys);
+      return { count: ts.length, profit: ts.reduce((s,t) => s+(t.amount-t.fees), 0) };
     }
-
-    // Statistiques de la semaine (calendrier réel)
     function getWeekStats() {
       const now = getWestAfricaTime();
-      const startOfThisWeek = getStartOfWeek(now);
-      const endOfThisWeek = getEndOfWeek(now);
-      
-      const startOfLastWeek = new Date(startOfThisWeek);
-      startOfLastWeek.setDate(startOfThisWeek.getDate() - 7);
-      const endOfLastWeek = new Date(endOfThisWeek);
-      endOfLastWeek.setDate(endOfThisWeek.getDate() - 7);
-      
-      const thisWeekTransactions = transactions.filter(t => {
-        const d = new Date(t.date);
-        return d >= startOfThisWeek && d <= endOfThisWeek;
-      });
-      
-      const lastWeekTransactions = transactions.filter(t => {
-        const d = new Date(t.date);
-        return d >= startOfLastWeek && d <= endOfLastWeek;
-      });
-      
-      return {
-        thisWeek: {
-          count: thisWeekTransactions.length,
-          profit: thisWeekTransactions.reduce((sum, t) => sum + (t.amount - t.fees), 0)
-        },
-        lastWeek: {
-          count: lastWeekTransactions.length
-        }
-      };
+      const s1 = getStartOfWeek(now), e1 = new Date(s1); e1.setDate(s1.getDate()+6); e1.setHours(23,59,59,999);
+      const s2 = new Date(s1); s2.setDate(s1.getDate()-7);
+      const e2 = new Date(e1); e2.setDate(e1.getDate()-7);
+      const tw = transactions.filter(t => { const d = new Date(t.date); return d>=s1&&d<=e1; });
+      const lw = transactions.filter(t => { const d = new Date(t.date); return d>=s2&&d<=e2; });
+      return { thisWeek: { count: tw.length, profit: tw.reduce((s,t)=>s+(t.amount-t.fees),0) }, lastWeek: { count: lw.length, profit: lw.reduce((s,t)=>s+(t.amount-t.fees),0) } };
     }
-
-    // Statistiques du mois (calendrier réel)
     function getMonthStats() {
       const now = getWestAfricaTime();
-      
-      // Ce mois (du 1er au dernier jour du mois actuel)
-      const startOfThisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-      startOfThisMonth.setHours(0, 0, 0, 0);
-      
-      const endOfThisMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-      endOfThisMonth.setHours(23, 59, 59, 999);
-      
-      // Mois dernier (du 1er au dernier jour du mois précédent)
-      const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-      startOfLastMonth.setHours(0, 0, 0, 0);
-      
-      const endOfLastMonth = new Date(now.getFullYear(), now.getMonth(), 0);
-      endOfLastMonth.setHours(23, 59, 59, 999);
-      
-      const thisMonthTransactions = transactions.filter(t => {
-        const d = new Date(t.date);
-        return d >= startOfThisMonth && d <= endOfThisMonth;
-      });
-      
-      const lastMonthTransactions = transactions.filter(t => {
-        const d = new Date(t.date);
-        return d >= startOfLastMonth && d <= endOfLastMonth;
-      });
-      
-      return {
-        thisMonth: {
-          count: thisMonthTransactions.length,
-          profit: thisMonthTransactions.reduce((sum, t) => sum + (t.amount - t.fees), 0)
-        },
-        lastMonth: {
-          count: lastMonthTransactions.length
-        }
-      };
+      const s1 = new Date(now.getFullYear(), now.getMonth(), 1);
+      const e1 = new Date(now.getFullYear(), now.getMonth()+1, 0); e1.setHours(23,59,59,999);
+      const s2 = new Date(now.getFullYear(), now.getMonth()-1, 1);
+      const e2 = new Date(now.getFullYear(), now.getMonth(), 0); e2.setHours(23,59,59,999);
+      const tm = transactions.filter(t => { const d = new Date(t.date); return d>=s1&&d<=e1; });
+      const lm = transactions.filter(t => { const d = new Date(t.date); return d>=s2&&d<=e2; });
+      return { thisMonth: { count: tm.length, profit: tm.reduce((s,t)=>s+(t.amount-t.fees),0) }, lastMonth: { count: lm.length, profit: lm.reduce((s,t)=>s+(t.amount-t.fees),0) } };
     }
-
-    // Statistiques annuelles
     function getYearStats(year) {
-      const startOfYear = new Date(year, 0, 1);
-      startOfYear.setHours(0, 0, 0, 0);
-      
-      const endOfYear = new Date(year, 11, 31);
-      endOfYear.setHours(23, 59, 59, 999);
-      
-      const yearTransactions = transactions.filter(t => {
-        const d = new Date(t.date);
-        return d >= startOfYear && d <= endOfYear;
-      });
-      
-      const profit = yearTransactions.reduce((sum, t) => sum + (t.amount - t.fees), 0);
-      
-      return {
-        count: yearTransactions.length,
-        profit: profit
-      };
+      const s = new Date(year,0,1); s.setHours(0,0,0,0);
+      const e = new Date(year,11,31); e.setHours(23,59,59,999);
+      const ts = transactions.filter(t => { const d = new Date(t.date); return d>=s&&d<=e; });
+      return { count: ts.length, profit: ts.reduce((s,t)=>s+(t.amount-t.fees),0) };
     }
-
-    // Statistiques par mois pour une année donnée
     function getMonthsStats(year) {
       const months = [];
-      
-      for (let month = 0; month < 12; month++) {
-        const startOfMonth = new Date(year, month, 1);
-        startOfMonth.setHours(0, 0, 0, 0);
-        
-        const endOfMonth = new Date(year, month + 1, 0);
-        endOfMonth.setHours(23, 59, 59, 999);
-        
-        const monthTransactions = transactions.filter(t => {
-          const d = new Date(t.date);
-          return d >= startOfMonth && d <= endOfMonth;
-        });
-        
-        const profit = monthTransactions.reduce((sum, t) => sum + (t.amount - t.fees), 0);
-        
-        months.push({
-          month: month,
-          name: getMonthName(month),
-          count: monthTransactions.length,
-          profit: profit
-        });
+      for (let mo = 0; mo < 12; mo++) {
+        const s = new Date(year,mo,1); s.setHours(0,0,0,0);
+        const e = new Date(year,mo+1,0); e.setHours(23,59,59,999);
+        const ts = transactions.filter(t => { const d=new Date(t.date); return d>=s&&d<=e; });
+        months.push({ month:mo, name:getMonthName(mo), count:ts.length, profit:ts.reduce((sum,t)=>sum+(t.amount-t.fees),0) });
       }
-      
       return months;
     }
-
-    // Statistiques par jour pour un mois donné
     function getDaysStats(year, month) {
       const days = [];
-      const daysInMonth = new Date(year, month + 1, 0).getDate();
-      
+      const daysInMonth = new Date(year,month+1,0).getDate();
       for (let day = 1; day <= daysInMonth; day++) {
-        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        
-        const dayTransactions = transactions.filter(t => t.date === dateStr);
-        const profit = dayTransactions.reduce((sum, t) => sum + (t.amount - t.fees), 0);
-        
-        days.push({
-          day: day,
-          date: dateStr,
-          count: dayTransactions.length,
-          profit: profit
-        });
+        const dateStr = year + '-' + String(month+1).padStart(2,'0') + '-' + String(day).padStart(2,'0');
+        const ts = transactions.filter(t => t.date === dateStr);
+        days.push({ day, date:dateStr, count:ts.length, profit:ts.reduce((s,t)=>s+(t.amount-t.fees),0) });
       }
-      
       return days;
     }
-
-    // Profit total
-    function getTotalProfit() {
-      return transactions.reduce((sum, t) => sum + (t.amount - t.fees), 0);
+    function getTotalProfit() { return transactions.reduce((s,t) => s+(t.amount-t.fees), 0); }
+    function getActiveDays() { return Math.max(1, [...new Set(transactions.map(t=>t.date))].length); }
+    function getRemainingDaysInYear() {
+      const now = new Date();
+      const end = new Date(now.getFullYear(),11,31);
+      return Math.max(1, Math.ceil((end-now)/(1000*60*60*24)));
+    }
+    function getBestDay() {
+      if (!transactions.length) return null;
+      const dm = {};
+      transactions.forEach(t => { const n = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'][new Date(t.date).getDay()]; dm[n] = (dm[n]||0) + 1; });
+      return Object.entries(dm).sort((a,b)=>b[1]-a[1])[0][0];
     }
 
-    // ===== LISTE DES TRANSACTIONS AVEC DATE D'EXPIRATION =====
-    function updateTransactionsList() {
-      const container = document.getElementById('transactionsList');
-      const sorted = [...transactions].sort((a, b) => new Date(b.date) - new Date(a.date));
-
-      if (sorted.length === 0) {
-        container.innerHTML = `
-          <div class="empty-state">
-            <i class="fas fa-receipt"></i>
-            <p>Aucune transaction</p>
-          </div>
-        `;
-        document.getElementById('totalProfit').textContent = formatCurrency(0);
-        return;
-      }
-
-      let html = '';
-      sorted.forEach(t => {
-        // Calcul de la date d'expiration
-        const expiryDate = calculateExpiryDate(t.date);
-        const expiryStatus = getExpiryStatus(expiryDate);
-        const formattedExpiry = formatExpiryDate(expiryDate);
-        
-        let badgeClass = '';
-        let badgeText = '';
-        if (expiryStatus.status === 'active') {
-          badgeClass = 'active';
-          badgeText = '✓ Actif';
-        } else if (expiryStatus.status === 'soon') {
-          badgeClass = 'soon';
-          badgeText = '⚠️ ' + expiryStatus.text;
-        } else {
-          badgeClass = 'expired';
-          badgeText = '❌ ' + expiryStatus.text;
-        }
-        
-        html += `
-          <div class="transaction-item">
-            <div class="client-info">
-              <div class="client-name">
-                ${t.client}
-                <span class="client-badge">${t.type}</span>
-                <span class="expiry-badge ${badgeClass}">${badgeText}</span>
-              </div>
-              <div class="transaction-date">Achat: ${formatDate(t.date)}</div>
-              <div class="expiry-date">📅 Expiration: ${formattedExpiry}</div>
-            </div>
-            <div style="display: flex; align-items: center; gap: 12px;">
-              <div class="transaction-amounts">
-                <div class="amount-gross">${formatCurrency(t.amount)}</div>
-                <div class="amount-net">profit: ${formatCurrency(t.amount - t.fees)}</div>
-              </div>
-              <button class="delete-btn" onclick="deleteTransaction(${t.id})">
-                <i class="fas fa-trash"></i>
-              </button>
-            </div>
-          </div>
-        `;
-      });
-
-      container.innerHTML = html;
-      document.getElementById('totalProfit').textContent = formatCurrency(getTotalProfit());
-    }
-
-    // ===== AJOUT =====
-    function setType(type) {
-      currentType = type;
-      document.getElementById('typeStandard').classList.toggle('active', type === 'standard');
-      document.getElementById('typePromo').classList.toggle('active', type === 'promo');
-      updateNetDisplay();
-    }
-
-    function updateNetDisplay() {
-      const amount = PRICES[currentType];
-      const fees = parseInt(document.getElementById('fees').value) || 0;
-      document.getElementById('netDisplay').textContent = formatCurrency(amount - fees);
-    }
-
-    function addTransaction() {
-      const client = document.getElementById('clientName').value.trim();
-      const date = document.getElementById('saleDate').value;
-      const fees = parseInt(document.getElementById('fees').value) || 0;
-      const amount = PRICES[currentType];
-
-      if (!client) {
-        alert('Veuillez entrer le nom du client');
-        return;
-      }
-
-      if (!date) {
-        alert('Veuillez sélectionner une date');
-        return;
-      }
-
-      const transaction = {
-        id: Date.now(),
-        client: client,
-        date: date,
-        type: currentType === 'standard' ? 'Std' : 'Promo',
-        amount: amount,
-        fees: fees
-      };
-
-      transactions.push(transaction);
-      saveData();
-
-      // Reset formulaire
-      document.getElementById('clientName').value = '';
-      document.getElementById('fees').value = '0';
-      setTodayDate();
-      updateNetDisplay();
-      updateAll();
-
-      // Feedback
-      const btn = event.target;
-      const originalText = btn.innerHTML;
-      btn.innerHTML = '<i class="fas fa-check"></i> Ajouté !';
-      btn.style.background = '#10b981';
-      setTimeout(() => {
-        btn.innerHTML = originalText;
-        btn.style.background = '';
-      }, 1500);
-    }
-
-    // ===== SUPPRESSION =====
-    function deleteTransaction(id) {
-      if (confirm('Supprimer cette transaction ?')) {
-        transactions = transactions.filter(t => t.id !== id);
-        saveData();
-        updateAll();
-      }
-    }
-
-    // ===== NAVIGATION =====
-    function showSection(section) {
-      document.getElementById('addSection').style.display = section === 'add' ? 'block' : 'none';
-      document.getElementById('listSection').style.display = section === 'list' ? 'block' : 'none';
-      
-      document.getElementById('btnAdd').classList.toggle('active', section === 'add');
-      document.getElementById('btnList').classList.toggle('active', section === 'list');
-      
-      // Cacher la vue détaillée si on change de section
-      hideDetail();
-    }
-
-    // ===== NOUVELLE FONCTION GESTION =====
-    function openGestion() {
-      window.open('gestion.html', '_blank');
-    }
-
-    // ===== EVENT =====
-    document.getElementById('fees').addEventListener('input', updateNetDisplay);
-
-    // ===== MISE À JOUR DE L'AFFICHAGE =====
-    function updateAll() {
-      const today = getTodayStats();
-      const yesterday = getYesterdayStats();
-      const week = getWeekStats();
-      const month = getMonthStats();
-      const year = getYearStats(new Date().getFullYear());
-      const totalProfit = getTotalProfit();
-      
-      // Chiffre d'affaires total
-      document.getElementById('totalRevenue').textContent = formatCurrency(totalProfit);
-      
-      // Carte Aujourd'hui
-      document.getElementById('statTodayValue').textContent = today.count;
-      document.getElementById('statTodayDetail').textContent = formatCurrency(today.profit);
-      
-      const todayTrend = document.getElementById('statTodayTrend');
-      if (today.count > yesterday.count && yesterday.count > 0) {
-        const percent = Math.round((today.count - yesterday.count) / yesterday.count * 100);
-        todayTrend.className = 'stat-trend positive';
-        todayTrend.innerHTML = `<i class="fas fa-arrow-up"></i> +${percent}% vs hier`;
-      } else if (today.count < yesterday.count) {
-        const percent = Math.round((yesterday.count - today.count) / yesterday.count * 100);
-        todayTrend.className = 'stat-trend negative';
-        todayTrend.innerHTML = `<i class="fas fa-arrow-down"></i> -${percent}% vs hier`;
-      } else {
-        todayTrend.className = 'stat-trend';
-        todayTrend.innerHTML = `<i class="fas fa-minus"></i> Stable vs hier`;
-      }
-      
-      const progressToday = yesterday.count > 0 ? Math.min(100, (today.count / yesterday.count) * 100) : 0;
-      document.getElementById('progressToday').style.width = `${progressToday}%`;
-
-      // Carte Semaine
-      document.getElementById('statWeekValue').textContent = week.thisWeek.count;
-      document.getElementById('statWeekDetail').textContent = formatCurrency(week.thisWeek.profit);
-      
-      const weekTrend = document.getElementById('statWeekTrend');
-      if (week.thisWeek.count > week.lastWeek.count && week.lastWeek.count > 0) {
-        const percent = Math.round((week.thisWeek.count - week.lastWeek.count) / week.lastWeek.count * 100);
-        weekTrend.className = 'stat-trend positive';
-        weekTrend.innerHTML = `<i class="fas fa-arrow-up"></i> +${percent}% vs semaine dernière`;
-      } else if (week.thisWeek.count < week.lastWeek.count) {
-        const percent = Math.round((week.lastWeek.count - week.thisWeek.count) / week.lastWeek.count * 100);
-        weekTrend.className = 'stat-trend negative';
-        weekTrend.innerHTML = `<i class="fas fa-arrow-down"></i> -${percent}% vs semaine dernière`;
-      } else {
-        weekTrend.className = 'stat-trend';
-        weekTrend.innerHTML = `<i class="fas fa-minus"></i> Stable vs semaine dernière`;
-      }
-      
-      const progressWeek = week.lastWeek.count > 0 ? Math.min(100, (week.thisWeek.count / week.lastWeek.count) * 100) : 0;
-      document.getElementById('progressWeek').style.width = `${progressWeek}%`;
-
-      // Carte Mois
-      document.getElementById('statMonthValue').textContent = month.thisMonth.count;
-      document.getElementById('statMonthDetail').textContent = formatCurrency(month.thisMonth.profit);
-      
-      const monthTrend = document.getElementById('statMonthTrend');
-      if (month.thisMonth.count > month.lastMonth.count && month.lastMonth.count > 0) {
-        const percent = Math.round((month.thisMonth.count - month.lastMonth.count) / month.lastMonth.count * 100);
-        monthTrend.className = 'stat-trend positive';
-        monthTrend.innerHTML = `<i class="fas fa-arrow-up"></i> +${percent}% vs mois dernier`;
-      } else if (month.thisMonth.count < month.lastMonth.count) {
-        const percent = Math.round((month.lastMonth.count - month.thisMonth.count) / month.lastMonth.count * 100);
-        monthTrend.className = 'stat-trend negative';
-        monthTrend.innerHTML = `<i class="fas fa-arrow-down"></i> -${percent}% vs mois dernier`;
-      } else {
-        monthTrend.className = 'stat-trend';
-        monthTrend.innerHTML = `<i class="fas fa-minus"></i> Stable vs mois dernier`;
-      }
-      
-      const progressMonth = month.lastMonth.count > 0 ? Math.min(100, (month.thisMonth.count / month.lastMonth.count) * 100) : 0;
-      document.getElementById('progressMonth').style.width = `${progressMonth}%`;
-
-      // Carte Objectif annuel
-      const goalProgress = Math.min(100, (year.profit / YEARLY_GOAL) * 100);
-      const remaining = Math.max(0, YEARLY_GOAL - year.profit);
-      
-      document.getElementById('statYearValue').textContent = `${Math.round(goalProgress)}%`;
-      document.getElementById('statYearDetail').textContent = `${Math.round(goalProgress)}% atteint`;
-      document.getElementById('statYearTrend').innerHTML = `<i class="fas fa-clock"></i> Reste ${formatCurrency(remaining)}`;
-      document.getElementById('progressYear').style.width = `${goalProgress}%`;
-      // Anneau de progression
-      const circumference = 138.23;
-      const offset = circumference - (goalProgress / 100) * circumference;
-      document.getElementById('ringProgress').style.strokeDashoffset = offset;
-      document.getElementById('ringPct').textContent = `${Math.round(goalProgress)}%`;
-      document.getElementById('yearGoalText').textContent = `${formatCurrency(year.profit)} / ${formatCurrency(YEARLY_GOAL)}`;
-
-      // Stats générales
-      if (transactions.length > 0) {
-        document.getElementById('revenueStats').innerHTML = `${transactions.length} transaction${transactions.length > 1 ? 's' : ''} • Moyenne: ${formatCurrency(totalProfit / transactions.length)}`;
-      // Badge tendance sur la carte revenue
-      const revBadgeEl = document.getElementById('revenueBadge');
-      if (revBadgeEl) {
-        if (month.thisMonth.count > month.lastMonth.count && month.lastMonth.count > 0) {
-          const pct = Math.round((month.thisMonth.count - month.lastMonth.count) / month.lastMonth.count * 100);
-          revBadgeEl.innerHTML = '↑ +' + pct + '% ce mois';
-          revBadgeEl.style.color = '#10b981';
-        } else if (month.thisMonth.count < month.lastMonth.count && month.lastMonth.count > 0) {
-          const pct = Math.round((month.lastMonth.count - month.thisMonth.count) / month.lastMonth.count * 100);
-          revBadgeEl.innerHTML = '↓ -' + pct + '% ce mois';
-          revBadgeEl.style.color = '#ef4444';
-        } else {
-          revBadgeEl.innerHTML = '→ Stable';
-          revBadgeEl.style.color = '#6b7280';
-        }
-      }
-      }
-
-      // Mise à jour IA
-      updateIA();
-
-      // Mise à jour graphiques cartes
-      renderTodayChart(today);
-      renderWeekChart(week);
-      renderMonthChart();
-
-      // Mise à jour liste
-      updateTransactionsList();
-    }
-
-    // ===== MANAGER IA MAX (version simplifiée pour garder la compatibilité) =====
-    let iaMode = 'auto';
-
+      // ===== IA AMÉLIORÉE =====
     function setIAMode(mode) {
       iaMode = mode;
       document.getElementById('btnModeAuto').classList.toggle('active', mode === 'auto');
       document.getElementById('btnModeChat').classList.toggle('active', mode === 'chat');
-      const inputRow = document.getElementById('iaInputRow');
-      if (mode === 'chat') {
-        inputRow.style.display = 'flex';
-      } else {
-        inputRow.style.display = 'none';
-        updateIA();
-      }
+      document.getElementById('iaInputRow').style.display = mode === 'chat' ? 'flex' : 'none';
+      if (mode === 'auto') updateIA();
     }
 
     function askIA(topic) {
       setIAMode('chat');
-      const prompts = {
-        bilan: 'Donne-moi mon bilan complet',
-        conseil: 'Donne-moi un conseil pour booster mes ventes',
-        objectif: 'Quel objectif dois-je me fixer ?',
-        motivation: 'Motive-moi !'
-      };
-      document.getElementById('iaInputField').value = prompts[topic] || topic;
+      document.getElementById('iaInputField').value = topic;
       sendToIA();
+    }
+
+    function showIATyping(show) {
+      document.getElementById('iaTyping').classList.toggle('visible', show);
+    }
+
+    function displayIAMessage(html, animate) {
+      const bubble = document.getElementById('iaMainBubble');
+      bubble.innerHTML = html;
+      const now = new Date();
+      document.getElementById('iaBubbleTime').textContent = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+      if (animate !== false) {
+        bubble.style.animation = 'none';
+        bubble.offsetHeight;
+        bubble.style.animation = 'bubbleIn 0.35s ease';
+      }
     }
 
     function sendToIA() {
@@ -2010,382 +1878,520 @@
       showIATyping(true);
       setTimeout(() => {
         showIATyping(false);
-        const response = generateSimpleResponse(question);
+        const response = generateIAResponse(question);
+        rememberConversation(question, response);
         displayIAMessage(response);
-      }, 900 + Math.random() * 600);
+      }, 800 + Math.random() * 600);
     }
 
-    function showIATyping(show) {
-      document.getElementById('iaTyping').classList.toggle('visible', show);
+    function normalize(s) {
+      return s.toLowerCase().replace(/[àáâ]/g,'a').replace(/[éèêë]/g,'e').replace(/[îï]/g,'i').replace(/[ôö]/g,'o').replace(/[ùûü]/g,'u').replace(/ç/g,'c');
     }
 
-    function displayIAMessage(html, animate = true) {
-      const bubble = document.getElementById('iaMainBubble');
-      bubble.innerHTML = html;
-      const timeEl = document.getElementById('iaBubbleTime');
-      const now = new Date();
-      timeEl.textContent = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
-      if (animate) {
-        bubble.style.animation = 'none';
-        bubble.offsetHeight;
-        bubble.style.animation = 'bubbleIn 0.35s ease';
+    function generateIAResponse(question) {
+      const q = normalize(question);
+      const today = getTodayStats();
+      const yesterday = getYesterdayStats();
+      const week = getWeekStats();
+      const month = getMonthStats();
+      const year = getYearStats(new Date().getFullYear());
+      const total = transactions.length;
+      const totalProfit = getTotalProfit();
+      const goalPct = Math.min(100, Math.round((year.profit / YEARLY_GOAL) * 100));
+      const remaining = Math.max(0, YEARLY_GOAL - year.profit);
+      const avgPerSale = total > 0 ? totalProfit / total : 0;
+      const dailyAvg = totalProfit / getActiveDays();
+      const suggestedDaily = Math.ceil(remaining / getRemainingDaysInYear());
+      const bestDay = getBestDay();
+      
+      // Vérifier la mémoire
+      const recall = getPersonalizedRecall(question);
+      if (recall) return recall;
+      
+      // Challenge
+      if (q.includes('défi') || q.includes('challenge') || q.includes('mon défi')) {
+        const challengeMsg = getChallengeMessage();
+        if (challengeMsg) return challengeMsg;
+        return generateDailyChallenge() ? getChallengeMessage() : "Aucun défi actif pour le moment. Continue tes bonnes habitudes !";
       }
+      
+      // Coaching personnalisé
+      if (q.includes('coaching') || q.includes('profil') || q.includes('analyse personnalisée')) {
+        return getCoachingMessage();
+      }
+      
+      // Salutations
+      if (/^(bonjour|salut|allo|coucou|hey|bonsoir)/.test(q)) {
+        const h = new Date().getHours();
+        const g = h < 12 ? 'Bonjour' : h < 18 ? 'Bon après-midi' : 'Bonsoir';
+        if (total === 0) return `${g} <strong>Abdoulaye !</strong> Je suis MAX 2.0 — je me souviens de nos conversations ! Enregistre ta première vente pour commencer.`;
+        return `${g} <strong>Abdoulaye !</strong><br>Aujourd'hui : <strong>${today.count} vente${today.count>1?'s':''}</strong> ${today.profit>0?'('+formatCurrency(today.profit)+')':''}. Semaine : <strong>${formatCurrency(week.thisWeek.profit)}</strong>. ${getChallengeMessage() || 'Prêt pour un nouveau défi ?'}`;
+      }
+      
+      // Bilan
+      if (/bilan|situation|resume|comment ca va/.test(q)) {
+        if (total === 0) return "Aucune vente pour l'instant, Abdoulaye. Chaque grand business commence par une première vente !";
+        const wTrend = week.lastWeek.count > 0 ? Math.round((week.thisWeek.count - week.lastWeek.count) / week.lastWeek.count * 100) : null;
+        const mTrend = month.lastMonth.count > 0 ? Math.round((month.thisMonth.count - month.lastMonth.count) / month.lastMonth.count * 100) : null;
+        const wT = wTrend ? (wTrend >= 0 ? ' +'+wTrend+'%' : ' '+wTrend+'%') : '';
+        const mT = mTrend ? (mTrend >= 0 ? ' +'+mTrend+'%' : ' '+mTrend+'%') : '';
+        return '📋 <strong>Bilan complet :</strong><br>• Aujourd\'hui : <strong>' + today.count + ' vente' + (today.count>1?'s':'') + '</strong> — ' + formatCurrency(today.profit) + '<br>• Semaine : <strong>' + week.thisWeek.count + ' ventes</strong>' + wT + ' — ' + formatCurrency(week.thisWeek.profit) + '<br>• Mois : <strong>' + month.thisMonth.count + ' ventes</strong>' + mT + ' — ' + formatCurrency(month.thisMonth.profit) + '<br>• Total : <strong>' + formatCurrency(totalProfit) + '</strong> sur ' + total + ' transactions<br>• Moyenne/vente : <strong>' + formatCurrency(avgPerSale) + '</strong><br>• Objectif annuel : <strong>' + goalPct + '%</strong> — Reste ' + formatCurrency(remaining) + (getChallengeMessage() ? '<br><br>' + getChallengeMessage() : '');
+      }
+      
+      // Objectif
+      if (/objectif|but|cible|fixer|combien|dois faire|viser/.test(q)) {
+        const ventesPour = Math.ceil(remaining / PRICES.standard);
+        return `🎯 <strong>Plan pour ton objectif :</strong><br>• Reste à générer : <strong>${formatCurrency(remaining)}</strong><br>• Objectif par jour : <strong>${formatCurrency(suggestedDaily)}</strong><br>• Objectif par semaine : <strong>${formatCurrency(suggestedDaily*7)}</strong><br>• Ventes Standard restantes : <strong>${ventesPour} ventes</strong><br>${goalPct >= 100 ? '🏆 Objectif annuel DÉPASSÉ ! Fixe-toi un nouveau cap.' : goalPct >= 75 ? `Tu es à ${goalPct}% — le finish est proche !` : goalPct >= 50 ? `Mi-chemin atteint — garde le rythme !` : 'Accélère — chaque vente compte !'}`;
+      }
+      
+      // Conseil
+      if (/conseil|strategie|ameliorer|booster|vendre|astuce|que faire|comment faire/.test(q)) {
+        const advice = getRandomAdvice();
+        return `${advice}<br><br>${bestDay ? `📅 Ton meilleur jour : <strong>${bestDay}</strong>. Lance une action spéciale ce jour-là !` : ''}<br>${dailyAvg > 0 ? `📊 Ta moyenne actuelle : <strong>${formatCurrency(dailyAvg)}/jour</strong>. Cible : <strong>${formatCurrency(suggestedDaily)}/jour</strong>.` : ''}`;
+      }
+      
+      // Motivation
+      if (/motiv|courage|encourage|bravo|fier|bien|super|triste|decourage|dur|difficile/.test(q)) {
+        const isDown = /triste|decourage|dur|difficile/.test(q);
+        if (isDown) {
+          return "🤝 Je t'entends, Abdoulaye. Les jours difficiles font partie du chemin. Ce qui te différencie : tu n'as pas arrêté. Regarde ce que tu as déjà accompli : " + formatCurrency(totalProfit) + " générés. Une petite action suffit pour relancer la machine. Je crois en toi !";
+        }
+        return `🔥 Abdoulaye, tu construis quelque chose de RÉEL ! <strong>${total} transactions</strong> — ${formatCurrency(totalProfit)} générés par TON travail. ${goalPct >= 50 ? `Tu es à ${goalPct}% de ton objectif !` : 'Chaque jour tu progresses.'} ${getChallengeMessage() || 'Prêt pour la suite ?'}`;
+      }
+      
+      // Aujourd'hui
+      if (/aujourd|journee|ce jour/.test(q)) {
+        if (today.count === 0) {
+          const h = new Date().getHours();
+          if (h < 12) return "☀️ Matin frais, possibilités infinies ! Aucune vente encore. Qui vas-tu contacter dans les 10 prochaines minutes ?";
+          if (h < 17) return "⚡ Il est l'heure d'agir ! Aucune vente encore aujourd'hui. Envoie un message à 3 prospects maintenant.";
+          return "🌙 Soirée — la journée n'est pas finie. Une vente ce soir est encore possible !";
+        }
+        const vsY = yesterday.count > 0 ? (today.count > yesterday.count ? ` +${Math.round((today.count-yesterday.count)/yesterday.count*100)}% vs hier` : today.count < yesterday.count ? ` -${Math.round((yesterday.count-today.count)/yesterday.count*100)}% vs hier` : ' — stable') : '';
+        return `📅 Aujourd'hui : <strong>${today.count} vente${today.count>1?'s':''}${vsY}</strong><br>Revenu : <strong>${formatCurrency(today.profit)}</strong><br>${today.count >= 3 ? '🔥 Excellente journée ! Continue comme ça.' : '💪 Chaque vente compte, continue !'}`;
+      }
+      
+      // Semaine
+      if (/semaine|cette sem/.test(q)) {
+        if (week.thisWeek.count === 0) return "Aucune vente cette semaine encore. La semaine n'est pas finie ! Contacte 3 personnes maintenant.";
+        return `📆 Semaine en cours : <strong>${week.thisWeek.count} ventes</strong> — ${formatCurrency(week.thisWeek.profit)}<br>${week.thisWeek.count < 5 ? 'Objectif : 5 ventes avant dimanche.' : week.thisWeek.count < 10 ? 'En feu ! Vise 10 ventes.' : 'Semaine exceptionnelle !'}`;
+      }
+      
+      // Mois
+      if (/\bmois\b|ce mois/.test(q)) {
+        return `📆 Mois en cours : <strong>${month.thisMonth.count} ventes</strong><br>Revenu : <strong>${formatCurrency(month.thisMonth.profit)}</strong><br>Rythme projeté : <strong>${formatCurrency(dailyAvg*30)}/mois</strong>`;
+      }
+      
+      // Argent
+      if (/combien|argent|fcfa|profit|revenu|gagne/.test(q)) {
+        return `💰 <strong>Tes revenus :</strong><br>• Aujourd'hui : ${formatCurrency(today.profit)}<br>• Semaine : ${formatCurrency(week.thisWeek.profit)}<br>• Mois : ${formatCurrency(month.thisMonth.profit)}<br>• Année : ${formatCurrency(year.profit)}<br>• TOTAL : ${formatCurrency(totalProfit)}<br>• Objectif : ${goalPct}% — reste ${formatCurrency(remaining)}`;
+      }
+      
+      // Réponse générique
+      if (total === 0) return "Enregistre ta première vente et je t'accompagne comme un vrai manager, Abdoulaye ! Je peux te donner des conseils, te motiver, ou t'aider à fixer des objectifs.";
+      return `Je t'écoute ! Essaie : "bilan", "conseil", "objectif", "coaching", ou "mon défi". ${today.count > 0 ? `Aujourd'hui : ${today.count} vente${today.count>1?'s':''} (${formatCurrency(today.profit)}).` : "Aucune vente aujourd'hui. Un défi peut t'aider à te lancer !"}`;
     }
 
-    function generateSimpleResponse(question) {
-      const totalProfit = getTotalProfit();
-      const transactionsCount = transactions.length;
-      const todayStats = getTodayStats();
-      return `📊 <strong>Max - Votre Manager IA</strong><br><br>Bonjour Abdoulaye !<br><br>
-      📈 <strong>Vos statistiques :</strong><br>
-      • Total transactions : ${transactionsCount}<br>
-      • Chiffre d'affaires total : ${formatCurrency(totalProfit)}<br>
-      • Aujourd'hui : ${todayStats.count} vente(s) - ${formatCurrency(todayStats.profit)}<br><br>
-      💡 Pour plus de détails, utilisez les boutons ci-dessus ou continuez à me poser des questions !`;
-    }
-
+    // ===== MISE À JOUR IA =====
     function updateIA() {
+      if (iaMode !== 'auto') return;
+      const today = getTodayStats();
+      const week = getWeekStats();
+      const month = getMonthStats();
+      const year = getYearStats(new Date().getFullYear());
+      const total = transactions.length;
       const totalProfit = getTotalProfit();
-      const transactionsCount = transactions.length;
-      const todayStats = getTodayStats();
-      const monthStats = getMonthStats();
-      const yearStats = getYearStats(new Date().getFullYear());
-      const goalPct = Math.round((yearStats.profit / YEARLY_GOAL) * 100);
+      const goalPct = Math.round((year.profit / YEARLY_GOAL) * 100);
       
       let msg = '';
-      if (transactionsCount === 0) {
-        msg = '👋 Bonjour <strong>Abdoulaye !</strong> Je suis Max, ton manager IA. Enregistre ta première vente et je commence ton suivi personnalisé.';
-      } else if (todayStats.count === 0) {
-        msg = `🌅 Bonjour <strong>Abdoulaye !</strong> Aucune vente encore aujourd'hui. Tu as <strong>${transactionsCount} transaction(s)</strong> au total (${formatCurrency(totalProfit)}). Lance-toi tôt — les meilleures journées commencent le matin !`;
+      if (total === 0) {
+        msg = 'Bonjour <strong>Abdoulaye !</strong> Je suis MAX 2.0 — je me souviens de nos conversations. Enregistre ta première vente et je commence ton suivi personnalisé.';
+      } else if (today.count === 0) {
+        const h = new Date().getHours();
+        if (h < 10) msg = `☀️ Bonjour <strong>Abdoulaye !</strong> Aucune vente encore. <strong>${total} transactions</strong> au total (${formatCurrency(totalProfit)}). Lance-toi tôt !${getChallengeMessage() ? ' ' + getChallengeMessage() : ''}`;
+        else if (h < 14) msg = `⚡ Milieu de journée — aucune vente encore. Contacte des prospects maintenant ! Tu as ${total} vente${total>1?'s':''} au total.${getChallengeMessage() ? ' ' + getChallengeMessage() : ''}`;
+        else msg = `🌙 La journée avance. Relance quelques clients ce soir. Cette semaine : ${week.thisWeek.count} vente${week.thisWeek.count>1?'s':''}.${getChallengeMessage() ? ' ' + getChallengeMessage() : ''}`;
       } else {
-        msg = `✅ <strong>${todayStats.count} vente(s) aujourd'hui</strong> (${formatCurrency(todayStats.profit)})<br>Mois : <strong>${formatCurrency(monthStats.thisMonth.profit)}</strong> — Objectif annuel : <strong>${goalPct}% atteint.</strong>`;
+        msg = `✅ <strong>${today.count} vente${today.count>1?'s':''} aujourd'hui</strong> (${formatCurrency(today.profit)})<br>Mois : <strong>${formatCurrency(month.thisMonth.profit)}</strong> — Objectif : <strong>${goalPct}%</strong><br>${getChallengeMessage() || 'Continue sur cette lancée !'}`;
       }
       displayIAMessage(msg, false);
       
-      // Métriques chips
-      let chips = '';
-      if (transactionsCount > 0) {
-        chips += '<div class="ia-metric-chip"><i class="fas fa-receipt" style="color:#3b82f6;font-size:10px"></i> Total <span class="chip-v-blue">' + transactionsCount + '</span></div>';
-        chips += '<div class="ia-metric-chip"><i class="fas fa-coins" style="color:#f59e0b;font-size:10px"></i> Profit <span class="chip-v-orange">' + formatCurrency(totalProfit) + '</span></div>';
-        chips += '<div class="ia-metric-chip"><i class="fas fa-bullseye" style="color:#ef4444;font-size:10px"></i> Objectif <span class="chip-v-red">' + goalPct + '%</span></div>';
-      }
+      const chips = `<div class="ia-metric-chip"><i class="fas fa-receipt"></i> Total <span class="chip-v-blue">${total}</span></div>
+                     <div class="ia-metric-chip"><i class="fas fa-coins"></i> Profit <span class="chip-v-orange">${formatCurrency(totalProfit)}</span></div>
+                     ${week.thisWeek.count > 0 ? `<div class="ia-metric-chip"><i class="fas fa-calendar-week"></i> Semaine <span class="chip-v-green">${week.thisWeek.count}</span></div>` : ''}
+                     <div class="ia-metric-chip"><i class="fas fa-bullseye"></i> Objectif <span class="chip-v-red">${goalPct}%</span></div>`;
       document.getElementById('iaMetricsRow').innerHTML = chips;
       
-      // Barres de progression
-      const weekGoal = 5, monthGoal = 20;
-      const weekPct = Math.min(100, Math.round(monthStats.thisWeek?.count || 0 / weekGoal * 100));
-      const monthPct = Math.min(100, Math.round(monthStats.thisMonth.count / monthGoal * 100));
-      document.getElementById('iaGoalsRow').innerHTML = transactionsCount === 0 ? '' :
-        '<div class="ia-goal-pill"><div class="goal-title">Semaine (obj. ' + weekGoal + ')</div><div class="goal-bar-bg"><div class="goal-bar-fill" style="width:' + weekPct + '%;background:#10b981"></div></div><div class="goal-numbers">' + (monthStats.thisWeek?.count || 0) + ' / ' + weekGoal + ' ventes</div></div>' +
-        '<div class="ia-goal-pill"><div class="goal-title">Mois (obj. ' + monthGoal + ')</div><div class="goal-bar-bg"><div class="goal-bar-fill" style="width:' + monthPct + '%;background:#f59e0b"></div></div><div class="goal-numbers">' + monthStats.thisMonth.count + ' / ' + monthGoal + ' ventes</div></div>' +
-        '<div class="ia-goal-pill"><div class="goal-title">Annuel (' + formatCurrency(YEARLY_GOAL) + ')</div><div class="goal-bar-bg"><div class="goal-bar-fill" style="width:' + goalPct + '%;background:#ef4444"></div></div><div class="goal-numbers">' + formatCurrency(yearStats.profit) + ' / ' + formatCurrency(YEARLY_GOAL) + '</div></div>';
+      const wG = 5, mG = 20;
+      const wP = Math.min(100, Math.round(week.thisWeek.count / wG * 100));
+      const mP = Math.min(100, Math.round(month.thisMonth.count / mG * 100));
+      const aP = Math.min(100, goalPct);
+      document.getElementById('iaGoalsRow').innerHTML = total === 0 ? '' :
+        `<div class="ia-goal-pill"><div class="goal-title">Semaine (obj. ${wG})</div><div class="goal-bar-bg"><div class="goal-bar-fill" style="width:${wP}%;background:#10b981"></div></div><div class="goal-numbers">${week.thisWeek.count} / ${wG}</div></div>
+         <div class="ia-goal-pill"><div class="goal-title">Mois (obj. ${mG})</div><div class="goal-bar-bg"><div class="goal-bar-fill" style="width:${mP}%;background:#f59e0b"></div></div><div class="goal-numbers">${month.thisMonth.count} / ${mG}</div></div>
+         <div class="ia-goal-pill"><div class="goal-title">Annuel (${formatCurrency(YEARLY_GOAL)})</div><div class="goal-bar-bg"><div class="goal-bar-fill" style="width:${aP}%;background:#ef4444"></div></div><div class="goal-numbers">${formatCurrency(year.profit)} / ${formatCurrency(YEARLY_GOAL)}</div></div>`;
+      
+      updateQuickReplies();
     }
-
-    // ===== VUES DÉTAILLÉES =====
+  
+    // ===== AUTRES FONCTIONS (GESTION, VUES, ETC.) =====
+    function updateAll() {
+      const today = getTodayStats();
+      const yesterday = getYesterdayStats();
+      const week = getWeekStats();
+      const month = getMonthStats();
+      const year = getYearStats(new Date().getFullYear());
+      const totalProfit = getTotalProfit();
+      
+      document.getElementById('totalRevenue').textContent = formatCurrency(totalProfit);
+      document.getElementById('statTodayValue').textContent = today.count;
+      document.getElementById('statTodayDetail').textContent = formatCurrency(today.profit);
+      
+      const todayTrend = document.getElementById('statTodayTrend');
+      if (today.count > yesterday.count && yesterday.count > 0) {
+        const p = Math.round((today.count-yesterday.count)/yesterday.count*100);
+        todayTrend.className = 'stat-trend positive';
+        todayTrend.innerHTML = `<i class="fas fa-arrow-up"></i> +${p}% vs hier`;
+      } else if (today.count < yesterday.count) {
+        const p = Math.round((yesterday.count-today.count)/yesterday.count*100);
+        todayTrend.className = 'stat-trend negative';
+        todayTrend.innerHTML = `<i class="fas fa-arrow-down"></i> -${p}% vs hier`;
+      } else {
+        todayTrend.className = 'stat-trend';
+        todayTrend.innerHTML = `<i class="fas fa-minus"></i> Stable vs hier`;
+      }
+      
+      document.getElementById('statWeekValue').textContent = week.thisWeek.count;
+      document.getElementById('statWeekDetail').textContent = formatCurrency(week.thisWeek.profit);
+      const weekTrend = document.getElementById('statWeekTrend');
+      if (week.thisWeek.count > week.lastWeek.count && week.lastWeek.count > 0) {
+        const p = Math.round((week.thisWeek.count-week.lastWeek.count)/week.lastWeek.count*100);
+        weekTrend.className = 'stat-trend positive';
+        weekTrend.innerHTML = `<i class="fas fa-arrow-up"></i> +${p}% vs s. dernière`;
+      } else if (week.thisWeek.count < week.lastWeek.count) {
+        const p = Math.round((week.lastWeek.count-week.thisWeek.count)/week.lastWeek.count*100);
+        weekTrend.className = 'stat-trend negative';
+        weekTrend.innerHTML = `<i class="fas fa-arrow-down"></i> -${p}% vs s. dernière`;
+      } else {
+        weekTrend.className = 'stat-trend';
+        weekTrend.innerHTML = `<i class="fas fa-minus"></i> Stable vs s. dernière`;
+      }
+      
+      document.getElementById('statMonthValue').textContent = month.thisMonth.count;
+      document.getElementById('statMonthDetail').textContent = formatCurrency(month.thisMonth.profit);
+      const monthTrend = document.getElementById('statMonthTrend');
+      if (month.thisMonth.count > month.lastMonth.count && month.lastMonth.count > 0) {
+        const p = Math.round((month.thisMonth.count-month.lastMonth.count)/month.lastMonth.count*100);
+        monthTrend.className = 'stat-trend positive';
+        monthTrend.innerHTML = `<i class="fas fa-arrow-up"></i> +${p}% vs mois dernier`;
+      } else if (month.thisMonth.count < month.lastMonth.count) {
+        const p = Math.round((month.lastMonth.count-month.thisMonth.count)/month.lastMonth.count*100);
+        monthTrend.className = 'stat-trend negative';
+        monthTrend.innerHTML = `<i class="fas fa-arrow-down"></i> -${p}% vs mois dernier`;
+      } else {
+        monthTrend.className = 'stat-trend';
+        monthTrend.innerHTML = `<i class="fas fa-minus"></i> Stable vs mois dernier`;
+      }
+      
+      const goalProgress = Math.min(100, (year.profit / YEARLY_GOAL) * 100);
+      const remaining = Math.max(0, YEARLY_GOAL - year.profit);
+      document.getElementById('statYearValue').textContent = Math.round(goalProgress) + '%';
+      document.getElementById('statYearDetail').textContent = Math.round(goalProgress) + '% atteint';
+      document.getElementById('statYearTrend').innerHTML = `<i class="fas fa-clock"></i> Reste ${formatCurrency(remaining)}`;
+      const circ = 138.23;
+      document.getElementById('ringProgress').style.strokeDashoffset = circ - (goalProgress/100) * circ;
+      document.getElementById('ringPct').textContent = Math.round(goalProgress) + '%';
+      document.getElementById('yearGoalText').textContent = `${formatCurrency(year.profit)} / ${formatCurrency(YEARLY_GOAL)}`;
+      
+      if (transactions.length > 0) {
+        document.getElementById('revenueStats').innerHTML = `${transactions.length} transaction${transactions.length>1?'s':''} — Moyenne : ${formatCurrency(totalProfit / transactions.length)}`;
+        const revBadge = document.getElementById('revenueBadge');
+        if (month.thisMonth.count > month.lastMonth.count && month.lastMonth.count > 0) {
+          const p = Math.round((month.thisMonth.count-month.lastMonth.count)/month.lastMonth.count*100);
+          revBadge.innerHTML = `+${p}% ce mois`;
+          revBadge.style.color = '#10b981';
+        } else if (month.thisMonth.count < month.lastMonth.count && month.lastMonth.count > 0) {
+          const p = Math.round((month.lastMonth.count-month.thisMonth.count)/month.lastMonth.count*100);
+          revBadge.innerHTML = `-${p}% ce mois`;
+          revBadge.style.color = '#ef4444';
+        } else {
+          revBadge.innerHTML = 'Stable';
+          revBadge.style.color = '#6b7280';
+        }
+      }
+      
+      checkAndUpdateChallenge();
+      updateIA();
+      updateTransactionsList();
+      renderTodayChart();
+      renderWeekChart();
+      renderMonthChart();
+    }
+    
+    function updateTransactionsList() {
+      const container = document.getElementById('transactionsList');
+      const sorted = [...transactions].sort((a,b) => new Date(b.date) - new Date(a.date));
+      if (sorted.length === 0) {
+        container.innerHTML = '<div class="empty-state"><i class="fas fa-receipt"></i><p>Aucune transaction</p></div>';
+        document.getElementById('totalProfit').textContent = formatCurrency(0);
+        return;
+      }
+      let html = '';
+      sorted.forEach(t => {
+        html += `<div class="transaction-item"><div class="client-info"><div class="client-name">${t.client}<span class="client-badge">${t.type}</span></div><div class="transaction-date">${formatDate(t.date)}</div></div><div style="display:flex;align-items:center;gap:12px;"><div class="transaction-amounts"><div class="amount-gross">${formatCurrency(t.amount)}</div><div class="amount-net">profit: ${formatCurrency(t.amount-t.fees)}</div></div><button class="delete-btn" onclick="deleteTransaction(${t.id})"><i class="fas fa-trash"></i></button></div></div>`;
+      });
+      container.innerHTML = html;
+      document.getElementById('totalProfit').textContent = formatCurrency(getTotalProfit());
+    }
+    
+    function setType(type) {
+      currentType = type;
+      document.getElementById('typeStandard').classList.toggle('active', type === 'standard');
+      document.getElementById('typePromo').classList.toggle('active', type === 'promo');
+      updateNetDisplay();
+    }
+    
+    function updateNetDisplay() {
+      const amount = PRICES[currentType];
+      const fees = parseInt(document.getElementById('fees').value) || 0;
+      document.getElementById('netDisplay').textContent = formatCurrency(amount - fees);
+    }
+    
+    function addTransaction() {
+      const client = document.getElementById('clientName').value.trim();
+      const date = document.getElementById('saleDate').value;
+      const fees = parseInt(document.getElementById('fees').value) || 0;
+      const amount = PRICES[currentType];
+      if (!client) { alert('Veuillez entrer le nom du client'); return; }
+      if (!date) { alert('Veuillez sélectionner une date'); return; }
+      const t = { id: Date.now(), client, date, type: currentType === 'standard' ? 'Std' : 'Promo', amount, fees };
+      transactions.push(t);
+      saveData();
+      document.getElementById('clientName').value = '';
+      document.getElementById('fees').value = '0';
+      setTodayDate();
+      updateNetDisplay();
+      updateAll();
+      showSaleConfetti();
+      showWelcomeSurprise();
+      const btn = event.target;
+      const orig = btn.innerHTML;
+      btn.innerHTML = '<i class="fas fa-check"></i> Ajouté !';
+      btn.style.background = '#10b981';
+      setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; }, 1500);
+    }
+    
+    function deleteTransaction(id) {
+      if (confirm('Supprimer cette transaction ?')) {
+        transactions = transactions.filter(t => t.id !== id);
+        saveData();
+        updateAll();
+      }
+    }
+    
+    function showSection(section) {
+      document.getElementById('addSection').style.display = section === 'add' ? 'block' : 'none';
+      document.getElementById('listSection').style.display = section === 'list' ? 'block' : 'none';
+      document.getElementById('btnAdd').classList.toggle('active', section === 'add');
+      document.getElementById('btnList').classList.toggle('active', section === 'list');
+      hideDetail();
+    }
+    
+    function openGestion() { window.open('gestion.html', '_blank'); }
+    
     function showCardDetail(cardType) {
       navigationState.currentCard = cardType;
       navigationState.viewLevel = 'detail';
-      
-      const detailContainer = document.getElementById('detailContainer');
-      
-      if (cardType === 'year') {
-        showYearDetail();
-      } else if (cardType === 'month') {
-        showMonthDetail();
-      } else if (cardType === 'week') {
-        showWeekDetail();
-      } else if (cardType === 'today') {
-        showTodayDetail();
-      }
+      if (cardType === 'year') showYearDetail();
+      else if (cardType === 'month') showMonthDetail();
+      else if (cardType === 'week') showWeekDetail();
+      else if (cardType === 'today') showTodayDetail();
     }
-
+    
     function showYearDetail() {
       const months = getMonthsStats(navigationState.selectedYear);
       const yearStats = getYearStats(navigationState.selectedYear);
-      
-      let monthsHtml = '';
-      months.forEach(m => {
-        monthsHtml += `
-          <div class="detail-item">
-            <div class="detail-item-left">
-              <span class="detail-item-name clickable" onclick="showMonthDetailFromYear(${navigationState.selectedYear}, ${m.month})">${m.name}</span>
-            </div>
-            <div class="detail-item-amount">${formatCurrency(m.profit)}</div>
-          </div>
-        `;
-      });
-      
-      const html = `
-        <div class="detail-view">
-          <div class="detail-header">
-            <div class="detail-title">
-              <i class="fas fa-calendar-alt"></i>
-              Détail par mois - ${navigationState.selectedYear}
-            </div>
-            <div>
-              <select class="selector" onchange="changeYear(this.value)">
-                ${generateYearOptions(navigationState.selectedYear)}
-              </select>
-              <button class="back-btn" onclick="hideDetail()">
-                <i class="fas fa-arrow-left"></i> Retour
-              </button>
-            </div>
-          </div>
-          <div class="detail-list">
-            ${monthsHtml}
-          </div>
-          <div class="detail-total">
-            <span>Total ${navigationState.selectedYear}</span>
-            <span>${formatCurrency(yearStats.profit)}</span>
-          </div>
-        </div>
-      `;
-      
+      let mH = '';
+      months.forEach(m => { mH += `<div class="detail-item"><div class="detail-item-left"><span class="detail-item-name clickable" onclick="showMonthDetailFromYear(${navigationState.selectedYear},${m.month})">${m.name}</span></div><div class="detail-item-amount">${formatCurrency(m.profit)}</div></div>`; });
+      const html = `<div class="detail-view"><div class="detail-header"><div class="detail-title"><i class="fas fa-calendar-alt"></i> Détail par mois - ${navigationState.selectedYear}</div><div><select class="selector" onchange="changeYear(this.value)">${generateYearOptions(navigationState.selectedYear)}</select><button class="back-btn" onclick="hideDetail()"><i class="fas fa-arrow-left"></i> Retour</button></div></div><div class="detail-list">${mH}</div><div class="detail-total"><span>Total ${navigationState.selectedYear}</span><span>${formatCurrency(yearStats.profit)}</span></div></div>`;
       document.getElementById('detailContainer').innerHTML = html;
       document.getElementById('detailContainer').style.display = 'block';
     }
-
+    
     function showMonthDetailFromYear(year, month) {
       navigationState.selectedYear = year;
       navigationState.selectedMonth = month;
       showMonthDetail();
     }
-  
+    
     function showMonthDetail() {
       const days = getDaysStats(navigationState.selectedYear, navigationState.selectedMonth);
       const monthName = getMonthName(navigationState.selectedMonth);
-      
-      let daysHtml = '';
-      days.forEach(d => {
-        if (d.profit > 0) {
-          daysHtml += `
-            <div class="detail-item">
-              <div class="detail-item-left">
-                <span class="detail-item-name">${d.day} ${monthName}</span>
-              </div>
-              <div class="detail-item-amount">${formatCurrency(d.profit)}</div>
-            </div>
-          `;
-        }
-      });
-      
-      if (daysHtml === '') {
-        daysHtml = '<div class="empty-state" style="padding: 20px;">Aucune transaction ce mois</div>';
-      }
-      
-      const totalMonth = days.reduce((sum, d) => sum + d.profit, 0);
-      
-      const html = `
-        <div class="detail-view">
-          <div class="detail-header">
-            <div class="detail-title">
-              <i class="fas fa-calendar-day"></i>
-              Détail par jour - ${monthName} ${navigationState.selectedYear}
-            </div>
-            <div>
-              <button class="back-btn" onclick="showYearDetail()">
-                <i class="fas fa-arrow-left"></i> Retour aux mois
-              </button>
-            </div>
-          </div>
-          <div class="detail-list">
-            ${daysHtml}
-          </div>
-          <div class="detail-total">
-            <span>Total ${monthName}</span>
-            <span>${formatCurrency(totalMonth)}</span>
-          </div>
-        </div>
-      `;
-      
+      let dH = '';
+      days.forEach(d => { if (d.profit > 0) dH += `<div class="detail-item"><div class="detail-item-left"><span class="detail-item-name">${d.day} ${monthName}</span></div><div class="detail-item-amount">${formatCurrency(d.profit)}</div></div>`; });
+      if (!dH) dH = '<div class="empty-state" style="padding:20px;">Aucune transaction ce mois</div>';
+      const total = days.reduce((s,d)=>s+d.profit,0);
+      const html = `<div class="detail-view"><div class="detail-header"><div class="detail-title"><i class="fas fa-calendar-day"></i> ${monthName} ${navigationState.selectedYear}</div><button class="back-btn" onclick="showYearDetail()"><i class="fas fa-arrow-left"></i> Retour</button></div><div class="detail-list">${dH}</div><div class="detail-total"><span>Total ${monthName}</span><span>${formatCurrency(total)}</span></div></div>`;
       document.getElementById('detailContainer').innerHTML = html;
       document.getElementById('detailContainer').style.display = 'block';
     }
-
+    
     function showWeekDetail() {
-      const html = `
-        <div class="detail-view">
-          <div class="detail-header">
-            <div class="detail-title">
-              <i class="fas fa-calendar-week"></i>
-              Détail de la semaine
-            </div>
-            <button class="back-btn" onclick="hideDetail()">
-              <i class="fas fa-arrow-left"></i> Retour
-            </button>
-          </div>
-          <div class="empty-state" style="padding: 20px;">
-            Vue détaillée de la semaine à venir...
-          </div>
-        </div>
-      `;
-      
+      const now = getWestAfricaTime();
+      const start = getStartOfWeek(now);
+      const days = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+      let dH = '';
+      for (let i = 0; i < 7; i++) {
+        const d = new Date(start); d.setDate(start.getDate()+i);
+        const ds = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+        const ts = transactions.filter(t => t.date === ds);
+        const profit = ts.reduce((s,t)=>s+(t.amount-t.fees),0);
+        dH += `<div class="detail-item"><div class="detail-item-left"><span class="detail-item-name">${days[i]} ${d.getDate()}/${String(d.getMonth()+1).padStart(2,'0')}</span></div><div class="detail-item-amount">${formatCurrency(profit)}</div></div>`;
+      }
+      const weekStats = getWeekStats();
+      const html = `<div class="detail-view"><div class="detail-header"><div class="detail-title"><i class="fas fa-calendar-week"></i> Cette semaine</div><button class="back-btn" onclick="hideDetail()"><i class="fas fa-arrow-left"></i> Retour</button></div><div class="detail-list">${dH}</div><div class="detail-total"><span>Total semaine</span><span>${formatCurrency(weekStats.thisWeek.profit)}</span></div></div>`;
       document.getElementById('detailContainer').innerHTML = html;
       document.getElementById('detailContainer').style.display = 'block';
     }
-
+    
     function showTodayDetail() {
       const today = getWestAfricaTime().toISOString().split('T')[0];
-      const todayTransactions = transactions.filter(t => t.date === today);
-      
-      let transactionsHtml = '';
-      if (todayTransactions.length > 0) {
-        todayTransactions.forEach(t => {
-          transactionsHtml += `
-            <div class="detail-item">
-              <div class="detail-item-left">
-                <span class="detail-item-name">${t.client}</span>
-                <span class="client-badge">${t.type}</span>
-              </div>
-              <div class="detail-item-amount">${formatCurrency(t.amount - t.fees)}</div>
-            </div>
-          `;
-        });
+      const ts = transactions.filter(t => t.date === today);
+      let tH = '';
+      if (ts.length > 0) {
+        ts.forEach(t => { tH += `<div class="detail-item"><div class="detail-item-left"><span class="detail-item-name">${t.client}</span><span class="client-badge">${t.type}</span></div><div class="detail-item-amount">${formatCurrency(t.amount-t.fees)}</div></div>`; });
       } else {
-        transactionsHtml = '<div class="empty-state" style="padding: 20px;">Aucune transaction aujourd\'hui</div>';
+        tH = '<div class="empty-state" style="padding:20px;">Aucune transaction aujourd\'hui</div>';
       }
-      
-      const todayProfit = todayTransactions.reduce((sum, t) => sum + (t.amount - t.fees), 0);
-      
-      const html = `
-        <div class="detail-view">
-          <div class="detail-header">
-            <div class="detail-title">
-              <i class="fas fa-calendar-day"></i>
-              Transactions du jour
-            </div>
-            <button class="back-btn" onclick="hideDetail()">
-              <i class="fas fa-arrow-left"></i> Retour
-            </button>
-          </div>
-          <div class="detail-list">
-            ${transactionsHtml}
-          </div>
-          <div class="detail-total">
-            <span>Total aujourd'hui</span>
-            <span>${formatCurrency(todayProfit)}</span>
-          </div>
-        </div>
-      `;
-      
+      const todayProfit = ts.reduce((s,t)=>s+(t.amount-t.fees),0);
+      const html = `<div class="detail-view"><div class="detail-header"><div class="detail-title"><i class="fas fa-calendar-day"></i> Transactions du jour</div><button class="back-btn" onclick="hideDetail()"><i class="fas fa-arrow-left"></i> Retour</button></div><div class="detail-list">${tH}</div><div class="detail-total"><span>Total aujourd'hui</span><span>${formatCurrency(todayProfit)}</span></div></div>`;
       document.getElementById('detailContainer').innerHTML = html;
       document.getElementById('detailContainer').style.display = 'block';
     }
-
-    function generateYearOptions(selectedYear) {
-      const currentYear = new Date().getFullYear();
-      let options = '';
-      for (let year = currentYear - 2; year <= currentYear + 1; year++) {
-        options += `<option value="${year}" ${year === selectedYear ? 'selected' : ''}>${year}</option>`;
-      }
-      return options;
+      
+      function generateYearOptions(selectedYear) {
+      const cy = new Date().getFullYear();
+      let opts = '';
+      for (let y = cy-2; y <= cy+1; y++) opts += `<option value="${y}"${y===selectedYear?' selected':''}>${y}</option>`;
+      return opts;
     }
-
-    function changeYear(year) {
-      navigationState.selectedYear = parseInt(year);
-      showYearDetail();
-    }
-
-    function hideDetail() {
-      document.getElementById('detailContainer').style.display = 'none';
-      navigationState.viewLevel = 'summary';
-    }
-
-    // ===== GRAPHIQUES SVG =====
+    
+    function changeYear(year) { navigationState.selectedYear = parseInt(year); showYearDetail(); }
+    function hideDetail() { document.getElementById('detailContainer').style.display = 'none'; navigationState.viewLevel = 'summary'; }
+    
     function makeSmoothPath(points, w, h) {
-      if (points.length === 0) return `M0,${h} L${w},${h}`;
+      if (!points.length) return `M0,${h} L${w},${h}`;
       const max = Math.max(...points, 1);
-      const coords = points.map((v, i) => {
-        const x = (i / (points.length - 1 || 1)) * w;
-        const y = h - (v / max) * (h * 0.75) - 4;
-        return [x, y];
-      });
+      const coords = points.map((v,i) => [(i/(points.length-1||1))*w, h-(v/max)*(h*0.75)-4]);
       let d = `M${coords[0][0]},${coords[0][1]}`;
       for (let i = 1; i < coords.length; i++) {
-        const [px, py] = coords[i-1];
-        const [cx, cy] = coords[i];
-        const mx = (px + cx) / 2;
-        d += ` C${mx},${py} ${mx},${cy} ${cx},${cy}`;
+        const mx = (coords[i-1][0]+coords[i][0])/2;
+        d += ` C${mx},${coords[i-1][1]} ${mx},${coords[i][1]} ${coords[i][0]},${coords[i][1]}`;
       }
       return d;
     }
-
-    function renderTodayChart(todayStats) {
-      // Graphique des 7 derniers jours
-      const points = [];
+    
+    function renderTodayChart() {
+      const pts = [];
       for (let i = 6; i >= 0; i--) {
-        const d = new Date(getWestAfricaTime());
-        d.setDate(d.getDate() - i);
+        const d = new Date(getWestAfricaTime()); d.setDate(d.getDate()-i);
         const ds = d.toISOString().split('T')[0];
-        const ts = transactions.filter(t => t.date === ds);
-        points.push(ts.reduce((s, t) => s + (t.amount - t.fees), 0));
+        pts.push(transactions.filter(t=>t.date===ds).reduce((s,t)=>s+(t.amount-t.fees),0));
       }
-      const w = 200, h = 64;
-      const line = makeSmoothPath(points, w, h);
-      const fill = line + ` L${w},${h} L0,${h} Z`;
+      const line = makeSmoothPath(pts, 200, 64);
       document.getElementById('chartTodayLine').setAttribute('d', line);
-      document.getElementById('chartTodayFill').setAttribute('d', fill);
-
-      // Sparkline revenue (30 derniers jours)
+      document.getElementById('chartTodayFill').setAttribute('d', line+' L200,64 L0,64 Z');
+      // Sparkline 30 jours revenue
       const pts30 = [];
       for (let i = 29; i >= 0; i--) {
-        const d = new Date(getWestAfricaTime());
-        d.setDate(d.getDate() - i);
+        const d = new Date(getWestAfricaTime()); d.setDate(d.getDate()-i);
         const ds = d.toISOString().split('T')[0];
-        const ts = transactions.filter(t => t.date === ds);
-        pts30.push(ts.reduce((s, t) => s + (t.amount - t.fees), 0));
+        pts30.push(transactions.filter(t=>t.date===ds).reduce((s,t)=>s+(t.amount-t.fees),0));
       }
-      const sl = makeSmoothPath(pts30, 400, 48);
-      const sf = sl + ` L400,48 L0,48 Z`;
-      document.getElementById('sparklineLine').setAttribute('d', sl);
-      document.getElementById('sparklineFill').setAttribute('d', sf);
+      const sl = makeSmoothPath(pts30, 400, 44);
+      const slEl = document.getElementById('sparklineLine');
+      const sfEl = document.getElementById('sparklineFill');
+      if (slEl) slEl.setAttribute('d', sl);
+      if (sfEl) sfEl.setAttribute('d', sl+' L400,44 L0,44 Z');
     }
-
-    function renderWeekChart(weekStats) {
-      // Graphique des 4 dernières semaines (count)
-      const points = [];
+    
+    function renderWeekChart() {
+      const pts = [];
       for (let i = 3; i >= 0; i--) {
         const now = getWestAfricaTime();
-        const start = getStartOfWeek(new Date(now));
-        start.setDate(start.getDate() - i * 7);
-        const end = new Date(start);
-        end.setDate(end.getDate() + 6);
-        end.setHours(23,59,59,999);
-        const wt = transactions.filter(t => { const d = new Date(t.date); return d >= start && d <= end; });
-        points.push(wt.reduce((s, t) => s + (t.amount - t.fees), 0));
+        const s = getStartOfWeek(new Date(now)); s.setDate(s.getDate()-i*7);
+        const e = new Date(s); e.setDate(e.getDate()+6); e.setHours(23,59,59,999);
+        pts.push(transactions.filter(t=>{const d=new Date(t.date);return d>=s&&d<=e;}).reduce((sum,t)=>sum+(t.amount-t.fees),0));
       }
-      const w = 200, h = 64;
-      const line = makeSmoothPath(points, w, h);
-      const fill = line + ` L${w},${h} L0,${h} Z`;
+      const line = makeSmoothPath(pts, 200, 64);
       document.getElementById('chartWeekLine').setAttribute('d', line);
-      document.getElementById('chartWeekFill').setAttribute('d', fill);
+      document.getElementById('chartWeekFill').setAttribute('d', line+' L200,64 L0,64 Z');
     }
-
+    
     function renderMonthChart() {
-      // Barres par jour du mois courant
       const now = getWestAfricaTime();
-      const year = now.getFullYear();
-      const month = now.getMonth();
-      const days = getDaysStats(year, month);
+      const days = getDaysStats(now.getFullYear(), now.getMonth());
       const svg = document.getElementById('chartMonthBars');
-      const w = 200, h = 64;
-      const max = Math.max(...days.map(d => d.profit), 1);
-      const barW = w / days.length - 1;
-      let html = '';
-      days.forEach((d, i) => {
-        const barH = Math.max(2, (d.profit / max) * (h - 8));
-        const x = i * (barW + 1);
-        const y = h - barH;
-        const alpha = d.profit > 0 ? 0.8 : 0.12;
-        const col = d.profit > 0 ? `rgba(245,158,11,${alpha})` : `rgba(255,255,255,0.04)`;
-        html += `<rect x="${x}" y="${y}" width="${barW}" height="${barH}" rx="1.5" fill="${col}"/>`;
+      const max = Math.max(...days.map(d=>d.profit), 1);
+      const bW = 200/days.length-0.5;
+      let h2 = '';
+      days.forEach((d,i) => {
+        const bH = Math.max(2, (d.profit/max)*56);
+        const x = i*(bW+0.5);
+        const y = 64-bH;
+        h2 += `<rect x="${x}" y="${y}" width="${bW}" height="${bH}" rx="1.5" fill="${d.profit>0?'rgba(245,158,11,0.75)':'rgba(255,255,255,0.04)'}"/>`;
       });
-      svg.innerHTML = html;
+      svg.innerHTML = h2;
+    }
+    
+    function showSaleConfetti() {
+      const colors = ['#10b981','#3b82f6','#f59e0b','#ef4444','#8b5cf6','#ec4899'];
+      for (let i = 0; i < 28; i++) {
+        const el = document.createElement('div');
+        el.style.cssText = `position:fixed;width:8px;height:8px;border-radius:2px;pointer-events:none;z-index:9999;background:${colors[Math.floor(Math.random()*colors.length)]};left:${40+Math.random()*20}%;top:60%;animation:confettiFly ${0.8+Math.random()*0.8}s ease-out forwards;transform:rotate(${Math.random()*360}deg);`;
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 1800);
+      }
+    }
+    
+    document.getElementById('fees').addEventListener('input', updateNetDisplay);
+    
+    function init() {
+      loadTheme();
+      loadData();
+      loadKnowledgeBase();
+      loadChallengeFromMemory();
+      setTodayDate();
+      updateGreeting();
+      setInterval(updateGreeting, 1000);
+      generateDailyChallenge();
+      updateAll();
+      setTimeout(showWelcomeMessage, 1200);
+    }
+    
+    function showWelcomeSurprise() {
+      const total = transactions.length;
+      const hour = new Date().getHours();
+      let msg = '';
+      if (total > 0 && total % 10 === 0) msg = total + ' ventes atteintes ! Nouveau palier franchi, Abdoulaye !';
+      else if (hour >= 22 || hour < 2) msg = 'Tu travailles tard ! ' + formatCurrency(getTotalProfit()) + ' generes. Repose-toi aussi.';
+      else return;
+      const popup = document.createElement('div');
+      popup.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#0a0a0a;border:1px solid #1e3a5f;border-radius:16px;padding:14px 20px;color:#d0d0d0;font-size:13px;font-family:Inter,sans-serif;box-shadow:0 8px 40px rgba(0,0,0,0.9);z-index:9998;max-width:300px;text-align:center;display:flex;align-items:center;gap:10px;animation:popupSlide 0.4s ease forwards;';
+      popup.innerHTML = '<i class="fas fa-robot" style="color:#60a5fa;font-size:16px;flex-shrink:0"></i><span>' + msg + '</span>';
+      document.body.appendChild(popup);
+      setTimeout(function() { popup.style.animation = 'popupSlideOut 0.3s ease forwards'; setTimeout(function() { popup.remove(); }, 350); }, 3500);
     }
 
-    // ===== DÉMARRAGE =====
+    function showWelcomeMessage() {
+      if (transactions.length === 0) {
+        displayIAMessage("✨ **Bienvenue dans MAX 2.0 !** ✨\n\nJe suis ton manager IA amélioré. Je me souviens de nos conversations, je peux te proposer des défis personnalisés, et tu peux même m'ajouter tes propres conseils via le bouton 'Enrichir'.\n\nPrêt à booster ton business ?", true);
+      } else {
+        displayIAMessage(`🎉 **MAX 2.0 est actif !** 🎉\n\nJe me souviens de nos échanges, je te propose des défis sur mesure, et tu peux enrichir ma base de connaissances.\n\nTu as déjà ${transactions.length} transaction${transactions.length>1?'s':''} — continue comme ça !`, true);
+      }
+    }
+    
     init();
   </script>
 </body>
 </html>
- 
